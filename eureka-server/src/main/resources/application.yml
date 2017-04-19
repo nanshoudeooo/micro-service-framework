@@ -1,0 +1,10 @@
+server: 
+  port: 20000  #注册中心端口
+  
+eureka:
+  client: 
+    registerWithEureka: false #是否将本身注册为服务(注册中心职责单一,通常设置为false)
+    fetchRegistry: false #
+    serviceUrl:
+      defaultZone: http://localhost:${server.port}/eureka/
+   

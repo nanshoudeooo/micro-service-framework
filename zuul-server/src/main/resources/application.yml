@@ -1,0 +1,33 @@
+server:
+  port: 10000
+
+spring:
+  application:
+    name: api-gateway
+
+zuul:
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
+  routes:
+    user: 
+      path: /admin/**
+      serviceId: admin-service
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+eureka: 
+  client: 
+    serviceUrl: 
+      defaultZone: http://localhost:20000/eureka/
+
+token:
+  # 不需要认证的url
+  ignoreUrls: 
+    - /admin/user/login
