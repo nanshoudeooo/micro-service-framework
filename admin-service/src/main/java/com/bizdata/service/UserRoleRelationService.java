@@ -15,5 +15,4 @@ public interface UserRoleRelationService {
 
     boolean deleteByUserID(String userID);
 
-    List<UserRoleRelation> findByUserID(String userID);
 }

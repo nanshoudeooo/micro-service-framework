@@ -54,9 +54,4 @@ public class UserRoleRelationServiceImpl implements UserRoleRelationService {
         }
         return state;
     }
-
-    @Override
-    public List<UserRoleRelation> findByUserID(String userID) {
-        return userRoleRelationDao.findByUserID(userID);
-    }
 }

@@ -40,5 +40,12 @@ public interface RoleService {
      */
     ResultStateVO delete(RoleDeleteParamVO roleDeleteParamVO);
 
+    /**
+     * 分页查询所有
+     *
+     * @param jpaPageParamVO 分页入参VO
+     * @param jpaSortParamVO 排序入参VO
+     * @return Page<Role>
+     */
     Page<Role> findAll(JpaPageParamVO jpaPageParamVO, JpaSortParamVO jpaSortParamVO);
 }

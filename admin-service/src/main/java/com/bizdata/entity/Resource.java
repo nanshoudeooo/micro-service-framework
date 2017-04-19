@@ -1,11 +1,10 @@
 package com.bizdata.entity;
 
+import com.bizdata.common.MenuType;
+import com.bizdata.common.ResourceType;
 import com.bizdata.jpa.base.JpaBaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.UUID;
+import javax.persistence.*;
 
 /**
  * 资源实体
@@ -14,7 +13,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "admin_resource")
-public class Resource extends JpaBaseEntity {
+public class Resource extends JpaBaseEntity implements Comparable<Resource> {
 
     /**
      * 资源名称
@@ -28,18 +27,13 @@ public class Resource extends JpaBaseEntity {
     private String url;
 
     /**
-     * 是否是链接
-     */
-    private boolean isLink = false;
-
-    /**
      * 权限字符串
      */
     @Column(nullable = false)
-    private String permission = UUID.randomUUID().toString();
+    private String permission;
 
     /**
-     * 资源图标
+     * 资源icon
      */
     private String icon;
 
@@ -61,32 +55,17 @@ public class Resource extends JpaBaseEntity {
     private String parent = "";
 
     /**
-     * 是否展开
+     * 针对于菜单类型时,确定是顶部菜单还是左侧菜单
      */
+    @Enumerated(EnumType.STRING)
+    private MenuType menuType;
+
+    /**
+     * 资源类型
+     */
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean expanded = true;
-
-    /**
-     * 加载
-     */
-    @Column(nullable = false)
-    private Boolean loaded = true;
-
-    /**
-     * 层级
-     */
-    @Column(updatable = false, nullable = false)
-    private int level;
-
-    /**
-     * 是否叶子节点
-     */
-    private Boolean isleaf = true;
-
-    /**
-     * 是否是根节点
-     */
-    private Boolean root = false;
+    private ResourceType resourceType;
 
     public String getName() {
         return name;
@@ -102,14 +81,6 @@ public class Resource extends JpaBaseEntity {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public boolean isLink() {
-        return isLink;
-    }
-
-    public void setLink(boolean link) {
-        isLink = link;
     }
 
     public String getPermission() {
@@ -152,43 +123,24 @@ public class Resource extends JpaBaseEntity {
         this.parent = parent;
     }
 
-    public Boolean getExpanded() {
-        return expanded;
+    public ResourceType getResourceType() {
+        return resourceType;
     }
 
-    public void setExpanded(Boolean expanded) {
-        this.expanded = expanded;
+    public void setResourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
     }
 
-    public Boolean getLoaded() {
-        return loaded;
+    public MenuType getMenuType() {
+        return menuType;
     }
 
-    public void setLoaded(Boolean loaded) {
-        this.loaded = loaded;
+    public void setMenuType(MenuType menuType) {
+        this.menuType = menuType;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public Boolean getIsleaf() {
-        return isleaf;
-    }
-
-    public void setIsleaf(Boolean isleaf) {
-        this.isleaf = isleaf;
-    }
-
-    public Boolean getRoot() {
-        return root;
-    }
-
-    public void setRoot(Boolean root) {
-        this.root = root;
+    @Override
+    public int compareTo(Resource o) {
+        return this.getSortNum().compareTo(o.getSortNum());
     }
 }
