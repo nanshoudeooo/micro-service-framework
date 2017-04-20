@@ -14,5 +14,11 @@ public interface UserRoleRelationDao extends JpaBaseRepository<UserRoleRelation,
 
     void deleteByUserID(String userID);
 
+    /**
+     * 根据用户ID获取用户role列表
+     *
+     * @param userID 用户ID
+     * @return List<UserRoleRelation>
+     */
     List<UserRoleRelation> findByUserID(String userID);
 }

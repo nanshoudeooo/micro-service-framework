@@ -2,7 +2,6 @@ package com.bizdata.service.impl;
 
 import com.bizdata.dao.UserDao;
 import com.bizdata.entity.User;
-import com.bizdata.entity.UserRoleRelation;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
@@ -13,7 +12,6 @@ import com.bizdata.service.UserService;
 import com.bizdata.token.TokenServiceFeign;
 import com.bizdata.vo.user.UserCreateParamVO;
 import com.bizdata.vo.user.UserLoginResultVO;
-import com.bizdata.vo.user.UserReadOneParamVO;
 import com.bizdata.vo.user.UserUpdateParamVO;
 import org.slf4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 用户操作相关接口实现
@@ -194,8 +191,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(UserReadOneParamVO userReadOneParamVO) {
-        User user = userDao.findOne(userReadOneParamVO.getId());
+    public User findOne(String userID) {
+        User user = userDao.findOne(userID);
         return user;
     }
 

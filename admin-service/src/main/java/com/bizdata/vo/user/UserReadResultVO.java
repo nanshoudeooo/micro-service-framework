@@ -50,8 +50,6 @@ public class UserReadResultVO {
      */
     private boolean available;
 
-    private List<String> roleIds;
-
     public String getId() {
         return id;
     }
@@ -116,11 +114,4 @@ public class UserReadResultVO {
         this.available = available;
     }
 
-    public List<String> getRoleIds() {
-        return roleIds;
-    }
-
-    public void setRoleIds(List<String> roleIds) {
-        this.roleIds = roleIds;
-    }
 }

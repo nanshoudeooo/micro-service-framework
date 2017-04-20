@@ -9,6 +9,8 @@ import com.bizdata.vo.role.RoleDeleteParamVO;
 import com.bizdata.vo.role.RoleUpdateParamVO;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * 角色Service
  * <p>
@@ -48,4 +50,12 @@ public interface RoleService {
      * @return Page<Role>
      */
     Page<Role> findAll(JpaPageParamVO jpaPageParamVO, JpaSortParamVO jpaSortParamVO);
+
+    /**
+     * 根据ID获取所有ROLE列表
+     *
+     * @param userID 用户ID
+     * @return List<Role>
+     */
+    List<Role> findAllByUserID(String userID);
 }

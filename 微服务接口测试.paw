@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>5EEF2295-2526-4263-8635-A17967DBD3A1</UUID>
-        <nextObjectID>163</nextObjectID>
+        <nextObjectID>172</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -179,11 +179,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"keyValues":[[["id"],["402881e55b773e63015b773fde300000"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">6</attribute>
+        <attribute name="order" type="int64">7</attribute>
         <attribute name="name" type="string">用户删除</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z139"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z103 z134"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z134 z103"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z113">
         <attribute name="value" type="string">f321704e-5fba-4f31-aeb4-b0676303d402</attribute>
@@ -274,7 +274,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z118"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z120">
-        <attribute name="value" type="string">c3b6722e-7593-4cba-a9ca-8069f3c2d4e4</attribute>
+        <attribute name="value" type="string">649e8145-aced-4caa-a08d-cbd4b0377a5a</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -485,7 +485,7 @@
         <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">用户操作</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM" idrefs="z118 z117 z112 z136 z132 z149 z131"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM" idrefs="z136 z131 z165 z132 z149 z118 z112 z117"></relationship>
         <relationship name="bodyparameters" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
@@ -495,7 +495,7 @@
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">角色操作</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM" idrefs="z141 z152 z154 z158"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM" idrefs="z152 z141 z158 z167 z154"></relationship>
         <relationship name="bodyparameters" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
@@ -510,7 +510,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">0</attribute>
+        <attribute name="order" type="int64">1</attribute>
         <attribute name="name" type="string">角色创建</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z140"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
@@ -582,7 +582,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z145"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z148">
-        <attribute name="value" type="string">d6bfd142-c798-432d-82b3-0ce7d7a4a4ad</attribute>
+        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -592,9 +592,9 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z149"></relationship>
     </object>
     <object type="LMREQUEST" id="z149">
-        <attribute name="body" type="string">[{"data":{"keyValues":[[["id"],["1"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"keyValues":[]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">F067F0B3-FD67-4237-AB6B-C041F618BAA0</attribute>
-        <attribute name="url" type="string">http://127.0.0.1:10000/admin/user/readOne</attribute>
+        <attribute name="url" type="string">http://127.0.0.1:10000/admin/user/readSelf</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -602,10 +602,10 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="order" type="int64">5</attribute>
-        <attribute name="name" type="string">根据id查询用户</attribute>
+        <attribute name="name" type="string">读取登录用户信息</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z139"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z148 z150"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z150 z148"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z150">
         <attribute name="value" type="string"></attribute>
@@ -637,7 +637,7 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"keyValues":[[["id"],["402881e55b70d8ed015b70da423c0000"],true],[["rolename"],["administrator"],true],[["description"],["管理员角色"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">1</attribute>
+        <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">角色更新</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z140"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
@@ -663,11 +663,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"keyValues":[[["id"],["1"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">2</attribute>
+        <attribute name="order" type="int64">3</attribute>
         <attribute name="name" type="string">角色删除</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z140"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z155 z156"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z156 z155"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z155">
         <attribute name="value" type="string"></attribute>
@@ -709,11 +709,11 @@
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
         <attribute name="body" type="string">[{"data":{"keyValues":[]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">3</attribute>
+        <attribute name="order" type="int64">4</attribute>
         <attribute name="name" type="string">角色查询分页</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z140"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z157 z159"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z159 z157"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z159">
         <attribute name="value" type="string">a73b466d-8727-42d9-8fc2-54dd6f546390</attribute>
@@ -726,33 +726,33 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z158"></relationship>
     </object>
     <object type="LMREQUEST" id="z160">
-        <attribute name="body" type="string">[{"data":{"keyValues":[]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"keyValues":[[["resourceType"],["action"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">F7BA0CBC-84B8-430F-93BD-BA6D5D7E2684</attribute>
-        <attribute name="url" type="string">http://127.0.0.1:10000/admin/menu/read</attribute>
+        <attribute name="url" type="string">http://127.0.0.1:10000/admin/resource/readByResourceType</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string">获取菜单</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">根据类型获取资源列表</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z161"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z163 z162"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z162 z163"></relationship>
     </object>
     <object type="LMREQUESTGROUP" id="z161">
         <attribute name="uuid" type="string">DEBF63D2-B1F6-4E41-BBCB-AEC1A3C760D3</attribute>
         <attribute name="order" type="int64">3</attribute>
         <attribute name="name" type="string">资源</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM" idrefs="z160"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM" idrefs="z160 z170"></relationship>
         <relationship name="bodyparameters" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="headers" type="0/0" destination="LMKEYVALUE"></relationship>
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z162">
-        <attribute name="value" type="string">af80c3f5-4493-44d3-86ad-1e881a41acc1</attribute>
+        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -770,5 +770,111 @@
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z160"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z164">
+        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">token</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z165"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z165">
+        <attribute name="body" type="string">[{"data":{"keyValues":[[["id"],["1"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="uuid" type="string">B9B34707-1FB6-42E8-9DFF-63BA2BA559B3</attribute>
+        <attribute name="url" type="string">http://127.0.0.1:10000/admin/user/readByUserID</attribute>
+        <attribute name="storecookies" type="bool">1</attribute>
+        <attribute name="sendcookies" type="bool">1</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">POST</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="order" type="int64">6</attribute>
+        <attribute name="name" type="string">根据ID获取用户信息</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z139"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z166 z164"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z166">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z165"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z167">
+        <attribute name="uuid" type="string">D55220D4-E8E9-48A3-A8FB-69C7A7BC47EC</attribute>
+        <attribute name="url" type="string">http://127.0.0.1:10000/admin/role/readSelf</attribute>
+        <attribute name="storecookies" type="bool">1</attribute>
+        <attribute name="sendcookies" type="bool">1</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">POST</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">获取当前登录用户角色信息</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z140"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z168 z169"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z168">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z167"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z169">
+        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">token</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z167"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z170">
+        <attribute name="uuid" type="string">24B2DDE8-01E7-45A2-AEDB-E00E906678B7</attribute>
+        <attribute name="url" type="string">http://127.0.0.1:10000/admin/resource/getResourceType</attribute>
+        <attribute name="storecookies" type="bool">1</attribute>
+        <attribute name="sendcookies" type="bool">1</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">POST</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">获取资源类型</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z161"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z171 z172"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z171">
+        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">token</attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z170"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z172">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z170"></relationship>
     </object>
 </database>

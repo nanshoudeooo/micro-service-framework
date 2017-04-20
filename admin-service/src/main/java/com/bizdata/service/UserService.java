@@ -5,7 +5,6 @@ import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.vo.user.UserCreateParamVO;
-import com.bizdata.vo.user.UserReadOneParamVO;
 import com.bizdata.vo.user.UserUpdateParamVO;
 import org.springframework.data.domain.Page;
 
@@ -71,9 +70,9 @@ public interface UserService {
     /**
      * 根据用户ID获取用户信息
      *
-     * @param userReadOneParamVO 查询单个用户入参
+     * @param userID 用户ID
      * @return User
      */
-    User findOne(UserReadOneParamVO userReadOneParamVO);
+    User findOne(String userID);
 
 }

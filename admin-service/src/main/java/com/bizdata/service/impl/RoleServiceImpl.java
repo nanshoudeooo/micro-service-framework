@@ -1,7 +1,9 @@
 package com.bizdata.service.impl;
 
 import com.bizdata.dao.RoleDao;
+import com.bizdata.dao.UserRoleRelationDao;
 import com.bizdata.entity.Role;
+import com.bizdata.entity.UserRoleRelation;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
@@ -18,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 角色Service实现
  * <p>
@@ -30,6 +35,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private UserRoleRelationDao userRoleRelationDao;
 
     @Override
     public ResultStateVO create(RoleCreateParamVO roleCreateParamVO) {
@@ -98,6 +106,17 @@ public class RoleServiceImpl implements RoleService {
             logger.error("查询角色列表失败", e);
         }
         return page;
+    }
+
+    @Override
+    public List<Role> findAllByUserID(String userID) {
+        //获取用户角色关系列表
+        List<UserRoleRelation> userRoleRelations=userRoleRelationDao.findByUserID(userID);
+        List<Role> roles=new ArrayList<>();
+        for (UserRoleRelation userRoleRelation : userRoleRelations) {
+            roles.add(roleDao.findOne(userRoleRelation.getRoleID()));
+        }
+        return roles;
     }
 
     /**

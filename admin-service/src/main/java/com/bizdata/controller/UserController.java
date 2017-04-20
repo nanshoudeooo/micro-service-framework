@@ -12,8 +12,10 @@ import com.bizdata.vo.user.*;
 import com.bizdata.vo.user.valid.create.ValidGroupUserCreate;
 import com.bizdata.vo.user.valid.delete.ValidGroupUserDelete;
 import com.bizdata.vo.user.valid.login.ValidGroupUserLogin;
-import com.bizdata.vo.user.valid.read.ValidGroupUserReadOne;
+import com.bizdata.vo.user.valid.read.ValidGroupReadByUserID;
 import com.bizdata.vo.user.valid.update.ValidGroupUserUpdate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class UserController {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserService userService;
@@ -111,22 +115,52 @@ public class UserController {
     }
 
     /**
-     * 根据用户id获取用户
+     * 获取登录用户信息
      *
-     * @param userReadOneParamVO 获取用户信息入参VO
      * @return ResultStateVO类型执行反馈
      */
-    @RequestMapping(value = "/user/readOne", method = RequestMethod.POST)
-    public ResultStateVO readOne(@Validated({ValidGroupUserReadOne.class}) UserReadOneParamVO userReadOneParamVO) {
+    @RequestMapping(value = "/user/readSelf", method = RequestMethod.POST)
+    public ResultStateVO readSelf(HttpServletRequest request) {
         ResultStateVO resultStateVO;
-        User userPO = userService.findOne(userReadOneParamVO);
-        if (null == userPO) {
-            //如果不存在该用户
-            resultStateVO = ResultStateUtil.create(1, "查询不到该用户");
-        } else {
-            UserReadResultVO userReadResultVO = new UserReadResultVO();
-            BeanUtils.copyProperties(userPO, userReadResultVO);
-            resultStateVO = ResultStateUtil.create(0, "查询用户成功", userReadResultVO);
+        try {
+            User userPO = userService.findOne(IdentityUtil.getUserID(request));
+            if (null == userPO) {
+                //如果不存在该用户
+                resultStateVO = ResultStateUtil.create(1, "查询不到该用户");
+            } else {
+                UserReadResultVO userReadResultVO = new UserReadResultVO();
+                BeanUtils.copyProperties(userPO, userReadResultVO);
+                resultStateVO = ResultStateUtil.create(0, "读取登录用户信息成功!", userReadResultVO);
+            }
+        } catch (Exception e) {
+            logger.error("读取登录用户信息失败!", e);
+            resultStateVO = ResultStateUtil.create(2, "读取登录用户信息失败!");
+        }
+        return resultStateVO;
+    }
+
+    /**
+     * 根据ID获取用户信息
+     *
+     * @param userReadByUserIDVO 入参VO
+     * @return ResultStateVO类型执行反馈
+     */
+    @RequestMapping(value = "/user/readByUserID", method = RequestMethod.POST)
+    public ResultStateVO readByUserID(@Validated(ValidGroupReadByUserID.class) UserReadByUserIDVO userReadByUserIDVO) {
+        ResultStateVO resultStateVO;
+        try {
+            User userPO = userService.findOne(userReadByUserIDVO.getId());
+            if (null == userPO) {
+                //如果不存在该用户
+                resultStateVO = ResultStateUtil.create(1, "根据ID查询用户信息失败,不存在该用户!");
+            } else {
+                UserReadResultVO userReadResultVO = new UserReadResultVO();
+                BeanUtils.copyProperties(userPO, userReadResultVO);
+                resultStateVO = ResultStateUtil.create(0, "根据ID查询用户信息成功!", userReadResultVO);
+            }
+        } catch (Exception e) {
+            logger.error("根据ID获取用户信息失败!", e);
+            resultStateVO = ResultStateUtil.create(2, "根据ID获取用户信息失败!");
         }
         return resultStateVO;
     }

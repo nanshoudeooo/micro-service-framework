@@ -1,5 +1,6 @@
 package com.bizdata.service;
 
+import com.bizdata.common.ResourceType;
 import com.bizdata.entity.Resource;
 
 import java.util.List;
@@ -16,7 +17,15 @@ public interface ResourceService {
      * 根据用户ID查询出菜单
      *
      * @param userID 用户ID
+     * @param resourceType
      * @return List<Resource>
      */
-    Set<Resource> findMenusByUserID(String userID);
+    Set<Resource> findResourceByUserIDAndResourceType(String userID, ResourceType resourceType);
+
+    /**
+     * 获取资源类型
+     *
+     * @return
+     */
+    List<String> getResourceType();
 }
