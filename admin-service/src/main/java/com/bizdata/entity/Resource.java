@@ -67,6 +67,11 @@ public class Resource extends JpaBaseEntity implements Comparable<Resource> {
     @Column(nullable = false)
     private ResourceType resourceType;
 
+    /**
+     * 是否是目录
+     */
+    private boolean dir = false;
+
     public String getName() {
         return name;
     }
@@ -137,6 +142,14 @@ public class Resource extends JpaBaseEntity implements Comparable<Resource> {
 
     public void setMenuType(MenuType menuType) {
         this.menuType = menuType;
+    }
+
+    public boolean isDir() {
+        return dir;
+    }
+
+    public void setDir(boolean dir) {
+        this.dir = dir;
     }
 
     @Override

@@ -16,5 +16,5 @@ public interface ResourceDao extends JpaBaseRepository<Resource, String> {
      * @param resourceType 资源类型
      * @return List<Resource>
      */
-    Resource findAllByIdAndResourceType(String id, ResourceType resourceType);
+    Resource findByIdAndResourceType(String id, ResourceType resourceType);
 }

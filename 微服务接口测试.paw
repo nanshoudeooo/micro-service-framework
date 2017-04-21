@@ -256,7 +256,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"keyValues":[[["username"],["admin2"],true],[["password"],["Abcd1234"],true],[["email"],["caojie@163.com"],true],[["roleIds"],["1,2"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"keyValues":[[["username"],["admin2"],true],[["password"],["Abcd1234"],true],[["email"],["caojie@163.com"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
         <attribute name="order" type="int64">2</attribute>
         <attribute name="name" type="string">用户新增</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z139"></relationship>
@@ -264,7 +264,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z105 z119"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z119">
-        <attribute name="value" type="string">e41846d8-012a-4585-a709-058e41bd2e4c</attribute>
+        <attribute name="value" type="string">a50e217b-1ab6-43ad-bd2e-afac046c2934</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -274,7 +274,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z118"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z120">
-        <attribute name="value" type="string">649e8145-aced-4caa-a08d-cbd4b0377a5a</attribute>
+        <attribute name="value" type="string">33ac55f5-ee98-4921-8679-fd22bcca871c</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -402,7 +402,7 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"keyValues":[[["pageCondition"],["{\\"page\\":1,\\"rows\\":2}"],false],[["sortCondition"],["[{\\"field\\": \\"lastLoginTime\\",\\"direction\\": \\"asc\\"},{\\"field\\":\\"id\\",\\"direction\\":\\"asc\\"}]"],false]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"keyValues":[[["pageCondition"],["{\\"page\\":1,\\"rows\\":2}"],true],[["sortCondition"],["[{\\"field\\": \\"lastLoginTime\\",\\"direction\\": \\"asc\\"},{\\"field\\":\\"id\\",\\"direction\\":\\"asc\\"}]"],true],[["username"],[],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
         <attribute name="order" type="int64">4</attribute>
         <attribute name="name" type="string">用户查询分页</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z139"></relationship>
@@ -430,7 +430,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z112"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z135">
-        <attribute name="value" type="string">e41846d8-012a-4585-a709-058e41bd2e4c</attribute>
+        <attribute name="value" type="string">aaa8092d-8bce-4e48-af12-db3ce89ac4ce</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -448,12 +448,12 @@
         <attribute name="redirectauthorization" type="bool">0</attribute>
         <attribute name="method" type="string">POST</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"keyValues":[[["id"],["402881e55b774857015b7748938f0000"],true],[["username"],["caojie0341"],true],[["password"],["12345678"],true],[["email"],["caojie@qq.com"],true],[["roleIds"],["2"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"keyValues":[[["id"],["4028d83a5b900fb0015b9010ee1a0000"],true],[["username"],["admin123"],true],[["password"],["12345678"],true],[["email"],["caojie@qq.com"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
         <attribute name="order" type="int64">3</attribute>
         <attribute name="name" type="string">用户更新</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z139"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z111 z135"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z135 z111"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z137">
         <attribute name="value" type="string">aac92602-99b2-40a6-a22f-7941f9e8a368</attribute>
@@ -582,7 +582,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z145"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z148">
-        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
+        <attribute name="value" type="string">d489d8ad-7893-4042-8b8d-fe47f653a9d1</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -726,7 +726,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z158"></relationship>
     </object>
     <object type="LMREQUEST" id="z160">
-        <attribute name="body" type="string">[{"data":{"keyValues":[[["resourceType"],["action"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"keyValues":[[["resourceType"],["menu"],true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">F7BA0CBC-84B8-430F-93BD-BA6D5D7E2684</attribute>
         <attribute name="url" type="string">http://127.0.0.1:10000/admin/resource/readByResourceType</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
@@ -752,7 +752,7 @@
         <relationship name="urlparameters" type="0/0" destination="LMKEYVALUE"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z162">
-        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
+        <attribute name="value" type="string">aaa8092d-8bce-4e48-af12-db3ce89ac4ce</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -772,7 +772,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z160"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z164">
-        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
+        <attribute name="value" type="string">e67f79ed-742d-41ae-9fb9-2a97816292a6</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
@@ -843,6 +843,7 @@
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z167"></relationship>
     </object>
     <object type="LMREQUEST" id="z170">
+        <attribute name="body" type="string">[{"data":{"keyValues":[]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">24B2DDE8-01E7-45A2-AEDB-E00E906678B7</attribute>
         <attribute name="url" type="string">http://127.0.0.1:10000/admin/resource/getResourceType</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
@@ -858,7 +859,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z171 z172"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z171">
-        <attribute name="value" type="string">d40e0bd2-3e62-489b-9451-9f5173fb80cd</attribute>
+        <attribute name="value" type="string">aaa8092d-8bce-4e48-af12-db3ce89ac4ce</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">token</attribute>
         <attribute name="enabled" type="bool">1</attribute>
