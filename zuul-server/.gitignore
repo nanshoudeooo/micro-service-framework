@@ -17,3 +17,4 @@ target/*
 /logs/
 
 *.iml
+/zuul-server.iml
