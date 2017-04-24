@@ -68,4 +68,24 @@ public class ResourceController {
         }
         return resultStateVO;
     }
+
+    /**
+     * 获取登录用户授权访问的URL列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getAuthResourceUrl", method = RequestMethod.POST)
+    public List<String> getAuthResourceUrl(String userID) {
+        return resourceService.findAuthUrl(userID);
+    }
+
+    /**
+     * 获取全部资源配置url列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getAllResourceUrl", method = RequestMethod.POST)
+    List<String> getAllResourceUrl() {
+        return resourceService.findAllResourceUrl();
+    }
 }

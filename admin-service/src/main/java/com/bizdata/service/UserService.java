@@ -5,6 +5,7 @@ import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.vo.user.UserCreateParamVO;
+import com.bizdata.vo.user.UserReadSearchParamVO;
 import com.bizdata.vo.user.UserUpdateParamVO;
 import org.springframework.data.domain.Page;
 
@@ -44,9 +45,8 @@ public interface UserService {
     /**
      * 执行用户删除操作
      *
-     *
      * @param currentUserID
-     * @param userID 用户ID
+     * @param userID        用户ID
      * @return boolean执行反馈
      */
     ResultStateVO delete(String currentUserID, String userID);
@@ -62,10 +62,12 @@ public interface UserService {
     /**
      * 执行分页查询用户
      *
-     * @param jpaPageInputVO 分页参数VO
+     * @param jpaPageInputVO        分页参数VO
+     * @param jpaSortParamVO        排序入参VO
+     * @param userReadSearchParamVO 查询条件VO
      * @return Page类型用户数据
      */
-    Page<User> findAll(JpaPageParamVO jpaPageInputVO, JpaSortParamVO jpaSortParamVO);
+    Page<User> findAll(JpaPageParamVO jpaPageInputVO, JpaSortParamVO jpaSortParamVO, UserReadSearchParamVO userReadSearchParamVO);
 
     /**
      * 根据用户ID获取用户信息

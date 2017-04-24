@@ -12,6 +12,7 @@ import com.bizdata.service.UserService;
 import com.bizdata.token.TokenServiceFeign;
 import com.bizdata.vo.user.UserCreateParamVO;
 import com.bizdata.vo.user.UserLoginResultVO;
+import com.bizdata.vo.user.UserReadSearchParamVO;
 import com.bizdata.vo.user.UserUpdateParamVO;
 import org.slf4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -19,10 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.*;
 import java.util.Date;
 
 /**
@@ -110,8 +114,7 @@ public class UserServiceImpl implements UserService {
                 //设置用户密码md5加密
                 String md5Pwd = DigestUtils.md5DigestAsHex(userPO.getPassword().getBytes());
                 userPO.setPassword(md5Pwd);
-                User savedUser = userDao.save(userPO);
-                userRoleRelationService.buildUserAndRoleRelation(savedUser.getId(), userCreateParamVO.getRoleIds());
+                userDao.save(userPO);
                 resultStateVO = ResultStateUtil.create(0, "用户创建成功!");
             } else {
                 resultStateVO = ResultStateUtil.create(1, "该用户名已经存在,请确保用户名未被占用!");
@@ -167,7 +170,6 @@ public class UserServiceImpl implements UserService {
                 BeanCopyUtil.copyProperties(userUpdateParamVO, userPO);
                 userPO.setLastUpdateTime(new Date());
                 userDao.save(userPO);
-                userRoleRelationService.buildUserAndRoleRelation(userUpdateParamVO.getId(), userUpdateParamVO.getRoleIds());
                 resultStateVO = ResultStateUtil.create(0, "用户更新成功!");
             }
         } catch (Exception e) {
@@ -179,10 +181,22 @@ public class UserServiceImpl implements UserService {
 
     @Cacheable(value = "adminUserList")
     @Override
-    public Page<User> findAll(JpaPageParamVO jpaPageParamVO, JpaSortParamVO jpaSortParamVO) {
+    public Page<User> findAll(JpaPageParamVO jpaPageParamVO, JpaSortParamVO jpaSortParamVO, UserReadSearchParamVO userReadSearchParamVO) {
         Page<User> page = null;
+        Specification specification = null;
         try {
-            page = userDao.findAll(jpaPageParamVO.getPageable(jpaSortParamVO.getSort()));
+            if (!StringUtils.isEmpty(userReadSearchParamVO.getUsername())) {
+                //如果查询条件用户名不为空
+                specification = new Specification() {
+                    @Override
+                    public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
+                        Path<String> username = root.get("username");
+                        query.where(cb.like(username, "%"+userReadSearchParamVO.getUsername()+"%"));
+                        return null;
+                    }
+                };
+            }
+            page = userDao.findAll(specification, jpaPageParamVO.getPageable(jpaSortParamVO.getSort()));
             //TODO 需要包含角色信息
         } catch (Exception e) {
             logger.error("分页查询用户失败", e);

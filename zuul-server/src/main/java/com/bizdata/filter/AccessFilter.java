@@ -1,17 +1,17 @@
 package com.bizdata.filter;
 
+import com.bizdata.admin.AdminServiceFeign;
 import com.bizdata.properties.TokenProperties;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.token.TokenServiceFeign;
+import com.bizdata.url.UrlUtil;
 import com.google.gson.Gson;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.netflix.zuul.http.HttpServletRequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,13 +27,16 @@ public class AccessFilter extends ZuulFilter {
     @Autowired
     private TokenServiceFeign tokenServiceFeign;
 
+    @Autowired
+    private AdminServiceFeign adminServiceFeign;
+
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         // 获取请求路径
         String requestUrl = request.getRequestURI().toString();
-        if (urlWithNoNeedForAuth(requestUrl, tokenProperties.getIgnoreUrls())) {
+        if (UrlUtil.urlAntPathMatchForPatterns(requestUrl, tokenProperties.getIgnoreUrls())) {
             // 如果该请求路径不需要鉴权,直接通过。(例如获取token,登录等...)
         } else {
             // 如果需要鉴权
@@ -48,21 +51,59 @@ public class AccessFilter extends ZuulFilter {
                     // 如果不存在该token,说明为过期或者伪造
                     accessFailure401(ctx, 2, "提供的token无效或已过期!");
                 } else {
+                    String userID = tokenServiceFeign.getUserIdByToken(token);
                     // 如果存在,则支持访问
-                    // TODO 此处需要根据权限动态支持访问
-                    // 将userID通过header传送到具体应用
-                    ctx.addZuulRequestHeader("identity-id",tokenServiceFeign.getUserIdByToken(token));
-                    ctx.setSendZuulResponse(true);
-                    // 并且自动为该token续租
-                    tokenServiceFeign.tokenAutoPay(token);
+                    if (checkUrlInResourceSetting(requestUrl)) {
+                        //如果在资源列表中配置过
+                        if (authUrl(requestUrl, userID)) {
+                            //判断该角色是否能访问
+                            // 如果可访问该url
+                            accessSuccess(ctx, token);
+                        } else {
+                            // 如果不可访问该url
+                            accessFailure401(ctx, 3, "您无访问该接口权限!");
+                        }
+                    } else {
+                        accessSuccess(ctx, token);
+                    }
                 }
             }
         }
         return null;
     }
 
-    private HttpServletRequestWrapper modifyRequest(HttpServletRequest request){
-        return new HttpServletRequestWrapper(request);
+    private void accessSuccess(RequestContext ctx, String token) {
+        // 将userID通过header传送到具体应用
+        ctx.addZuulRequestHeader("identity-id", tokenServiceFeign.getUserIdByToken(token));
+        ctx.setSendZuulResponse(true);
+        // 并且自动为该token续租
+        tokenServiceFeign.tokenAutoPay(token);
+    }
+
+
+    /**
+     * 判断URL是否是资源列表中的配置项,如果是则进入权限判断,如果不是则直接通过
+     *
+     * @param url
+     * @return
+     */
+    private boolean checkUrlInResourceSetting(String url) {
+        List<String> urls = adminServiceFeign.getAllResourceUrl();
+        if (UrlUtil.urlAntPathMatchForPatterns(url, urls)) {
+            //如果在资源列表中配置过
+            return true;
+        }
+        return false;
+    }
+
+    private boolean authUrl(String url, String userID) {
+        List<String> urls = new ArrayList<>();
+        urls.addAll(adminServiceFeign.getAuthResourceUrl(userID));
+        if (UrlUtil.urlAntPathMatchForPatterns(url, urls)) {
+            //如果已授权
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -76,7 +117,7 @@ public class AccessFilter extends ZuulFilter {
         ctx.setSendZuulResponse(false);
         ctx.setResponseStatusCode(401);
         ctx.getResponse().setCharacterEncoding("UTF-8");
-        ctx.setResponseBody(new Gson().toJson(ResultStateUtil.create(code,msg)));
+        ctx.setResponseBody(new Gson().toJson(ResultStateUtil.create(code, msg)));
     }
 
     @Override
@@ -94,32 +135,4 @@ public class AccessFilter extends ZuulFilter {
         return "pre";
     }
 
-    /**
-     * 判断url是否不过滤
-     *
-     * @param requestUrl 请求路径
-     * @param ignoreUrl  忽略路径
-     * @return boolean 忽略结果
-     */
-    private boolean ignoreUrlMatch(String requestUrl, String ignoreUrl) {
-        PathMatcher matcher = new AntPathMatcher();
-        boolean result = matcher.match(ignoreUrl, requestUrl);
-        return result;
-    }
-
-    /**
-     * 判断访问该url不需要授权
-     *
-     * @param requestUrl 请求url
-     * @param pattens    path规则
-     * @return boolean
-     */
-    private boolean urlWithNoNeedForAuth(String requestUrl, List<String> pattens) {
-        for (String url : pattens) {
-            if (ignoreUrlMatch(requestUrl, url)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

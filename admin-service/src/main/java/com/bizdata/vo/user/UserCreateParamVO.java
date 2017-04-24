@@ -38,12 +38,6 @@ public class UserCreateParamVO {
     @Email(message = "email格式不合法", groups = {ValidFieldEmail.class})
     private String email;
 
-    /**
-     * 角色ID列表
-     */
-    @NotNull(message = "角色ID列表不可为空!", groups = {ValidFieldRoleIds.class})
-    private List<String> roleIds;
-
     public String getUsername() {
         return username;
     }
@@ -66,13 +60,5 @@ public class UserCreateParamVO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<String> getRoleIds() {
-        return roleIds;
-    }
-
-    public void setRoleIds(List<String> roleIds) {
-        this.roleIds = roleIds;
     }
 }

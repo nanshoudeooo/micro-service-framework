@@ -28,4 +28,19 @@ public interface ResourceService {
      * @return
      */
     List<String> getResourceType();
+
+    /**
+     * 获取用户ID的可访问URL列表
+     *
+     * @param userID 用户ID
+     * @return List<String>
+     */
+    List<String> findAuthUrl(String userID);
+
+    /**
+     * 获取全部资源url列表
+     *
+     * @return
+     */
+    List<String> findAllResourceUrl();
 }
