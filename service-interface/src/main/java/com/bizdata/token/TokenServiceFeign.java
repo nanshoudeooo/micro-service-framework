@@ -47,7 +47,7 @@ public interface TokenServiceFeign {
      * @return String类型token值
      */
     @RequestMapping(value = "/createToken", method = RequestMethod.POST)
-    public String createToken(@RequestParam("userID") String userID);
+    public String createToken(@RequestParam("prefix") String prefix,@RequestParam("userID") String userID);
 
     /**
      * 移除token
