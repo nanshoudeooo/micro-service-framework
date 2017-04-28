@@ -19,10 +19,10 @@ public class TokenGenerateServiceRedisImpl implements TokenGenerateService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public String run() {
+    public String run(String prefix) {
         String token;
         while (true) {
-            String tempToken = UUID.randomUUID().toString();
+            String tempToken = prefix + UUID.randomUUID().toString();
             // 判断redis中是否已存在,防止重复
             String result = stringRedisTemplate.opsForValue().get(tempToken);
             // 如果redis中不存在,则该token可用,执行返回
