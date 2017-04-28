@@ -12,5 +12,5 @@ public interface TokenGenerateService {
      *
      * @return String类型token令牌
      */
-    public String run();
+    String run();
 }

@@ -26,8 +26,8 @@ public class TokenController {
      * @return
      */
     @RequestMapping(value = "/createToken", method = RequestMethod.POST)
-    public String createToken(@RequestParam("userID") String userID) {
-        return tokenService.createToken(userID);
+    public String createToken(@RequestParam("prefix") String prefix,@RequestParam("userID") String userID) {
+        return tokenService.createToken(prefix,userID);
     }
 
     /**

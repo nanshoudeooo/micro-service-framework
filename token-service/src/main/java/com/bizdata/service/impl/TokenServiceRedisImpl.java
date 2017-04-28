@@ -26,10 +26,10 @@ public class TokenServiceRedisImpl implements TokenService {
     private TokenProperties tokenProperties;
 
     @Override
-    public String createToken(String userID) {
-        String token = "";
+    public String createToken(String prefix, String userID) {
+        String token = prefix + ":";
         try {
-            token = tokenGenerateService.run();
+            token += tokenGenerateService.run();
             stringRedisTemplate.opsForValue().set(token, userID, tokenProperties.getExpire(), TimeUnit.MINUTES);
         } catch (Exception e) {
             logger.error("token create error:", e);
