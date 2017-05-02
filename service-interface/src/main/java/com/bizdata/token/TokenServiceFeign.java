@@ -20,7 +20,7 @@ public interface TokenServiceFeign {
      * @return boolean类型判断值
      */
     @RequestMapping(value = "/exist", method = RequestMethod.POST)
-    public boolean checkTokenExist(@RequestParam("token") String token);
+    boolean checkTokenExist(@RequestParam("token") String token);
 
     /**
      * token自动续租
@@ -29,7 +29,7 @@ public interface TokenServiceFeign {
      * @return boolean续租成功与失败
      */
     @RequestMapping(value = "/autopay", method = RequestMethod.POST)
-    public boolean tokenAutoPay(@RequestParam("token") String token);
+    boolean tokenAutoPay(@RequestParam("token") String token);
 
     /**
      * 根据token获取用户id
@@ -38,16 +38,17 @@ public interface TokenServiceFeign {
      * @return String类型id值
      */
     @RequestMapping(value = "/getUserId", method = RequestMethod.POST)
-    public String getUserIdByToken(@RequestParam("token") String token);
+    String getUserIdByToken(@RequestParam("token") String token);
 
     /**
      * 传入用户id,创建token
      *
+     * @param prefix 类型前缀
      * @param userID 用户ID
      * @return String类型token值
      */
     @RequestMapping(value = "/createToken", method = RequestMethod.POST)
-    public String createToken(@RequestParam("userID") String userID);
+    String createToken(@RequestParam("prefix") String prefix, @RequestParam("userID") String userID);
 
     /**
      * 移除token
@@ -56,7 +57,6 @@ public interface TokenServiceFeign {
      * @return 执行反馈
      */
     @RequestMapping(value = "/removeToken", method = RequestMethod.POST)
-    public boolean removeToken(@RequestParam("token") String token);
+    boolean removeToken(@RequestParam("token") String token);
 
-    
 }
