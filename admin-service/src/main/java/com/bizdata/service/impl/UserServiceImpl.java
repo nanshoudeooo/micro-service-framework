@@ -158,20 +158,12 @@ public class UserServiceImpl implements UserService {
     public ResultStateVO update(UserUpdateParamVO userUpdateParamVO) {
         ResultStateVO resultStateVO;
         try {
-            //查询用户名是否存在
-            if (!checkUsernameNotExist(userUpdateParamVO.getUsername())) {
-                //如果存在
-                resultStateVO = ResultStateUtil.create(1, "用户名不可以重复");
-            } else {
-                //设置密码md5
-                userUpdateParamVO.setPassword(DigestUtils.md5DigestAsHex(userUpdateParamVO.getPassword().getBytes()));
-                //查询出原用户
-                User userPO = userDao.findOne(userUpdateParamVO.getId());
-                BeanCopyUtil.copyProperties(userUpdateParamVO, userPO);
-                userPO.setLastUpdateTime(new Date());
-                userDao.save(userPO);
-                resultStateVO = ResultStateUtil.create(0, "用户更新成功!");
-            }
+            //查询出原用户
+            User userPO = userDao.findOne(userUpdateParamVO.getId());
+            BeanCopyUtil.copyProperties(userUpdateParamVO, userPO);
+            userPO.setLastUpdateTime(new Date());
+            userDao.save(userPO);
+            resultStateVO = ResultStateUtil.create(0, "用户更新成功!");
         } catch (Exception e) {
             logger.error("更新用户失败", e);
             resultStateVO = ResultStateUtil.create(2, "用户更新失败!");
