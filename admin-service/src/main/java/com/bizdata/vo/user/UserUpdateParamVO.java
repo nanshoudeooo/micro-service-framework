@@ -38,6 +38,11 @@ public class UserUpdateParamVO {
     @Email(message = "email格式不合法", groups = {ValidFieldEmail.class})
     private String email;
 
+    /**
+     * 是否可用
+     */
+    private boolean available;
+
     public String getId() {
         return id;
     }
@@ -70,4 +75,11 @@ public class UserUpdateParamVO {
         this.email = email;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }
