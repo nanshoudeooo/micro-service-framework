@@ -77,4 +77,21 @@ public interface UserService {
      */
     User findOne(String userID);
 
+    /**
+     * 验证用户名是否重复
+     *
+     * @param username 用户名
+     * @return boolean执行反馈
+     */
+    boolean validDuplicateUsername(String username);
+
+    /**
+     * 重置用户密码
+     *
+     * @param userID 用户ID
+     * @param password 密码
+     * @return boolean执行反馈
+     */
+    boolean resetPassword(String userID,String password);
+
 }

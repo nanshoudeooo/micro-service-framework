@@ -178,12 +178,22 @@ public class UserController {
         boolean isDuplicate = true;
         try {
             //检测数据库中是否已经存在
-            //TODO:isDuplicate = doSome();
-            isDuplicate = false;
+            isDuplicate = userService.validDuplicateUsername(username);
             resultStateVO = ResultStateUtil.create(0, "根据ID查询用户信息成功!", isDuplicate);
         } catch (Exception e) {
             logger.error("检测用户名是否已存在失败!", e);
             resultStateVO = ResultStateUtil.create(1, "检测用户名是否已存在失败!");
+        }
+        return resultStateVO;
+    }
+
+    @RequestMapping(value = "/user/resetPassword", method = RequestMethod.POST)
+    public ResultStateVO resetPassword(String userID, String password) {
+        ResultStateVO resultStateVO;
+        if (userService.resetPassword(userID, password)) {
+            resultStateVO = ResultStateUtil.create(0, "重置密码成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "重置密码失败");
         }
         return resultStateVO;
     }

@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
                     user.setLastLoginTime(new Date());
                     userDao.save(user);
                     //如果正确,使用该user的userid申请token
-                    String token = tokenServiceFeign.createToken("admin",user.getId());
+                    String token = tokenServiceFeign.createToken("admin", user.getId());
                     resultStateVO = ResultStateUtil.create(0, "登录成功", new UserLoginResultVO(token));
                 } else {
                     //账户不可用
@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
                     @Override
                     public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
                         Path<String> username = root.get("username");
-                        query.where(cb.like(username, "%"+userReadSearchParamVO.getUsername()+"%"));
+                        query.where(cb.like(username, "%" + userReadSearchParamVO.getUsername() + "%"));
                         return null;
                     }
                 };
@@ -208,6 +208,30 @@ public class UserServiceImpl implements UserService {
     public User findOne(String userID) {
         User user = userDao.findOne(userID);
         return user;
+    }
+
+    @Override
+    public boolean validDuplicateUsername(String username) {
+        if (checkUsernameNotExist(username)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean resetPassword(String userID, String password) {
+        boolean state;
+        try {
+            User user = userDao.findOne(userID);
+            password = DigestUtils.md5DigestAsHex(password.getBytes());
+            user.setPassword(password);
+            userDao.save(user);
+            state = true;
+        } catch (Exception e) {
+            logger.error("重置密码失败:", e);
+            state = false;
+        }
+        return state;
     }
 
     /**
