@@ -167,20 +167,21 @@ public class UserController {
 
     /**
      * 检测用户名是否重复
-     * @param username
-     * @return
+     *
+     * @param username 用户名
+     * @return ResultStateVO类型执行反馈
      */
     @RequestMapping(value = "/user/validDuplicateUsername", method = RequestMethod.POST)
-    public ResultStateVO validDuplicateUsername(String username){
+    public ResultStateVO validDuplicateUsername(String username) {
         ResultStateVO resultStateVO;
         //true代表重复 false不重复
         boolean isDuplicate = true;
-        try{
+        try {
             //检测数据库中是否已经存在
             //TODO:isDuplicate = doSome();
             isDuplicate = false;
             resultStateVO = ResultStateUtil.create(0, "根据ID查询用户信息成功!", isDuplicate);
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error("检测用户名是否已存在失败!", e);
             resultStateVO = ResultStateUtil.create(1, "检测用户名是否已存在失败!");
         }
