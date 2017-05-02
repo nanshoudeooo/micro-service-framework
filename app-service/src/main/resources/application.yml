@@ -1,0 +1,14 @@
+server:
+  port: 32000
+
+spring:
+  application:
+    name: app-service
+
+  jackson:
+    dateFormat: yyyy-MM-dd HH:mm:ss
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:20000/eureka/

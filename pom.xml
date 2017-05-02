@@ -49,5 +49,6 @@
 		<module>zuul-server</module>
 		<module>service-interface</module>
 		<module>admin-service</module>
+		<module>app-service</module>
 	</modules>
 </project>
