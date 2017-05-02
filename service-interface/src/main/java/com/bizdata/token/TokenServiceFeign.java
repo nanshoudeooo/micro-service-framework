@@ -43,6 +43,7 @@ public interface TokenServiceFeign {
     /**
      * 传入用户id,创建token
      *
+     * @param prefix 类型前缀
      * @param userID 用户ID
      * @return String类型token值
      */

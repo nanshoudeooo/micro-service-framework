@@ -103,7 +103,7 @@ public class UserController {
      * @return ResultStateVO类型执行反馈
      */
     @RequestMapping(value = "/user/read", method = RequestMethod.POST)
-    public ResultStateVO read(@Validated JpaPageParamVO jpaPageParamVO, @Validated JpaSortParamVO jpaSortParamVO,UserReadSearchParamVO userReadSearchParamVO) {
+    public ResultStateVO read(@Validated JpaPageParamVO jpaPageParamVO, @Validated JpaSortParamVO jpaSortParamVO, UserReadSearchParamVO userReadSearchParamVO) {
         ResultStateVO resultStateVO;
         Page<User> page = userService.findAll(jpaPageParamVO, jpaSortParamVO, userReadSearchParamVO);
         if (null != page) {

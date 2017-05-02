@@ -31,3 +31,4 @@ token:
   # 不需要认证的url
   ignoreUrls: 
     - /admin/user/login
+    - /
