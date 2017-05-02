@@ -50,6 +50,11 @@ public class UserReadResultVO {
      */
     private boolean available;
 
+    /**
+     * 是否系统内置
+     */
+    private boolean builtIn;
+
     public String getId() {
         return id;
     }
@@ -114,4 +119,11 @@ public class UserReadResultVO {
         this.available = available;
     }
 
+    public boolean isBuiltIn() {
+        return builtIn;
+    }
+
+    public void setBuiltIn(boolean builtIn) {
+        this.builtIn = builtIn;
+    }
 }

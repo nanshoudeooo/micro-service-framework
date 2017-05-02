@@ -21,6 +21,11 @@ public class RoleReadResultVO {
      */
     private String description;
 
+    /**
+     * 是否系统内置
+     */
+    private boolean builtIn;
+
     public String getId() {
         return id;
     }
@@ -43,5 +48,13 @@ public class RoleReadResultVO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isBuiltIn() {
+        return builtIn;
+    }
+
+    public void setBuiltIn(boolean builtIn) {
+        this.builtIn = builtIn;
     }
 }

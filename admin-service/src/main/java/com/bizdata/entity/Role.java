@@ -1,6 +1,7 @@
 package com.bizdata.entity;
 
 import com.bizdata.jpa.base.JpaBaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -69,6 +69,7 @@ public class User extends JpaBaseEntity {
     /**
      * 是否系统内置账户
      */
+    @Column
     private boolean builtIn = false;
 
     public String getUsername() {
