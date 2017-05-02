@@ -18,12 +18,10 @@ public class AdminTokenAuth extends TokenAuth {
 
     private AdminServiceFeign adminServiceFeign;
 
-    public AdminTokenAuth(TokenServiceFeign tokenServiceFeign, AdminServiceFeign adminServiceFeign) {
-        super(tokenServiceFeign);
+    public AdminTokenAuth(String prefix, String urlPattern, TokenServiceFeign tokenServiceFeign, AdminServiceFeign adminServiceFeign) {
+        super(prefix, urlPattern, tokenServiceFeign);
         this.adminServiceFeign = adminServiceFeign;
-        prefix = "admin";
     }
-
 
     @Override
     protected void tokenAvailable(RequestContext requestContext, String token) {

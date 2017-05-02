@@ -10,9 +10,12 @@ zuul:
     connect-timeout-millis: 10000
     socket-timeout-millis: 60000
   routes:
-    user: 
+    admin:
       path: /admin/**
       serviceId: admin-service
+    app:
+      path: /app/**
+      serviceId: app-service
 
 hystrix:
   command:
@@ -31,4 +34,4 @@ token:
   # 不需要认证的url
   ignoreUrls: 
     - /admin/user/login
-    - /
+    - /app/login

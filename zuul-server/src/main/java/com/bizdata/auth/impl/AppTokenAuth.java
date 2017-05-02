@@ -12,8 +12,8 @@ import com.netflix.zuul.context.RequestContext;
  */
 public class AppTokenAuth extends TokenAuth {
 
-    public AppTokenAuth(TokenServiceFeign tokenServiceFeign) {
-        super(tokenServiceFeign);
+    public AppTokenAuth(String prefix, String urlPattern, TokenServiceFeign tokenServiceFeign) {
+        super(prefix, urlPattern, tokenServiceFeign);
     }
 
     @Override

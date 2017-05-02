@@ -54,7 +54,7 @@ public class AuthManager {
     public void doAuth() {
         String requestUrl = requestContext.getRequest().getRequestURI().toString();
         if (UrlUtil.urlAntPathMatchForPatterns(requestUrl, ignoreUrls)) {
-            // 如果该请求路径不需要鉴权,直接通过。(例如获取token,登录等...)
+            // 如果该请求路径不需要提供token,直接放行请求。(例如登录等...)
         } else {
             // 如果需要鉴权,根据token的前缀判断执行哪个鉴权子类
             String token = requestContext.getRequest().getHeader("token");
@@ -63,11 +63,12 @@ public class AuthManager {
                 //如果未提交
                 AccessStateHelper.accessFailure401(requestContext, 1, "未提供token,无权访问!");
             } else {
+                //如果提交了,对应找到各自的鉴权类
                 TokenAuth tokenAuth = getAuthByPrefix(token);
                 if (null != tokenAuth) {
                     tokenAuth.run(requestContext, token);
                 } else {
-                    //如果提供token未含前缀或未找到匹配的验证器
+                    //如果提供token未含前缀或未找到匹配的验证器,说明为伪造则提示参数不合法
                     AccessStateHelper.accessFailure401(requestContext, 2, "token参数不合法!");
                 }
             }
