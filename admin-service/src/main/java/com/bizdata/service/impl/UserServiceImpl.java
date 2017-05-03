@@ -189,7 +189,6 @@ public class UserServiceImpl implements UserService {
                 };
             }
             page = userDao.findAll(specification, jpaPageParamVO.getPageable(jpaSortParamVO.getSort()));
-            //TODO 需要包含角色信息
         } catch (Exception e) {
             logger.error("分页查询用户失败", e);
         }
