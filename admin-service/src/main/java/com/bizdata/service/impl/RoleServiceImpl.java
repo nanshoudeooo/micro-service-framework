@@ -64,14 +64,10 @@ public class RoleServiceImpl implements RoleService {
     public ResultStateVO update(RoleUpdateParamVO roleUpdateParamVO) {
         ResultStateVO resultStateVO;
         try {
-            if (!checkRolenameNotExist(roleUpdateParamVO.getRolename())) {
-                resultStateVO = ResultStateUtil.create(1, "角色更新失败,请确认角色名称不重复!");
-            } else {
-                Role rolePO = new Role();
-                BeanCopyUtil.copyProperties(roleUpdateParamVO, rolePO);
-                roleDao.save(rolePO);
-                resultStateVO = ResultStateUtil.create(0, "角色更新成功!");
-            }
+            Role rolePO = new Role();
+            BeanCopyUtil.copyProperties(roleUpdateParamVO, rolePO);
+            roleDao.save(rolePO);
+            resultStateVO = ResultStateUtil.create(0, "角色更新成功!");
         } catch (Exception e) {
             logger.error("角色更新失败", e);
             resultStateVO = ResultStateUtil.create(2, "角色更新失败");
