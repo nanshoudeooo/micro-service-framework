@@ -98,7 +98,7 @@ public class RoleController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/role/readSelf",method = RequestMethod.POST)
+    @RequestMapping(value = "/role/readSelf", method = RequestMethod.POST)
     public ResultStateVO readSelf(HttpServletRequest request) {
         ResultStateVO resultStateVO;
         String userID = IdentityUtil.getUserID(request);
@@ -108,6 +108,24 @@ public class RoleController {
         } catch (Exception e) {
             logger.error("获取当前登录用户角色信息失败!", e);
             resultStateVO = ResultStateUtil.create(1, "获取当前登录用户角色信息失败!");
+        }
+        return resultStateVO;
+    }
+
+    /**
+     * 根据角色id获取角色信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/role/readByRoleID", method = RequestMethod.POST)
+    public ResultStateVO readByRoleID(String roleID) {
+        ResultStateVO resultStateVO;
+        try {
+            Role role = roleService.findOne(roleID);
+            resultStateVO = ResultStateUtil.create(0, "获取角色信息成功!", role);
+        } catch (Exception e) {
+            logger.error("获取当前登录用户角色信息失败!", e);
+            resultStateVO = ResultStateUtil.create(1, "获取角色信息失败!");
         }
         return resultStateVO;
     }

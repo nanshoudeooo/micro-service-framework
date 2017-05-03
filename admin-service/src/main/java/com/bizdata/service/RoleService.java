@@ -58,4 +58,12 @@ public interface RoleService {
      * @return List<Role>
      */
     List<Role> findAllByUserID(String userID);
+
+    /**
+     * 根据角色ID获取角色信息
+     *
+     * @param roleID 角色ID
+     * @return Role
+     */
+    Role findOne(String roleID);
 }

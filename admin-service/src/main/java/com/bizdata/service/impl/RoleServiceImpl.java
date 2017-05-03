@@ -46,16 +46,16 @@ public class RoleServiceImpl implements RoleService {
             //判断角色名称是否存在
             Role tempRole = roleDao.findByRolename(roleCreateParamVO.getRolename());
             if (!checkRolenameNotExist(roleCreateParamVO.getRolename())) {
-                resultStateVO= ResultStateUtil.create(1,"角色创建失败,请确认角色名称不重复!");
+                resultStateVO = ResultStateUtil.create(1, "角色创建失败,请确认角色名称不重复!");
             } else {
                 Role rolePO = new Role();
                 BeanUtils.copyProperties(roleCreateParamVO, rolePO);
                 roleDao.save(rolePO);
-                resultStateVO=ResultStateUtil.create(0,"角色创建成功!");
+                resultStateVO = ResultStateUtil.create(0, "角色创建成功!");
             }
         } catch (Exception e) {
             logger.error("角色创建失败", e);
-            resultStateVO=ResultStateUtil.create(2,"角色创建失败!");
+            resultStateVO = ResultStateUtil.create(2, "角色创建失败!");
         }
         return resultStateVO;
     }
@@ -65,16 +65,16 @@ public class RoleServiceImpl implements RoleService {
         ResultStateVO resultStateVO;
         try {
             if (!checkRolenameNotExist(roleUpdateParamVO.getRolename())) {
-                resultStateVO=ResultStateUtil.create(1,"角色更新失败,请确认角色名称不重复!");
+                resultStateVO = ResultStateUtil.create(1, "角色更新失败,请确认角色名称不重复!");
             } else {
                 Role rolePO = new Role();
                 BeanCopyUtil.copyProperties(roleUpdateParamVO, rolePO);
                 roleDao.save(rolePO);
-                resultStateVO=ResultStateUtil.create(0,"角色更新成功!");
+                resultStateVO = ResultStateUtil.create(0, "角色更新成功!");
             }
         } catch (Exception e) {
             logger.error("角色更新失败", e);
-            resultStateVO=ResultStateUtil.create(2,"角色更新失败");
+            resultStateVO = ResultStateUtil.create(2, "角色更新失败");
         }
         return resultStateVO;
     }
@@ -85,14 +85,14 @@ public class RoleServiceImpl implements RoleService {
         try {
             if (checkBuiltInRole(roleDeleteParamVO.getId())) {
                 //如果是系统内置角色
-                resultStateVO=ResultStateUtil.create(2,"无法删除系统内置角色!");
+                resultStateVO = ResultStateUtil.create(2, "无法删除系统内置角色!");
             } else {
                 roleDao.delete(roleDeleteParamVO.getId());
-                resultStateVO=ResultStateUtil.create(0,"角色删除成功!");
+                resultStateVO = ResultStateUtil.create(0, "角色删除成功!");
             }
         } catch (Exception e) {
             logger.error("角色删除失败", e);
-            resultStateVO=ResultStateUtil.create(3,"角色删除失败");
+            resultStateVO = ResultStateUtil.create(3, "角色删除失败");
         }
         return resultStateVO;
     }
@@ -111,12 +111,17 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findAllByUserID(String userID) {
         //获取用户角色关系列表
-        List<UserRoleRelation> userRoleRelations=userRoleRelationDao.findByUserID(userID);
-        List<Role> roles=new ArrayList<>();
+        List<UserRoleRelation> userRoleRelations = userRoleRelationDao.findByUserID(userID);
+        List<Role> roles = new ArrayList<>();
         for (UserRoleRelation userRoleRelation : userRoleRelations) {
             roles.add(roleDao.findOne(userRoleRelation.getRoleID()));
         }
         return roles;
+    }
+
+    @Override
+    public Role findOne(String roleID) {
+        return roleDao.findOne(roleID);
     }
 
     /**
