@@ -1,11 +1,11 @@
 package com.bizdata.entity;
 
 import com.bizdata.jpa.base.JpaBaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * 角色实体
@@ -34,6 +34,9 @@ public class Role extends JpaBaseEntity {
     @Column(nullable = false)
     private boolean builtIn = false;
 
+    @Column(nullable = false)
+    private Date createTime = new Date();
+
     public String getRolename() {
         return rolename;
     }
@@ -56,5 +59,13 @@ public class Role extends JpaBaseEntity {
 
     public void setBuiltIn(boolean builtIn) {
         this.builtIn = builtIn;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
