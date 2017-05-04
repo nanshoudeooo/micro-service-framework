@@ -58,6 +58,14 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public List<Resource> findAllByResourceTypeAndDir(ResourceType resourceType, boolean dir) {
+        if (false == dir) {
+            return resourceDao.findByResourceType(resourceType);
+        }
+        return resourceDao.findByResourceTypeAndDir(resourceType, dir);
+    }
+
+    @Override
     public List<String> getResourceType() {
         List<String> resourceTypes = new ArrayList<>();
         for (ResourceType r : ResourceType.values()) {
@@ -100,8 +108,8 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<String> findAllResourceUrl() {
-        List<Resource> resources=resourceDao.findAll();
-        List<String> resourceUrls=new ArrayList<>();
+        List<Resource> resources = resourceDao.findAll();
+        List<String> resourceUrls = new ArrayList<>();
         for (Resource resource : resources) {
             resourceUrls.add(resource.getUrl());
         }

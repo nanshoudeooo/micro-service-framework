@@ -18,9 +18,18 @@ public interface ResourceService {
      *
      * @param userID 用户ID
      * @param resourceType
-     * @return List<Resource>
+     * @return Set<Resource>
      */
     Set<Resource> findResourceByUserIDAndResourceType(String userID, ResourceType resourceType);
+
+    /**
+     * 根据资源类型获取所有资源
+     *
+     * @param resourceType 资源类型
+     * @param dir 是否是目录
+     * @return List<Resource>
+     */
+    List<Resource> findAllByResourceTypeAndDir(ResourceType resourceType,boolean dir);
 
     /**
      * 获取资源类型

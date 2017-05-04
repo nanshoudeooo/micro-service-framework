@@ -5,6 +5,7 @@ import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.ResourceService;
+import com.bizdata.vo.resource.ReadByResourceTypeAndDirParamVO;
 import com.bizdata.vo.resource.ResourceReadByResourceTypeParamVO;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -52,6 +53,25 @@ public class ResourceController {
     }
 
     /**
+     * 根据资源类型与是否是目录获取资源列表
+     *
+     * @param readByResourceTypeAndDirParamVO 入参VO
+     * @return ResultStateVO执行反馈
+     */
+    @RequestMapping(value = "/resource/readByResourceTypeAndDir", method = RequestMethod.POST)
+    public ResultStateVO readByResourceTypeAndDir(@Validated ReadByResourceTypeAndDirParamVO readByResourceTypeAndDirParamVO) {
+        ResultStateVO resultStateVO;
+        try {
+            List<Resource> resources = resourceService.findAllByResourceTypeAndDir(readByResourceTypeAndDirParamVO.getResourceType(), readByResourceTypeAndDirParamVO.isDir());
+            resultStateVO = ResultStateUtil.create(0, "资源获取成功!", resources);
+        } catch (Exception e) {
+            logger.error("资源获取失败", e);
+            resultStateVO = ResultStateUtil.create(1, "资源获取失败!");
+        }
+        return resultStateVO;
+    }
+
+    /**
      * 获取资源类型
      *
      * @return
@@ -88,4 +108,6 @@ public class ResourceController {
     List<String> getAllResourceUrl() {
         return resourceService.findAllResourceUrl();
     }
+
+
 }
