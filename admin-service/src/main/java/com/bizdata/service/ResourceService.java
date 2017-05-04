@@ -17,7 +17,7 @@ public interface ResourceService {
     /**
      * 根据用户ID查询出菜单
      *
-     * @param userID 用户ID
+     * @param userID       用户ID
      * @param resourceType
      * @return Set<Resource>
      */
@@ -27,10 +27,10 @@ public interface ResourceService {
      * 根据资源类型获取所有资源
      *
      * @param resourceType 资源类型
-     * @param dir 是否是目录
+     * @param dir          是否是目录
      * @return List<Resource>
      */
-    List<Resource> findAllByResourceTypeAndDir(ResourceType resourceType,boolean dir);
+    List<Resource> findAllByResourceTypeAndDir(ResourceType resourceType, boolean dir);
 
     /**
      * 获取资源类型
@@ -61,4 +61,12 @@ public interface ResourceService {
      * @return ReadByResourceIDResultVO
      */
     ReadByResourceIDResultVO findOne(String resourceID);
+
+    /**
+     * 根据父ID获取资源列表
+     *
+     * @param parentID 父ID
+     * @return List<Resource>
+     */
+    List<Resource> findAllByParentID(String parentID);
 }

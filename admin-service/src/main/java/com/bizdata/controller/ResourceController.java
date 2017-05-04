@@ -92,6 +92,25 @@ public class ResourceController {
     }
 
     /**
+     * 根据父ID获取子资源列表
+     *
+     * @param parentID 父ID
+     * @return ResultStateVO执行反馈
+     */
+    @RequestMapping(value = "/resource/findAllByParentID", method = RequestMethod.POST)
+    public ResultStateVO findAllByParentID(String parentID) {
+        ResultStateVO resultStateVO;
+        try {
+            List<Resource> result = resourceService.findAllByParentID(parentID);
+            resultStateVO = ResultStateUtil.create(0, "资源获取成功!", result);
+        } catch (Exception e) {
+            logger.error("资源获取失败", e);
+            resultStateVO = ResultStateUtil.create(1, "资源获取失败!");
+        }
+        return resultStateVO;
+    }
+
+    /**
      * 获取资源类型
      *
      * @return
@@ -128,6 +147,4 @@ public class ResourceController {
     List<String> getAllResourceUrl() {
         return resourceService.findAllResourceUrl();
     }
-
-
 }

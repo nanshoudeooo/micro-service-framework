@@ -36,4 +36,12 @@ public interface ResourceDao extends JpaBaseRepository<Resource, String> {
      * @return List<Resource>
      */
     List<Resource> findByResourceType(ResourceType resourceType);
+
+    /**
+     * 根据父ID获取子资源列表
+     *
+     * @param parent 父ID
+     * @return List<Resource>
+     */
+    List<Resource> findByParentOrderBySortNumAsc(String parent);
 }

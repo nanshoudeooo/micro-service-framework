@@ -132,4 +132,9 @@ public class ResourceServiceImpl implements ResourceService {
         }
         return readByResourceIDResultVO;
     }
+
+    @Override
+    public List<Resource> findAllByParentID(String parentID) {
+        return resourceDao.findByParentOrderBySortNumAsc(parentID);
+    }
 }
