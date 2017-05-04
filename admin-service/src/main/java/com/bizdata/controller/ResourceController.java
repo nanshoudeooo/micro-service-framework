@@ -5,6 +5,7 @@ import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.ResourceService;
+import com.bizdata.vo.resource.ReadByResourceIDResultVO;
 import com.bizdata.vo.resource.ReadByResourceTypeAndDirParamVO;
 import com.bizdata.vo.resource.ResourceReadByResourceTypeParamVO;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -64,6 +65,25 @@ public class ResourceController {
         try {
             List<Resource> resources = resourceService.findAllByResourceTypeAndDir(readByResourceTypeAndDirParamVO.getResourceType(), readByResourceTypeAndDirParamVO.isDir());
             resultStateVO = ResultStateUtil.create(0, "资源获取成功!", resources);
+        } catch (Exception e) {
+            logger.error("资源获取失败", e);
+            resultStateVO = ResultStateUtil.create(1, "资源获取失败!");
+        }
+        return resultStateVO;
+    }
+
+    /**
+     * 根据资源ID获取资源详细信息
+     *
+     * @param resourceID 资源ID
+     * @return ResultStateVO执行反馈
+     */
+    @RequestMapping(value = "/resource/readByResourceID", method = RequestMethod.POST)
+    public ResultStateVO readByResourceID(String resourceID) {
+        ResultStateVO resultStateVO;
+        try {
+            ReadByResourceIDResultVO readByResourceIDResultVO = resourceService.findOne(resourceID);
+            resultStateVO = ResultStateUtil.create(0, "资源获取成功!", readByResourceIDResultVO);
         } catch (Exception e) {
             logger.error("资源获取失败", e);
             resultStateVO = ResultStateUtil.create(1, "资源获取失败!");

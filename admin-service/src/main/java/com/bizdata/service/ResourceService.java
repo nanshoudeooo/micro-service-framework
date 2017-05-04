@@ -2,6 +2,7 @@ package com.bizdata.service;
 
 import com.bizdata.common.ResourceType;
 import com.bizdata.entity.Resource;
+import com.bizdata.vo.resource.ReadByResourceIDResultVO;
 
 import java.util.List;
 import java.util.Set;
@@ -52,4 +53,12 @@ public interface ResourceService {
      * @return
      */
     List<String> findAllResourceUrl();
+
+    /**
+     * 根据资源ID获取Resource
+     *
+     * @param resourceID 资源ID
+     * @return ReadByResourceIDResultVO
+     */
+    ReadByResourceIDResultVO findOne(String resourceID);
 }

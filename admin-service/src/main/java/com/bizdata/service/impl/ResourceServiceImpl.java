@@ -8,6 +8,8 @@ import com.bizdata.entity.Resource;
 import com.bizdata.entity.RoleResourceRelation;
 import com.bizdata.entity.UserRoleRelation;
 import com.bizdata.service.ResourceService;
+import com.bizdata.vo.resource.ReadByResourceIDResultVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,5 +116,20 @@ public class ResourceServiceImpl implements ResourceService {
             resourceUrls.add(resource.getUrl());
         }
         return resourceUrls;
+    }
+
+    @Override
+    public ReadByResourceIDResultVO findOne(String resourceID) {
+        // 获取resource
+        Resource resource = resourceDao.findOne(resourceID);
+        ReadByResourceIDResultVO readByResourceIDResultVO = new ReadByResourceIDResultVO();
+        BeanUtils.copyProperties(resource, readByResourceIDResultVO);
+        // 获取父ID的资源名称
+        String parentID = resource.getParent();
+        if (Integer.valueOf(parentID) > 0) {
+            Resource parentResource = resourceDao.findOne(resource.getParent());
+            readByResourceIDResultVO.setParentName(parentResource.getName());
+        }
+        return readByResourceIDResultVO;
     }
 }
