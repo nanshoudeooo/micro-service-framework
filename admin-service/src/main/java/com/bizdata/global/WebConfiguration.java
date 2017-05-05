@@ -1,5 +1,6 @@
 package com.bizdata.global;
 
+import com.bizdata.common.String2MenuTypeConverter;
 import com.bizdata.common.String2ResourceTypeConverter;
 import com.bizdata.jpa.convert.JpaPageConditionConverter;
 import com.bizdata.jpa.convert.JpaSortConditionConverter;
@@ -23,6 +24,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         registry.addConverter(new JpaPageConditionConverter());
         //新增一个ResourceType类型转换
         registry.addConverter(new String2ResourceTypeConverter());
+        //新增一个MenuType类型转换
+        registry.addConverter(new String2MenuTypeConverter());
         super.addFormatters(registry);
     }
 }

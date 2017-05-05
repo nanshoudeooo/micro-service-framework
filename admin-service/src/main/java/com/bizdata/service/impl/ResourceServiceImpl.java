@@ -8,7 +8,10 @@ import com.bizdata.entity.Resource;
 import com.bizdata.entity.RoleResourceRelation;
 import com.bizdata.entity.UserRoleRelation;
 import com.bizdata.service.ResourceService;
+import com.bizdata.vo.resource.CreateParamVO;
 import com.bizdata.vo.resource.ReadByResourceIDResultVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,8 @@ import java.util.*;
  */
 @Service
 public class ResourceServiceImpl implements ResourceService {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserRoleRelationDao userRoleRelationDao;
@@ -136,5 +141,61 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public List<Resource> findAllByParentID(String parentID) {
         return resourceDao.findByParentOrderBySortNumAsc(parentID);
+    }
+
+    @Override
+    @Transactional
+    public boolean save(CreateParamVO createParamVO) {
+        boolean state;
+        try {
+            Resource resource = new Resource();
+            BeanUtils.copyProperties(createParamVO, resource);
+            resourceDao.save(resource);
+            if (ResourceType.MENU.equals(createParamVO.getResourceType()) && !createParamVO.isDir()) {
+                //如果是菜单类型且不是目录,则自动生成CURD资源
+
+                //查询
+                Resource resourceView = new Resource();
+                resourceView.setName("查询");
+                resourceView.setParent(resource.getId());
+                resourceView.setResourceType(ResourceType.ACTION);
+                resourceView.setSortNum(1);
+                resourceView.setPermission(resource.getPermission()+":view");
+                resourceDao.save(resourceView);
+
+                //新增
+                Resource resourceCreate = new Resource();
+                resourceCreate.setName("新增");
+                resourceCreate.setParent(resource.getId());
+                resourceCreate.setResourceType(ResourceType.ACTION);
+                resourceCreate.setSortNum(1);
+                resourceCreate.setPermission(resource.getPermission()+":create");
+                resourceDao.save(resourceCreate);
+
+                //修改
+                Resource resourceUpdate = new Resource();
+                resourceUpdate.setName("修改");
+                resourceUpdate.setParent(resource.getId());
+                resourceUpdate.setResourceType(ResourceType.ACTION);
+                resourceUpdate.setSortNum(1);
+                resourceUpdate.setPermission(resource.getPermission()+":update");
+                resourceDao.save(resourceUpdate);
+
+                //删除
+                Resource resourceDelete = new Resource();
+                resourceDelete.setName("删除");
+                resourceDelete.setParent(resource.getId());
+                resourceDelete.setResourceType(ResourceType.ACTION);
+                resourceDelete.setSortNum(1);
+                resourceDelete.setPermission(resource.getPermission()+":delete");
+                resourceDao.save(resourceDelete);
+
+            }
+            state = true;
+        } catch (Exception e) {
+            logger.error("新增资源失败!", e);
+            state = false;
+        }
+        return state;
     }
 }

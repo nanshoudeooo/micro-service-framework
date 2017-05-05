@@ -5,6 +5,7 @@ import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.ResourceService;
+import com.bizdata.vo.resource.CreateParamVO;
 import com.bizdata.vo.resource.ReadByResourceIDResultVO;
 import com.bizdata.vo.resource.ReadByResourceTypeAndDirParamVO;
 import com.bizdata.vo.resource.ResourceReadByResourceTypeParamVO;
@@ -32,6 +33,22 @@ public class ResourceController {
 
     @Autowired
     private ResourceService resourceService;
+
+    /**
+     * 新增资源
+     *
+     * @return ResultStateVO
+     */
+    @RequestMapping(value = "/resource/create",method = RequestMethod.POST)
+    public ResultStateVO create(CreateParamVO createParamVO) {
+        ResultStateVO resultStateVO;
+        if (resourceService.save(createParamVO)) {
+            resultStateVO = ResultStateUtil.create(0, "资源新增成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "资源新增失败!");
+        }
+        return resultStateVO;
+    }
 
     /**
      * 根据资源类型获取用户资源列表

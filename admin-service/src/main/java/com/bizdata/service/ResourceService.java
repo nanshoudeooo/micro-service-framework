@@ -2,6 +2,7 @@ package com.bizdata.service;
 
 import com.bizdata.common.ResourceType;
 import com.bizdata.entity.Resource;
+import com.bizdata.vo.resource.CreateParamVO;
 import com.bizdata.vo.resource.ReadByResourceIDResultVO;
 
 import java.util.List;
@@ -69,4 +70,12 @@ public interface ResourceService {
      * @return List<Resource>
      */
     List<Resource> findAllByParentID(String parentID);
+
+    /**
+     * 资源新增
+     *
+     * @param createParamVO 入参VO
+     * @return boolean
+     */
+    boolean save(CreateParamVO createParamVO);
 }
