@@ -28,7 +28,7 @@ hystrix:
 eureka: 
   client: 
     serviceUrl: 
-      defaultZone: http://localhost:20000/eureka/
+      defaultZone: http://127.0.0.1:20000/eureka/
 
 token:
   # 不需要认证的url
