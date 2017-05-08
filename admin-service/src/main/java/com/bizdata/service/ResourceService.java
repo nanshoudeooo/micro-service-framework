@@ -4,6 +4,7 @@ import com.bizdata.common.ResourceType;
 import com.bizdata.entity.Resource;
 import com.bizdata.vo.resource.CreateParamVO;
 import com.bizdata.vo.resource.ReadByResourceIDResultVO;
+import com.bizdata.vo.resource.UpdateParamVO;
 
 import java.util.List;
 import java.util.Set;
@@ -78,4 +79,12 @@ public interface ResourceService {
      * @return boolean
      */
     boolean save(CreateParamVO createParamVO);
+
+    /**
+     * 资源更新
+     *
+     * @param updateParamVO 入参VO
+     * @return boolean
+     */
+    boolean update(UpdateParamVO updateParamVO);
 }

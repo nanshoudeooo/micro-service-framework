@@ -10,6 +10,7 @@ import com.bizdata.entity.UserRoleRelation;
 import com.bizdata.service.ResourceService;
 import com.bizdata.vo.resource.CreateParamVO;
 import com.bizdata.vo.resource.ReadByResourceIDResultVO;
+import com.bizdata.vo.resource.UpdateParamVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -198,6 +199,21 @@ public class ResourceServiceImpl implements ResourceService {
             state = true;
         } catch (Exception e) {
             logger.error("新增资源失败!", e);
+            state = false;
+        }
+        return state;
+    }
+
+    @Override
+    public boolean update(UpdateParamVO updateParamVO) {
+        boolean state;
+        try {
+            Resource resource = new Resource();
+            BeanUtils.copyProperties(updateParamVO, resource);
+            resourceDao.save(resource);
+            state = true;
+        } catch (Exception e) {
+            logger.error("资源更新失败", e);
             state = false;
         }
         return state;

@@ -5,10 +5,8 @@ import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.ResourceService;
-import com.bizdata.vo.resource.CreateParamVO;
-import com.bizdata.vo.resource.ReadByResourceIDResultVO;
-import com.bizdata.vo.resource.ReadByResourceTypeAndDirParamVO;
-import com.bizdata.vo.resource.ResourceReadByResourceTypeParamVO;
+import com.bizdata.vo.resource.*;
+import com.bizdata.vo.resource.valid.update.ValidGroupUpdate;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +37,7 @@ public class ResourceController {
      *
      * @return ResultStateVO
      */
-    @RequestMapping(value = "/resource/create",method = RequestMethod.POST)
+    @RequestMapping(value = "/resource/create", method = RequestMethod.POST)
     public ResultStateVO create(CreateParamVO createParamVO) {
         ResultStateVO resultStateVO;
         if (resourceService.save(createParamVO)) {
@@ -104,6 +102,23 @@ public class ResourceController {
         } catch (Exception e) {
             logger.error("资源获取失败", e);
             resultStateVO = ResultStateUtil.create(1, "资源获取失败!");
+        }
+        return resultStateVO;
+    }
+
+    /**
+     * 资源更新
+     *
+     * @param updateParamVO 入参VO
+     * @return ResultStateVO执行反馈
+     */
+    @RequestMapping(value = "/resource/update", method = RequestMethod.POST)
+    public ResultStateVO update(@Validated(ValidGroupUpdate.class) UpdateParamVO updateParamVO) {
+        ResultStateVO resultStateVO;
+        if (resourceService.update(updateParamVO)) {
+            resultStateVO = ResultStateUtil.create(0, "资源更新成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "资源更新失败!");
         }
         return resultStateVO;
     }
