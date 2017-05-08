@@ -108,7 +108,9 @@ public class ResourceServiceImpl implements ResourceService {
         Set<Resource> resourceSet = new LinkedHashSet<>(resources);
         List<String> urls = new ArrayList<>();
         for (Resource resource : resourceSet) {
-            urls.add(resource.getUrl());
+            if (null != resource.getUrl()) {
+                urls.add(resource.getUrl());
+            }
         }
         return urls;
     }
@@ -118,7 +120,9 @@ public class ResourceServiceImpl implements ResourceService {
         List<Resource> resources = resourceDao.findAll();
         List<String> resourceUrls = new ArrayList<>();
         for (Resource resource : resources) {
-            resourceUrls.add(resource.getUrl());
+            if (null != resource.getUrl()) {
+                resourceUrls.add(resource.getUrl());
+            }
         }
         return resourceUrls;
     }
@@ -160,7 +164,7 @@ public class ResourceServiceImpl implements ResourceService {
                 resourceView.setParent(resource.getId());
                 resourceView.setResourceType(ResourceType.ACTION);
                 resourceView.setSortNum(1);
-                resourceView.setPermission(resource.getPermission()+":view");
+                resourceView.setPermission(resource.getPermission() + ":view");
                 resourceDao.save(resourceView);
 
                 //新增
@@ -169,7 +173,7 @@ public class ResourceServiceImpl implements ResourceService {
                 resourceCreate.setParent(resource.getId());
                 resourceCreate.setResourceType(ResourceType.ACTION);
                 resourceCreate.setSortNum(1);
-                resourceCreate.setPermission(resource.getPermission()+":create");
+                resourceCreate.setPermission(resource.getPermission() + ":create");
                 resourceDao.save(resourceCreate);
 
                 //修改
@@ -178,7 +182,7 @@ public class ResourceServiceImpl implements ResourceService {
                 resourceUpdate.setParent(resource.getId());
                 resourceUpdate.setResourceType(ResourceType.ACTION);
                 resourceUpdate.setSortNum(1);
-                resourceUpdate.setPermission(resource.getPermission()+":update");
+                resourceUpdate.setPermission(resource.getPermission() + ":update");
                 resourceDao.save(resourceUpdate);
 
                 //删除
@@ -187,7 +191,7 @@ public class ResourceServiceImpl implements ResourceService {
                 resourceDelete.setParent(resource.getId());
                 resourceDelete.setResourceType(ResourceType.ACTION);
                 resourceDelete.setSortNum(1);
-                resourceDelete.setPermission(resource.getPermission()+":delete");
+                resourceDelete.setPermission(resource.getPermission() + ":delete");
                 resourceDao.save(resourceDelete);
 
             }
