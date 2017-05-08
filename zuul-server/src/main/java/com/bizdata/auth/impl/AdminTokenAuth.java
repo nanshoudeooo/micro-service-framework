@@ -55,10 +55,6 @@ public class AdminTokenAuth extends TokenAuth {
      */
     private boolean checkUrlInResourceSetting(String url) {
         List<String> urls = adminServiceFeign.getAllResourceUrl();
-        if (UrlUtil.urlAntPathMatchForPatterns(url, urls)) {
-            //如果在资源列表中配置过
-            return true;
-        }
         return false;
     }
 
