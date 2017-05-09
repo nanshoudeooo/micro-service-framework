@@ -55,13 +55,11 @@ public class UpdateParamVO {
     /**
      * 针对于菜单类型时,确定是顶部菜单还是左侧菜单
      */
-    @NotBlank(message = "菜单类型必须传递", groups = ValidFieldMenuType.class)
     private MenuType menuType;
 
     /**
      * 资源类型
      */
-    @NotBlank(message = "资源类型必须传递", groups = ValidFieldResourceType.class)
     private ResourceType resourceType;
 
     /**

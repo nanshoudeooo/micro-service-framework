@@ -2,6 +2,7 @@ package com.bizdata.service;
 
 import com.bizdata.common.ResourceType;
 import com.bizdata.entity.Resource;
+import com.bizdata.result.ResultStateVO;
 import com.bizdata.vo.resource.CreateParamVO;
 import com.bizdata.vo.resource.ReadByResourceIDResultVO;
 import com.bizdata.vo.resource.UpdateParamVO;
@@ -87,4 +88,6 @@ public interface ResourceService {
      * @return boolean
      */
     boolean update(UpdateParamVO updateParamVO);
+
+    ResultStateVO delete(String resourceID);
 }

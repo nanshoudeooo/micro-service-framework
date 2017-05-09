@@ -11,6 +11,11 @@ import com.bizdata.common.ResourceType;
 public class ReadByResourceIDResultVO {
 
     /**
+     * 资源ID
+     */
+    private String id;
+
+    /**
      * 资源名称
      */
     private String name;
@@ -151,5 +156,13 @@ public class ReadByResourceIDResultVO {
 
     public void setDir(boolean dir) {
         this.dir = dir;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

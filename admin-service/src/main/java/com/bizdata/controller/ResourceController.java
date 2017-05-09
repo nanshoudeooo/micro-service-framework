@@ -113,7 +113,7 @@ public class ResourceController {
      * @return ResultStateVO执行反馈
      */
     @RequestMapping(value = "/resource/update", method = RequestMethod.POST)
-    public ResultStateVO update(@Validated(ValidGroupUpdate.class) UpdateParamVO updateParamVO) {
+    public ResultStateVO update(UpdateParamVO updateParamVO) {
         ResultStateVO resultStateVO;
         if (resourceService.update(updateParamVO)) {
             resultStateVO = ResultStateUtil.create(0, "资源更新成功!");
@@ -122,7 +122,18 @@ public class ResourceController {
         }
         return resultStateVO;
     }
-    
+
+    /**
+     * 资源删除
+     *
+     * @param resourceID 资源ID
+     * @return ResultStateVO执行反馈
+     */
+    @RequestMapping(value = "/resource/delete", method = RequestMethod.POST)
+    public ResultStateVO delete(String resourceID) {
+        return resourceService.delete(resourceID);
+    }
+
     /**
      * 根据父ID获取子资源列表
      *

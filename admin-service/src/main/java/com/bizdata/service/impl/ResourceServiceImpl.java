@@ -7,6 +7,8 @@ import com.bizdata.dao.UserRoleRelationDao;
 import com.bizdata.entity.Resource;
 import com.bizdata.entity.RoleResourceRelation;
 import com.bizdata.entity.UserRoleRelation;
+import com.bizdata.result.ResultStateUtil;
+import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.ResourceService;
 import com.bizdata.vo.resource.CreateParamVO;
 import com.bizdata.vo.resource.ReadByResourceIDResultVO;
@@ -217,5 +219,58 @@ public class ResourceServiceImpl implements ResourceService {
             state = false;
         }
         return state;
+    }
+
+    @Override
+    public ResultStateVO delete(String resourceID) {
+        ResultStateVO resultStateVO;
+        try {
+            //判断是否包含子级节点,如果包含不可删除
+            if (hasChildren(resourceID)) {
+                resultStateVO = ResultStateUtil.create(1, "当前节点包含子节点,不可删除!");
+            } else if (hasRoleResourceRelation(resourceID)) {
+                //判断是否和角色关联,如果有关联,则提示不可删除
+                resultStateVO = ResultStateUtil.create(2, "当前资源与角色关联,请先解除关联,执行删除!");
+            } else {
+                resourceDao.delete(resourceID);
+                resultStateVO = ResultStateUtil.create(0, "当前资源删除成功!");
+            }
+        } catch (Exception e) {
+            logger.error("删除资源失败", e);
+            resultStateVO = ResultStateUtil.create(3, "删除资源失败");
+        }
+        return resultStateVO;
+    }
+
+    /**
+     * 有角色资源关系
+     *
+     * @param resourceID 资源ID
+     * @return boolean
+     */
+    private boolean hasRoleResourceRelation(String resourceID) {
+        List<RoleResourceRelation> roleResourceRelations = roleResourceRelationDao.findAllByResourceID(resourceID);
+        if (null == roleResourceRelations||0==roleResourceRelations.size()) {
+            // 如果未查询到
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 判断是否有子节点
+     *
+     * @param resourceID 资源ID
+     * @return boolean
+     */
+    private boolean hasChildren(String resourceID) {
+        List<Resource> resources = resourceDao.findByParentOrderBySortNumAsc(resourceID);
+        if (null == resources||0==resources.size()) {
+            //如果未查询到
+            return false;
+        } else {
+            return true;
+        }
     }
 }
