@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 /**
+ * 资源Server实现
+ * <p>
  * Created by sdevil507 on 2017/4/19.
  */
 @Service
@@ -138,7 +140,7 @@ public class ResourceServiceImpl implements ResourceService {
         BeanUtils.copyProperties(resource, readByResourceIDResultVO);
         // 获取父ID的资源名称
         String parentID = resource.getParent();
-        if (Integer.valueOf(parentID) > 0) {
+        if (!parentID.equals("0")) {
             Resource parentResource = resourceDao.findOne(resource.getParent());
             readByResourceIDResultVO.setParentName(parentResource.getName());
         }
@@ -250,7 +252,7 @@ public class ResourceServiceImpl implements ResourceService {
      */
     private boolean hasRoleResourceRelation(String resourceID) {
         List<RoleResourceRelation> roleResourceRelations = roleResourceRelationDao.findAllByResourceID(resourceID);
-        if (null == roleResourceRelations||0==roleResourceRelations.size()) {
+        if (null == roleResourceRelations || 0 == roleResourceRelations.size()) {
             // 如果未查询到
             return false;
         } else {
@@ -266,7 +268,7 @@ public class ResourceServiceImpl implements ResourceService {
      */
     private boolean hasChildren(String resourceID) {
         List<Resource> resources = resourceDao.findByParentOrderBySortNumAsc(resourceID);
-        if (null == resources||0==resources.size()) {
+        if (null == resources || 0 == resources.size()) {
             //如果未查询到
             return false;
         } else {
