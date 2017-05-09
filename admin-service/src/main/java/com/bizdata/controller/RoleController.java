@@ -95,8 +95,8 @@ public class RoleController {
     /**
      * 获取当前登录用户角色信息
      *
-     * @param request
-     * @return
+     * @param request 请求
+     * @return ResultStateVO
      */
     @RequestMapping(value = "/role/readSelf", method = RequestMethod.POST)
     public ResultStateVO readSelf(HttpServletRequest request) {
@@ -115,7 +115,8 @@ public class RoleController {
     /**
      * 根据角色id获取角色信息
      *
-     * @return
+     * @param roleID 角色ID
+     * @return ResultStateVO
      */
     @RequestMapping(value = "/role/readByRoleID", method = RequestMethod.POST)
     public ResultStateVO readByRoleID(String roleID) {
