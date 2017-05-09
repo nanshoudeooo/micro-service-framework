@@ -6,5 +6,5 @@ package com.bizdata.service;
  * Created by sdevil507 on 2017/4/16.
  */
 public interface RoleResourceRelationService {
-
+    
 }

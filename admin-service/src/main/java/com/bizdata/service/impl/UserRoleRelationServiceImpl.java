@@ -26,19 +26,22 @@ public class UserRoleRelationServiceImpl implements UserRoleRelationService {
 
     @Override
     @Transactional
-    public boolean buildUserAndRoleRelation(String userID, List<String> roleIds) {
-        boolean state = false;
+    public boolean build(String roleID, String[] userIDs) {
+        boolean state;
         try {
-            userRoleRelationDao.deleteByUserID(userID);
-            for (String roleId : roleIds) {
+            //根据roleID删除原有关系
+            userRoleRelationDao.deleteByRoleID(roleID);
+            //循环增加现有关系
+            for (String userID : userIDs) {
                 UserRoleRelation userRoleRelation = new UserRoleRelation();
                 userRoleRelation.setUserID(userID);
-                userRoleRelation.setRoleID(roleId);
+                userRoleRelation.setRoleID(roleID);
                 userRoleRelationDao.save(userRoleRelation);
             }
             state = true;
         } catch (Exception e) {
-            logger.error("用户角色关系建立失败", e);
+            logger.error("角色绑定失败!", e);
+            state = false;
         }
         return state;
     }

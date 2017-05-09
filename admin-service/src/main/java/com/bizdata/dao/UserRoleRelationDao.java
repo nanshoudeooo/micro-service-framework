@@ -12,7 +12,19 @@ import java.util.List;
  */
 public interface UserRoleRelationDao extends JpaBaseRepository<UserRoleRelation, String> {
 
+    /**
+     * 根据用户ID删除用户角色关系
+     *
+     * @param userID
+     */
     void deleteByUserID(String userID);
+
+    /**
+     * 根据角色ID删除用户角色关系
+     *
+     * @param roleID
+     */
+    void deleteByRoleID(String roleID);
 
     /**
      * 根据用户ID获取用户role列表
@@ -21,4 +33,5 @@ public interface UserRoleRelationDao extends JpaBaseRepository<UserRoleRelation,
      * @return List<UserRoleRelation>
      */
     List<UserRoleRelation> findByUserID(String userID);
+
 }
