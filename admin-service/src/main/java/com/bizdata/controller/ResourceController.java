@@ -6,7 +6,6 @@ import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.ResourceService;
 import com.bizdata.vo.resource.*;
-import com.bizdata.vo.resource.valid.update.ValidGroupUpdate;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +50,7 @@ public class ResourceController {
     /**
      * 根据资源类型获取用户资源列表
      *
-     * @param request
+     * @param request 请求
      * @return ResultStateVO
      */
     @RequestMapping(value = "/resource/readByResourceType", method = RequestMethod.POST)
@@ -156,7 +155,7 @@ public class ResourceController {
     /**
      * 获取资源类型
      *
-     * @return
+     * @return ResultStateVO
      */
     @RequestMapping(value = "/resource/getResourceType", method = RequestMethod.POST)
     public ResultStateVO getResourceType() {
@@ -174,7 +173,7 @@ public class ResourceController {
     /**
      * 获取登录用户授权访问的URL列表
      *
-     * @return
+     * @return List<String>
      */
     @RequestMapping(value = "/getAuthResourceUrl", method = RequestMethod.POST)
     public List<String> getAuthResourceUrl(String userID) {
@@ -184,7 +183,7 @@ public class ResourceController {
     /**
      * 获取全部资源配置url列表
      *
-     * @return
+     * @return List<String>
      */
     @RequestMapping(value = "/getAllResourceUrl", method = RequestMethod.POST)
     List<String> getAllResourceUrl() {
