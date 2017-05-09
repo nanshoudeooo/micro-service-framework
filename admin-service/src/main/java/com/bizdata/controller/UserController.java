@@ -42,9 +42,8 @@ public class UserController {
      */
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public ResultStateVO login(@Validated({ValidGroupUserLogin.class}) UserLoginParamVO userLoginParamVO) {
-        ResultStateVO resultStateVO = userService.login(userLoginParamVO.getUsername(), userLoginParamVO.getPassword());
         //TODO 设置权限
-        return resultStateVO;
+        return userService.login(userLoginParamVO.getUsername(), userLoginParamVO.getPassword());
     }
 
     /**
@@ -175,7 +174,7 @@ public class UserController {
     public ResultStateVO validDuplicateUsername(String username) {
         ResultStateVO resultStateVO;
         //true代表重复 false不重复
-        boolean isDuplicate = true;
+        boolean isDuplicate;
         try {
             //检测数据库中是否已经存在
             isDuplicate = userService.validDuplicateUsername(username);
