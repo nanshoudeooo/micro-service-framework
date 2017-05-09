@@ -17,7 +17,7 @@ public interface UserDao extends JpaBaseRepository<User, String> {
      * @param password 密码
      * @return User对象
      */
-    public User findByUsernameAndPassword(String username, String password);
+    User findByUsernameAndPassword(String username, String password);
 
     /**
      * 根据用户名查找用户
@@ -25,5 +25,5 @@ public interface UserDao extends JpaBaseRepository<User, String> {
      * @param username 用户名
      * @return User对象
      */
-    public User findByUsername(String username);
+    User findByUsername(String username);
 }
