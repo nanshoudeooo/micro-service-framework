@@ -1,6 +1,6 @@
-package com.bizdata.vo.organization.valid.read;
+package com.bizdata.controller.organization.vo.in.valid.group;
 
-import com.bizdata.vo.organization.valid.ValidFieldID;
+import com.bizdata.controller.organization.vo.in.valid.field.ValidFieldID;
 
 import javax.validation.GroupSequence;
 
@@ -10,5 +10,5 @@ import javax.validation.GroupSequence;
  * Created by sdevil507 on 2017/5/9.
  */
 @GroupSequence({ValidFieldID.class})
-public class ValidGroupReadByID {
+public class ValidGroupGetById {
 }

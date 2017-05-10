@@ -1,4 +1,4 @@
-package com.bizdata.vo.organization.valid;
+package com.bizdata.controller.organization.vo.in.valid.field;
 
 /**
  * 组织机构ID验资

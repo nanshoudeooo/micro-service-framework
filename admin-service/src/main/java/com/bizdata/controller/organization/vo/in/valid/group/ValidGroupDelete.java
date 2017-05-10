@@ -1,6 +1,6 @@
-package com.bizdata.vo.organization.valid.delete;
+package com.bizdata.controller.organization.vo.in.valid.group;
 
-import com.bizdata.vo.organization.valid.ValidFieldID;
+import com.bizdata.controller.organization.vo.in.valid.field.ValidFieldID;
 
 import javax.validation.GroupSequence;
 

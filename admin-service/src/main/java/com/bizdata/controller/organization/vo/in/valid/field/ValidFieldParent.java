@@ -1,4 +1,4 @@
-package com.bizdata.vo.organization.valid;
+package com.bizdata.controller.organization.vo.in.valid.field;
 
 /**
  * 用于验证组织机构父ID

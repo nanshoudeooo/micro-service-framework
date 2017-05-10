@@ -1,15 +1,15 @@
-package com.bizdata.vo.organization;
+package com.bizdata.controller.organization.vo.in;
 
-import com.bizdata.vo.organization.valid.ValidFieldName;
-import com.bizdata.vo.organization.valid.ValidFieldParent;
+import com.bizdata.controller.organization.vo.in.valid.field.ValidFieldName;
+import com.bizdata.controller.organization.vo.in.valid.field.ValidFieldParent;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
- * 组织机构创建入参
+ * 组织机构新增VO
  * <p>
  * Created by sdevil507 on 2017/5/9.
  */
-public class CreateParamVO {
+public class InSaveVO {
 
     /**
      * 组织机构名称

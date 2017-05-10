@@ -1,18 +1,21 @@
 package com.bizdata.service.impl;
 
+import com.bizdata.controller.organization.vo.out.OutOrganizationVO;
 import com.bizdata.dao.OrganizationDao;
+import com.bizdata.jpa.vo.JpaListPO2VO;
 import com.bizdata.po.Organization;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.OrganizationService;
-import com.bizdata.vo.organization.CreateParamVO;
-import com.bizdata.vo.organization.DeleteParamVO;
-import com.bizdata.vo.organization.ReadByIDParamVO;
-import com.bizdata.vo.organization.UpdateParamVO;
+import com.bizdata.controller.organization.vo.in.InSaveVO;
+import com.bizdata.controller.organization.vo.in.InDeleteVO;
+import com.bizdata.controller.organization.vo.in.InGetByIdVO;
+import com.bizdata.controller.organization.vo.in.InUpdateVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,77 +35,71 @@ public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
 
     @Override
-    public ResultStateVO create(CreateParamVO createParamVO) {
-        ResultStateVO resultStateVO;
+    public boolean save(InSaveVO inSaveVO) {
+        boolean state;
+        Organization organization = new Organization();
         try {
-            Organization organization = new Organization();
-            BeanUtils.copyProperties(createParamVO, organization);
-            //判断名称是否重复
-            if (null != organizationDao.findByName(organization.getName())) {
-                //如果不重复执行插入
-                organizationDao.save(organization);
-                resultStateVO = ResultStateUtil.create(0, "组织机构新增成功!");
-            } else {
-                resultStateVO = ResultStateUtil.create(1, "组织机构名称不可重复!");
-            }
+            BeanUtils.copyProperties(inSaveVO, organization);
+            organizationDao.save(organization);
+            state = true;
         } catch (Exception e) {
             logger.error("组织机构新增失败!", e);
-            resultStateVO = ResultStateUtil.create(2, "组织机构新增失败!");
+            state = false;
         }
-        return resultStateVO;
+        return state;
     }
 
     @Override
-    public ResultStateVO readByID(ReadByIDParamVO readByIDParamVO) {
-        ResultStateVO resultStateVO;
+    public OutOrganizationVO getByID(InGetByIdVO inGetByIdVO) {
+        OutOrganizationVO outOrganizationVO;
         try {
-            Organization organization = organizationDao.findOne(readByIDParamVO.getId());
-            resultStateVO = ResultStateUtil.create(0, "根据ID查询组织机构成功!");
+            outOrganizationVO = new OutOrganizationVO();
+            Organization organization = organizationDao.findOne(inGetByIdVO.getId());
+            BeanUtils.copyProperties(organization, outOrganizationVO);
         } catch (Exception e) {
+            outOrganizationVO = null;
             logger.error("根据ID查询组织机构失败!", e);
-            resultStateVO = ResultStateUtil.create(1, "根据ID查询组织机构失败!");
         }
-        return resultStateVO;
+        return outOrganizationVO;
     }
 
     @Override
-    public ResultStateVO readAll() {
-        ResultStateVO resultStateVO;
+    public List<OutOrganizationVO> list() {
+        List<OutOrganizationVO> outOrganizationVOs = null;
         try {
             List<Organization> organizations = organizationDao.findAll();
-            resultStateVO = ResultStateUtil.create(0, "查询组织结构列表成功!");
+            outOrganizationVOs = JpaListPO2VO.convert(organizations, OutOrganizationVO.class);
         } catch (Exception e) {
             logger.error("查询组织机构列表失败!", e);
-            resultStateVO = ResultStateUtil.create(1, "查询组织机构列表失败!");
         }
-        return resultStateVO;
+        return outOrganizationVOs;
     }
 
     @Override
-    public ResultStateVO update(UpdateParamVO updateParamVO) {
-        ResultStateVO resultStateVO;
+    public boolean update(InUpdateVO inUpdateVO) {
+        boolean state;
         try {
             Organization organization = new Organization();
-            BeanCopyUtil.copyProperties(updateParamVO, organization);
+            BeanCopyUtil.copyProperties(inUpdateVO, organization);
             organizationDao.save(organization);
-            resultStateVO = ResultStateUtil.create(0, "组织机构更新成功!");
-        } catch (Exception e) {
-            logger.error("组织机构更新失败!", e);
-            resultStateVO = ResultStateUtil.create(1, "组织机构更新失败!");
+            state = true;
+        } catch (BeansException e) {
+            logger.error("更新组织机构失败!", e);
+            state = false;
         }
-        return resultStateVO;
+        return state;
     }
 
     @Override
-    public ResultStateVO delete(DeleteParamVO deleteParamVO) {
-        ResultStateVO resultStateVO;
+    public boolean delete(InDeleteVO inDeleteVO) {
+        boolean state;
         try {
-            organizationDao.delete(deleteParamVO.getId());
-            resultStateVO = ResultStateUtil.create(0, "组织机构删除成功!");
+            organizationDao.delete(inDeleteVO.getId());
+            state = true;
         } catch (Exception e) {
-            logger.error("组织机构删除失败!", e);
-            resultStateVO = ResultStateUtil.create(1, "组织机构删除失败!");
+            logger.error("组织机构删除失败", e);
+            state = true;
         }
-        return resultStateVO;
+        return state;
     }
 }
