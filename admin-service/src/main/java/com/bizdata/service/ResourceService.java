@@ -1,7 +1,7 @@
 package com.bizdata.service;
 
 import com.bizdata.common.ResourceType;
-import com.bizdata.entity.Resource;
+import com.bizdata.po.Resource;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.vo.resource.CreateParamVO;
 import com.bizdata.vo.resource.ReadByResourceIDResultVO;

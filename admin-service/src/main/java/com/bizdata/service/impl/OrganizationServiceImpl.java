@@ -1,7 +1,7 @@
 package com.bizdata.service.impl;
 
 import com.bizdata.dao.OrganizationDao;
-import com.bizdata.entity.Organization;
+import com.bizdata.po.Organization;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;

@@ -1,7 +1,7 @@
 package com.bizdata.service.impl;
 
 import com.bizdata.dao.UserDao;
-import com.bizdata.entity.User;
+import com.bizdata.po.User;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;

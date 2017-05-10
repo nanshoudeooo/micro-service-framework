@@ -1,11 +1,10 @@
-package com.bizdata.entity;
+package com.bizdata.po;
 
 import com.bizdata.jpa.base.JpaBaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.Date;
 
 /**

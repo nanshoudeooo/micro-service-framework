@@ -1,7 +1,7 @@
 package com.bizdata.dao;
 
 import com.bizdata.common.ResourceType;
-import com.bizdata.entity.Resource;
+import com.bizdata.po.Resource;
 import com.bizdata.jpa.base.JpaBaseRepository;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.bizdata.dao;
 
-import com.bizdata.entity.RoleResourceRelation;
+import com.bizdata.po.RoleResourceRelation;
 import com.bizdata.jpa.base.JpaBaseRepository;
 
 import java.util.List;

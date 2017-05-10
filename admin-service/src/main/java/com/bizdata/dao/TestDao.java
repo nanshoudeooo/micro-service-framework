@@ -1,6 +1,6 @@
 package com.bizdata.dao;
 
-import com.bizdata.entity.Test;
+import com.bizdata.po.Test;
 import com.bizdata.jpa.base.JpaBaseRepository;
 
 /**

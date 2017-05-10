@@ -1,6 +1,6 @@
 package com.bizdata.dao;
 
-import com.bizdata.entity.Role;
+import com.bizdata.po.Role;
 import com.bizdata.jpa.base.JpaBaseRepository;
 
 /**

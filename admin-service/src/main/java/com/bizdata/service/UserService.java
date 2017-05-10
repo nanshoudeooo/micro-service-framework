@@ -1,6 +1,6 @@
 package com.bizdata.service;
 
-import com.bizdata.entity.User;
+import com.bizdata.po.User;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
 import com.bizdata.result.ResultStateVO;

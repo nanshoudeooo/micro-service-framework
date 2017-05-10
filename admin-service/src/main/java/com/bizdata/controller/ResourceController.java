@@ -1,6 +1,6 @@
 package com.bizdata.controller;
 
-import com.bizdata.entity.Resource;
+import com.bizdata.po.Resource;
 import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;

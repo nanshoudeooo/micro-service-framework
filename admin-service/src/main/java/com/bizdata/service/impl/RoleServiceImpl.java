@@ -2,8 +2,8 @@ package com.bizdata.service.impl;
 
 import com.bizdata.dao.RoleDao;
 import com.bizdata.dao.UserRoleRelationDao;
-import com.bizdata.entity.Role;
-import com.bizdata.entity.UserRoleRelation;
+import com.bizdata.po.Role;
+import com.bizdata.po.UserRoleRelation;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;

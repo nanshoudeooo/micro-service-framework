@@ -1,7 +1,7 @@
 package com.bizdata.service.impl;
 
 import com.bizdata.dao.TestDao;
-import com.bizdata.entity.Test;
+import com.bizdata.po.Test;
 import com.bizdata.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;

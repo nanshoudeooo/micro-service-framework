@@ -1,6 +1,6 @@
 package com.bizdata.controller;
 
-import com.bizdata.entity.Role;
+import com.bizdata.po.Role;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaPageResultVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;

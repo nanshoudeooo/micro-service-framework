@@ -1,15 +1,13 @@
 package com.bizdata.service.impl;
 
 import com.bizdata.dao.UserRoleRelationDao;
-import com.bizdata.entity.UserRoleRelation;
+import com.bizdata.po.UserRoleRelation;
 import com.bizdata.service.UserRoleRelationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * 用户角色关系Service实现

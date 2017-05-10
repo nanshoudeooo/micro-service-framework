@@ -1,4 +1,4 @@
-package com.bizdata.entity;
+package com.bizdata.po;
 
 import com.bizdata.jpa.base.JpaBaseEntity;
 
