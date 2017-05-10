@@ -72,7 +72,14 @@ public class OrganizationController {
      */
     @RequestMapping(value = "/organization/update", method = RequestMethod.POST)
     public ResultStateVO update(@Validated(ValidGroupUpdate.class) InUpdateVO inUpdateVO) {
-        return organizationService.update(inUpdateVO);
+        ResultStateVO resultStateVO;
+        boolean state = organizationService.update(inUpdateVO);
+        if (state) {
+            resultStateVO = ResultStateUtil.create(0, "组织机构更新成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "组织机构更新失败!");
+        }
+        return resultStateVO;
     }
 
     /**
@@ -83,6 +90,13 @@ public class OrganizationController {
      */
     @RequestMapping(value = "/organization/delete", method = RequestMethod.POST)
     public ResultStateVO delete(@Validated(ValidGroupDelete.class) InDeleteVO inDeleteVO) {
-        return organizationService.delete(inDeleteVO);
+        ResultStateVO resultStateVO;
+        boolean state = organizationService.delete(inDeleteVO);
+        if (state) {
+            resultStateVO = ResultStateUtil.create(0, "组织机构删除成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "组织机构删除失败!");
+        }
+        return resultStateVO;
     }
 }
