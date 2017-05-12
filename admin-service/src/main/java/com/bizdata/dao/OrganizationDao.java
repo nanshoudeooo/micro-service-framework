@@ -3,6 +3,8 @@ package com.bizdata.dao;
 import com.bizdata.po.Organization;
 import com.bizdata.jpa.base.JpaBaseRepository;
 
+import java.util.List;
+
 /**
  * 组织机构Dao
  * <p>
@@ -17,4 +19,13 @@ public interface OrganizationDao extends JpaBaseRepository<Organization, String>
      * @return Organization
      */
     Organization findByName(String name);
+
+    /**
+     * 根据parentID获取组织机构列表
+     *
+     * @param parent 父ID
+     * @return List<Organization>
+     */
+    List<Organization> findByParent(String parent);
+
 }

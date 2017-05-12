@@ -34,4 +34,12 @@ public interface UserRoleRelationDao extends JpaBaseRepository<UserRoleRelation,
      */
     List<UserRoleRelation> findByUserID(String userID);
 
+    /**
+     * 根据角色ID获取User列表
+     *
+     * @param roleID 角色ID
+     * @return List<UserRoleRelation>
+     */
+    List<UserRoleRelation> findByRoleID(String roleID);
+
 }

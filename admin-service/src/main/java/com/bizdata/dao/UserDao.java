@@ -3,6 +3,8 @@ package com.bizdata.dao;
 import com.bizdata.po.User;
 import com.bizdata.jpa.base.JpaBaseRepository;
 
+import java.util.List;
+
 /**
  * 用户Dao
  * <p>
@@ -26,4 +28,20 @@ public interface UserDao extends JpaBaseRepository<User, String> {
      * @return User对象
      */
     User findByUsername(String username);
+
+    /**
+     * 查询出属于id列表中的用户
+     *
+     * @param ids id列表
+     * @return List<User>
+     */
+    List<User> findByIdIn(List<String> ids);
+
+    /**
+     * 查询出不属于
+     *
+     * @param ids
+     * @return
+     */
+    List<User> findByIdNotIn(List<String> ids);
 }

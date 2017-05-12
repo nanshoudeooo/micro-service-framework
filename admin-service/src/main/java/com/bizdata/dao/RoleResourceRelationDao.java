@@ -27,4 +27,5 @@ public interface RoleResourceRelationDao extends JpaBaseRepository<RoleResourceR
      * @return List<RoleResourceRelation>
      */
     List<RoleResourceRelation> findAllByResourceID(String resourceID);
+
 }
