@@ -1,4 +1,4 @@
-package com.bizdata.vo.role.valid;
+package com.bizdata.controller.role.vo.in.valid.field;
 
 /**
  * 用于ID校验

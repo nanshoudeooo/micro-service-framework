@@ -1,8 +1,8 @@
-package com.bizdata.vo.role;
+package com.bizdata.controller.role.vo.in;
 
-import com.bizdata.vo.role.valid.ValidFieldDescription;
-import com.bizdata.vo.role.valid.ValidFieldID;
-import com.bizdata.vo.role.valid.ValidFieldRolename;
+import com.bizdata.controller.role.vo.in.valid.field.ValidFieldDescription;
+import com.bizdata.controller.role.vo.in.valid.field.ValidFieldID;
+import com.bizdata.controller.role.vo.in.valid.field.ValidFieldRolename;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * <p>
  * Created by sdevil507 on 2017/4/14.
  */
-public class RoleUpdateParamVO implements Serializable {
+public class InUpdateVO implements Serializable {
 
     @NotBlank(message = "角色ID不可为空!", groups = {ValidFieldID.class})
     private String id;

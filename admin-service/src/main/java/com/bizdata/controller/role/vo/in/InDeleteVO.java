@@ -1,6 +1,6 @@
-package com.bizdata.vo.role;
+package com.bizdata.controller.role.vo.in;
 
-import com.bizdata.vo.role.valid.ValidFieldID;
+import com.bizdata.controller.role.vo.in.valid.field.ValidFieldID;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * <p>
  * Created by sdevil507 on 2017/4/15.
  */
-public class RoleDeleteParamVO {
+public class InDeleteVO {
 
     /**
      * 角色id

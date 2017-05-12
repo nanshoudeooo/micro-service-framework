@@ -1,11 +1,11 @@
-package com.bizdata.vo.role;
+package com.bizdata.controller.role.vo.out;
 
 /**
  * 角色查询结果VO
  * <p>
  * Created by sdevil507 on 2017/4/15.
  */
-public class RoleReadResultVO {
+public class OutRoleVO {
     /**
      * 角色id
      */
