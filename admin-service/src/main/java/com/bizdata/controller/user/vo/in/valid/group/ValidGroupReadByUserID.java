@@ -1,11 +1,11 @@
-package com.bizdata.vo.user.valid.read;
+package com.bizdata.controller.user.vo.in.valid.group;
 
-import com.bizdata.vo.user.valid.ValidFieldID;
+import com.bizdata.controller.user.vo.in.valid.field.ValidFieldID;
 
 import javax.validation.GroupSequence;
 
 /**
- * 用于校验根据ID获取用户信息
+ * 根据ID获取用户信息验证组
  * <p>
  * Created by sdevil507 on 2017/4/20.
  */
