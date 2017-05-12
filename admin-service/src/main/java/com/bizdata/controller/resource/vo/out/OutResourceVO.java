@@ -1,35 +1,33 @@
-package com.bizdata.vo.resource;
+package com.bizdata.controller.resource.vo.out;
 
 import com.bizdata.common.MenuType;
 import com.bizdata.common.ResourceType;
-import com.bizdata.vo.resource.valid.*;
-import org.hibernate.validator.constraints.NotBlank;
-
-import javax.validation.constraints.Min;
 
 /**
- * 资源新增VO
+ * 读取详细资源信息VO
  * <p>
- * Created by sdevil507 on 2017/5/5.
+ * Created by sdevil507 on 2017/5/4.
  */
-public class CreateParamVO {
+public class OutResourceVO {
+
+    /**
+     * 资源ID
+     */
+    private String id;
 
     /**
      * 资源名称
      */
-    @NotBlank(message = "资源名称不可为空!",groups = ValidFieldName.class)
     private String name;
 
     /**
      * 资源路径
      */
-    @NotBlank(message = "资源路径不可为空!",groups = ValidFieldUrl.class)
     private String url;
 
     /**
      * 权限字符串
      */
-    @NotBlank(message = "权限字符串不可为空!",groups = ValidFieldPermission.class)
     private String permission;
 
     /**
@@ -38,33 +36,38 @@ public class CreateParamVO {
     private String icon;
 
     /**
+     * 是否为内置
+     */
+    private boolean builtIn = false;
+
+    /**
      * 排序号
      */
-    @Min(value = 0,message = "排序号必须大于0",groups = ValidFieldSortNum.class)
     private Integer sortNum;
 
     /**
      * 父id
      */
-    @NotBlank(message = "父ID必须传递",groups = ValidFieldParent.class)
     private String parent = "";
+
+    /**
+     * 父菜单名称
+     */
+    private String parentName="";
 
     /**
      * 针对于菜单类型时,确定是顶部菜单还是左侧菜单
      */
-    @NotBlank(message = "菜单类型必须传递",groups = ValidFieldMenuType.class)
     private MenuType menuType;
 
     /**
      * 资源类型
      */
-    @NotBlank(message = "资源类型必须传递",groups = ValidFieldResourceType.class)
     private ResourceType resourceType;
 
     /**
      * 是否是目录
      */
-    @NotBlank(message = "是否是目录类型必须传递",groups = ValidFieldDir.class)
     private boolean dir = false;
 
     public String getName() {
@@ -99,6 +102,14 @@ public class CreateParamVO {
         this.icon = icon;
     }
 
+    public boolean isBuiltIn() {
+        return builtIn;
+    }
+
+    public void setBuiltIn(boolean builtIn) {
+        this.builtIn = builtIn;
+    }
+
     public Integer getSortNum() {
         return sortNum;
     }
@@ -113,6 +124,14 @@ public class CreateParamVO {
 
     public void setParent(String parent) {
         this.parent = parent;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public MenuType getMenuType() {
@@ -137,5 +156,13 @@ public class CreateParamVO {
 
     public void setDir(boolean dir) {
         this.dir = dir;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

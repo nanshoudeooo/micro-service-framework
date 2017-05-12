@@ -1,4 +1,4 @@
-package com.bizdata.vo.resource.valid.annotation;
+package com.bizdata.controller.resource.vo.in.valid.annotation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

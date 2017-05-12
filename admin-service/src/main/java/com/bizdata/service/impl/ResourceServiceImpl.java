@@ -10,9 +10,9 @@ import com.bizdata.po.UserRoleRelation;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.ResourceService;
-import com.bizdata.vo.resource.CreateParamVO;
-import com.bizdata.vo.resource.ReadByResourceIDResultVO;
-import com.bizdata.vo.resource.UpdateParamVO;
+import com.bizdata.controller.resource.vo.in.InSaveVO;
+import com.bizdata.controller.resource.vo.out.OutResourceVO;
+import com.bizdata.controller.resource.vo.in.InUpdateVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -43,7 +43,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     @Transactional
-    public Set<Resource> findResourceByUserIDAndResourceType(String userID, ResourceType resourceType) {
+    public Set<Resource> listResourceByUserIDAndResourceType(String userID, ResourceType resourceType) {
         //根据用户ID查询出所有用户角色关联
         List<UserRoleRelation> userRoleRelations = userRoleRelationDao.findByUserID(userID);
         //封装角色id列表
@@ -70,7 +70,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<Resource> findAllByResourceTypeAndDir(ResourceType resourceType, boolean dir) {
+    public List<Resource> listByResourceTypeAndDir(ResourceType resourceType, boolean dir) {
         if (false == dir) {
             return resourceDao.findByResourceType(resourceType);
         }
@@ -78,7 +78,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<String> getResourceType() {
+    public List<String> listResourceType() {
         List<String> resourceTypes = new ArrayList<>();
         for (ResourceType r : ResourceType.values()) {
             resourceTypes.add(r.name());
@@ -88,7 +88,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     @Transactional
-    public List<String> findAuthUrl(String userID) {
+    public List<String> listAuthUrl(String userID) {
         //根据用户ID查询出所有用户角色关联
         List<UserRoleRelation> userRoleRelations = userRoleRelationDao.findByUserID(userID);
         //封装角色id列表
@@ -121,7 +121,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<String> findAllResourceUrl() {
+    public List<String> listResourceUrl() {
         List<Resource> resources = resourceDao.findAll();
         List<String> resourceUrls = new ArrayList<>();
         for (Resource resource : resources) {
@@ -133,34 +133,34 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public ReadByResourceIDResultVO findOne(String resourceID) {
+    public OutResourceVO getByID(String resourceID) {
         // 获取resource
         Resource resource = resourceDao.findOne(resourceID);
-        ReadByResourceIDResultVO readByResourceIDResultVO = new ReadByResourceIDResultVO();
-        BeanUtils.copyProperties(resource, readByResourceIDResultVO);
+        OutResourceVO outResourceVO = new OutResourceVO();
+        BeanUtils.copyProperties(resource, outResourceVO);
         // 获取父ID的资源名称
         String parentID = resource.getParent();
         if (!parentID.equals("0")) {
             Resource parentResource = resourceDao.findOne(resource.getParent());
-            readByResourceIDResultVO.setParentName(parentResource.getName());
+            outResourceVO.setParentName(parentResource.getName());
         }
-        return readByResourceIDResultVO;
+        return outResourceVO;
     }
 
     @Override
-    public List<Resource> findAllByParentID(String parentID) {
+    public List<Resource> listByParentID(String parentID) {
         return resourceDao.findByParentOrderBySortNumAsc(parentID);
     }
 
     @Override
     @Transactional
-    public boolean save(CreateParamVO createParamVO) {
+    public boolean save(InSaveVO inSaveVO) {
         boolean state;
         try {
             Resource resource = new Resource();
-            BeanUtils.copyProperties(createParamVO, resource);
+            BeanUtils.copyProperties(inSaveVO, resource);
             resourceDao.save(resource);
-            if (ResourceType.MENU.equals(createParamVO.getResourceType()) && !createParamVO.isDir()) {
+            if (ResourceType.MENU.equals(inSaveVO.getResourceType()) && !inSaveVO.isDir()) {
                 //如果是菜单类型且不是目录,则自动生成CURD资源
 
                 //查询
@@ -209,11 +209,11 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public boolean update(UpdateParamVO updateParamVO) {
+    public boolean update(InUpdateVO inUpdateVO) {
         boolean state;
         try {
             Resource resource = new Resource();
-            BeanUtils.copyProperties(updateParamVO, resource);
+            BeanUtils.copyProperties(inUpdateVO, resource);
             resourceDao.save(resource);
             state = true;
         } catch (Exception e) {

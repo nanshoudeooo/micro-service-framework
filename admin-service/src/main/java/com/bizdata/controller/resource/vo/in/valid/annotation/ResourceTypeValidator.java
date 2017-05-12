@@ -1,8 +1,6 @@
-package com.bizdata.vo.resource.valid.annotation;
+package com.bizdata.controller.resource.vo.in.valid.annotation;
 
 import com.bizdata.common.ResourceType;
-import com.bizdata.jpa.valid.annotation.JpaPageArgsValidAnnotation;
-import com.bizdata.jpa.vo.JpaPageVO;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

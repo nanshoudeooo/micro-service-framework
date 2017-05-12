@@ -1,6 +1,6 @@
-package com.bizdata.vo.resource.valid.update;
+package com.bizdata.controller.resource.vo.in.valid.group;
 
-import com.bizdata.vo.resource.valid.*;
+import com.bizdata.controller.resource.vo.in.valid.field.*;
 
 import javax.validation.GroupSequence;
 

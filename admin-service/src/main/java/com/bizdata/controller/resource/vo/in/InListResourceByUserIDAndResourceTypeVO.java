@@ -1,14 +1,14 @@
-package com.bizdata.vo.resource;
+package com.bizdata.controller.resource.vo.in;
 
 import com.bizdata.common.ResourceType;
-import com.bizdata.vo.resource.valid.annotation.ResourceTypeValidAnnotation;
+import com.bizdata.controller.resource.vo.in.valid.annotation.ResourceTypeValidAnnotation;
 
 /**
  * 根据资源类型获取资源
  * <p>
  * Created by sdevil507 on 2017/4/20.
  */
-public class ResourceReadByResourceTypeParamVO {
+public class InListResourceByUserIDAndResourceTypeVO {
 
     @ResourceTypeValidAnnotation
     private ResourceType resourceType;

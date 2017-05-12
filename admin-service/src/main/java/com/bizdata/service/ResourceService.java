@@ -3,9 +3,9 @@ package com.bizdata.service;
 import com.bizdata.common.ResourceType;
 import com.bizdata.po.Resource;
 import com.bizdata.result.ResultStateVO;
-import com.bizdata.vo.resource.CreateParamVO;
-import com.bizdata.vo.resource.ReadByResourceIDResultVO;
-import com.bizdata.vo.resource.UpdateParamVO;
+import com.bizdata.controller.resource.vo.in.InSaveVO;
+import com.bizdata.controller.resource.vo.out.OutResourceVO;
+import com.bizdata.controller.resource.vo.in.InUpdateVO;
 
 import java.util.List;
 import java.util.Set;
@@ -21,10 +21,10 @@ public interface ResourceService {
      * 根据用户ID查询出菜单
      *
      * @param userID       用户ID
-     * @param resourceType
+     * @param resourceType 资源类型
      * @return Set<Resource>
      */
-    Set<Resource> findResourceByUserIDAndResourceType(String userID, ResourceType resourceType);
+    Set<Resource> listResourceByUserIDAndResourceType(String userID, ResourceType resourceType);
 
     /**
      * 根据资源类型获取所有资源
@@ -33,14 +33,14 @@ public interface ResourceService {
      * @param dir          是否是目录
      * @return List<Resource>
      */
-    List<Resource> findAllByResourceTypeAndDir(ResourceType resourceType, boolean dir);
+    List<Resource> listByResourceTypeAndDir(ResourceType resourceType, boolean dir);
 
     /**
      * 获取资源类型
      *
-     * @return
+     * @return List<String>
      */
-    List<String> getResourceType();
+    List<String> listResourceType();
 
     /**
      * 获取用户ID的可访问URL列表
@@ -48,22 +48,22 @@ public interface ResourceService {
      * @param userID 用户ID
      * @return List<String>
      */
-    List<String> findAuthUrl(String userID);
+    List<String> listAuthUrl(String userID);
 
     /**
      * 获取全部资源url列表
      *
      * @return
      */
-    List<String> findAllResourceUrl();
+    List<String> listResourceUrl();
 
     /**
      * 根据资源ID获取Resource
      *
      * @param resourceID 资源ID
-     * @return ReadByResourceIDResultVO
+     * @return OutResourceVO
      */
-    ReadByResourceIDResultVO findOne(String resourceID);
+    OutResourceVO getByID(String resourceID);
 
     /**
      * 根据父ID获取资源列表
@@ -71,23 +71,29 @@ public interface ResourceService {
      * @param parentID 父ID
      * @return List<Resource>
      */
-    List<Resource> findAllByParentID(String parentID);
+    List<Resource> listByParentID(String parentID);
 
     /**
      * 资源新增
      *
-     * @param createParamVO 入参VO
+     * @param inSaveVO 入参VO
      * @return boolean
      */
-    boolean save(CreateParamVO createParamVO);
+    boolean save(InSaveVO inSaveVO);
 
     /**
      * 资源更新
      *
-     * @param updateParamVO 入参VO
+     * @param inUpdateVO 入参VO
      * @return boolean
      */
-    boolean update(UpdateParamVO updateParamVO);
+    boolean update(InUpdateVO inUpdateVO);
 
+    /**
+     * 资源删除
+     *
+     * @param resourceID 资源ID
+     * @return ResultStateVO
+     */
     ResultStateVO delete(String resourceID);
 }

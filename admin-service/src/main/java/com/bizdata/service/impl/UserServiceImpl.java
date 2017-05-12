@@ -1,5 +1,6 @@
 package com.bizdata.service.impl;
 
+import com.bizdata.controller.user.vo.in.InSearchVO;
 import com.bizdata.dao.UserDao;
 import com.bizdata.po.User;
 import com.bizdata.extend.BeanCopyUtil;
@@ -12,7 +13,6 @@ import com.bizdata.service.UserService;
 import com.bizdata.token.TokenServiceFeign;
 import com.bizdata.controller.user.vo.in.InSaveVO;
 import com.bizdata.controller.user.vo.out.OutLoginVO;
-import com.bizdata.controller.user.vo.in.InSearchVO;
 import com.bizdata.controller.user.vo.in.InUpdateVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

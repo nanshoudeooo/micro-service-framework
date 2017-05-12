@@ -1,11 +1,15 @@
-package com.bizdata.controller;
+package com.bizdata.controller.resource;
 
+import com.bizdata.controller.resource.vo.in.InListByResourceTypeAndDirVO;
+import com.bizdata.controller.resource.vo.in.InListResourceByUserIDAndResourceTypeVO;
+import com.bizdata.controller.resource.vo.in.InSaveVO;
+import com.bizdata.controller.resource.vo.in.InUpdateVO;
+import com.bizdata.controller.resource.vo.out.OutResourceVO;
 import com.bizdata.po.Resource;
 import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.ResourceService;
-import com.bizdata.vo.resource.*;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,10 +40,10 @@ public class ResourceController {
      *
      * @return ResultStateVO
      */
-    @RequestMapping(value = "/resource/create", method = RequestMethod.POST)
-    public ResultStateVO create(CreateParamVO createParamVO) {
+    @RequestMapping(value = "/resource/save", method = RequestMethod.POST)
+    public ResultStateVO save(InSaveVO inSaveVO) {
         ResultStateVO resultStateVO;
-        if (resourceService.save(createParamVO)) {
+        if (resourceService.save(inSaveVO)) {
             resultStateVO = ResultStateUtil.create(0, "资源新增成功!");
         } else {
             resultStateVO = ResultStateUtil.create(1, "资源新增失败!");
@@ -53,12 +57,12 @@ public class ResourceController {
      * @param request 请求
      * @return ResultStateVO
      */
-    @RequestMapping(value = "/resource/readByResourceType", method = RequestMethod.POST)
-    public ResultStateVO readByResourceType(@Validated ResourceReadByResourceTypeParamVO resourceReadByResourceTypeParamVO, HttpServletRequest request) {
+    @RequestMapping(value = "/resource/listResourceByUserIDAndResourceType", method = RequestMethod.POST)
+    public ResultStateVO listResourceByUserIDAndResourceType(@Validated InListResourceByUserIDAndResourceTypeVO inListResourceByUserIDAndResourceTypeVO, HttpServletRequest request) {
         ResultStateVO resultStateVO;
         String userID = IdentityUtil.getUserID(request);
         try {
-            Set<Resource> result = resourceService.findResourceByUserIDAndResourceType(userID, resourceReadByResourceTypeParamVO.getResourceType());
+            Set<Resource> result = resourceService.listResourceByUserIDAndResourceType(userID, inListResourceByUserIDAndResourceTypeVO.getResourceType());
             resultStateVO = ResultStateUtil.create(0, "资源获取成功!", result);
         } catch (Exception e) {
             logger.error("资源获取失败!", e);
@@ -70,14 +74,14 @@ public class ResourceController {
     /**
      * 根据资源类型与是否是目录获取资源列表
      *
-     * @param readByResourceTypeAndDirParamVO 入参VO
+     * @param inListByResourceTypeAndDirVO 入参VO
      * @return ResultStateVO执行反馈
      */
-    @RequestMapping(value = "/resource/readByResourceTypeAndDir", method = RequestMethod.POST)
-    public ResultStateVO readByResourceTypeAndDir(@Validated ReadByResourceTypeAndDirParamVO readByResourceTypeAndDirParamVO) {
+    @RequestMapping(value = "/resource/listByResourceTypeAndDir", method = RequestMethod.POST)
+    public ResultStateVO listByResourceTypeAndDir(@Validated InListByResourceTypeAndDirVO inListByResourceTypeAndDirVO) {
         ResultStateVO resultStateVO;
         try {
-            List<Resource> resources = resourceService.findAllByResourceTypeAndDir(readByResourceTypeAndDirParamVO.getResourceType(), readByResourceTypeAndDirParamVO.isDir());
+            List<Resource> resources = resourceService.listByResourceTypeAndDir(inListByResourceTypeAndDirVO.getResourceType(), inListByResourceTypeAndDirVO.isDir());
             resultStateVO = ResultStateUtil.create(0, "资源获取成功!", resources);
         } catch (Exception e) {
             logger.error("资源获取失败", e);
@@ -92,12 +96,12 @@ public class ResourceController {
      * @param resourceID 资源ID
      * @return ResultStateVO执行反馈
      */
-    @RequestMapping(value = "/resource/readByResourceID", method = RequestMethod.POST)
-    public ResultStateVO readByResourceID(String resourceID) {
+    @RequestMapping(value = "/resource/getByID", method = RequestMethod.POST)
+    public ResultStateVO getByID(String resourceID) {
         ResultStateVO resultStateVO;
         try {
-            ReadByResourceIDResultVO readByResourceIDResultVO = resourceService.findOne(resourceID);
-            resultStateVO = ResultStateUtil.create(0, "资源获取成功!", readByResourceIDResultVO);
+            OutResourceVO outResourceVO = resourceService.getByID(resourceID);
+            resultStateVO = ResultStateUtil.create(0, "资源获取成功!", outResourceVO);
         } catch (Exception e) {
             logger.error("资源获取失败", e);
             resultStateVO = ResultStateUtil.create(1, "资源获取失败!");
@@ -108,13 +112,13 @@ public class ResourceController {
     /**
      * 资源更新
      *
-     * @param updateParamVO 入参VO
+     * @param inUpdateVO 入参VO
      * @return ResultStateVO执行反馈
      */
     @RequestMapping(value = "/resource/update", method = RequestMethod.POST)
-    public ResultStateVO update(UpdateParamVO updateParamVO) {
+    public ResultStateVO update(InUpdateVO inUpdateVO) {
         ResultStateVO resultStateVO;
-        if (resourceService.update(updateParamVO)) {
+        if (resourceService.update(inUpdateVO)) {
             resultStateVO = ResultStateUtil.create(0, "资源更新成功!");
         } else {
             resultStateVO = ResultStateUtil.create(1, "资源更新失败!");
@@ -139,11 +143,11 @@ public class ResourceController {
      * @param parentID 父ID
      * @return ResultStateVO执行反馈
      */
-    @RequestMapping(value = "/resource/findAllByParentID", method = RequestMethod.POST)
-    public ResultStateVO findAllByParentID(String parentID) {
+    @RequestMapping(value = "/resource/listByParentID", method = RequestMethod.POST)
+    public ResultStateVO listByParentID(String parentID) {
         ResultStateVO resultStateVO;
         try {
-            List<Resource> result = resourceService.findAllByParentID(parentID);
+            List<Resource> result = resourceService.listByParentID(parentID);
             resultStateVO = ResultStateUtil.create(0, "资源获取成功!", result);
         } catch (Exception e) {
             logger.error("资源获取失败", e);
@@ -157,36 +161,16 @@ public class ResourceController {
      *
      * @return ResultStateVO
      */
-    @RequestMapping(value = "/resource/getResourceType", method = RequestMethod.POST)
-    public ResultStateVO getResourceType() {
+    @RequestMapping(value = "/resource/listResourceType", method = RequestMethod.POST)
+    public ResultStateVO listResourceType() {
         ResultStateVO resultStateVO;
         try {
-            List<String> result = resourceService.getResourceType();
+            List<String> result = resourceService.listResourceType();
             resultStateVO = ResultStateUtil.create(0, "获取资源类型成功!", result);
         } catch (Exception e) {
             logger.error("获取资源类型失败!", e);
             resultStateVO = ResultStateUtil.create(1, "获取资源类型失败!");
         }
         return resultStateVO;
-    }
-
-    /**
-     * 获取登录用户授权访问的URL列表
-     *
-     * @return List<String>
-     */
-    @RequestMapping(value = "/getAuthResourceUrl", method = RequestMethod.POST)
-    public List<String> getAuthResourceUrl(String userID) {
-        return resourceService.findAuthUrl(userID);
-    }
-
-    /**
-     * 获取全部资源配置url列表
-     *
-     * @return List<String>
-     */
-    @RequestMapping(value = "/getAllResourceUrl", method = RequestMethod.POST)
-    List<String> getAllResourceUrl() {
-        return resourceService.findAllResourceUrl();
     }
 }
