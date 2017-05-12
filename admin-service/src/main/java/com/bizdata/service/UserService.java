@@ -4,9 +4,9 @@ import com.bizdata.po.User;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
 import com.bizdata.result.ResultStateVO;
-import com.bizdata.vo.user.UserCreateParamVO;
-import com.bizdata.vo.user.UserReadSearchParamVO;
-import com.bizdata.vo.user.UserUpdateParamVO;
+import com.bizdata.controller.user.vo.in.InSaveVO;
+import com.bizdata.controller.user.vo.in.InSearchVO;
+import com.bizdata.controller.user.vo.in.InUpdateVO;
 import org.springframework.data.domain.Page;
 
 /**
@@ -34,18 +34,18 @@ public interface UserService {
     ResultStateVO logout(String token);
 
     /**
-     * 执行创建用户操作
+     * 用户新增
      *
-     * @param vo     用户
-     * @param userID 用户ID用于设置creator
-     * @return BoolState执行反馈
+     * @param inSaveVO 入参VO
+     * @param userID   创建者ID
+     * @return boolean
      */
-    ResultStateVO create(UserCreateParamVO vo, String userID);
+    boolean save(InSaveVO inSaveVO, String userID);
 
     /**
      * 执行用户删除操作
      *
-     * @param currentUserID
+     * @param currentUserID 当前用户ID
      * @param userID        用户ID
      * @return boolean执行反馈
      */
@@ -54,20 +54,20 @@ public interface UserService {
     /**
      * 执行用户更新操作
      *
-     * @param userUpdateParamVO User类型对象
+     * @param inUpdateVO User类型对象
      * @return boolean执行反馈
      */
-    ResultStateVO update(UserUpdateParamVO userUpdateParamVO);
+    ResultStateVO update(InUpdateVO inUpdateVO);
 
     /**
      * 执行分页查询用户
      *
      * @param jpaPageInputVO        分页参数VO
      * @param jpaSortParamVO        排序入参VO
-     * @param userReadSearchParamVO 查询条件VO
+     * @param inSearchVO 查询条件VO
      * @return Page类型用户数据
      */
-    Page<User> findAll(JpaPageParamVO jpaPageInputVO, JpaSortParamVO jpaSortParamVO, UserReadSearchParamVO userReadSearchParamVO);
+    Page<User> list(JpaPageParamVO jpaPageInputVO, JpaSortParamVO jpaSortParamVO, InSearchVO inSearchVO);
 
     /**
      * 根据用户ID获取用户信息
@@ -75,7 +75,7 @@ public interface UserService {
      * @param userID 用户ID
      * @return User
      */
-    User findOne(String userID);
+    User getByID(String userID);
 
     /**
      * 验证用户名是否重复
@@ -88,10 +88,10 @@ public interface UserService {
     /**
      * 重置用户密码
      *
-     * @param userID 用户ID
+     * @param userID   用户ID
      * @param password 密码
      * @return boolean执行反馈
      */
-    boolean resetPassword(String userID,String password);
+    boolean resetPassword(String userID, String password);
 
 }

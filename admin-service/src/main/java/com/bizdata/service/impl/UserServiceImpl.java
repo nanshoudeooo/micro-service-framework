@@ -10,11 +10,12 @@ import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.UserRoleRelationService;
 import com.bizdata.service.UserService;
 import com.bizdata.token.TokenServiceFeign;
-import com.bizdata.vo.user.UserCreateParamVO;
-import com.bizdata.vo.user.UserLoginResultVO;
-import com.bizdata.vo.user.UserReadSearchParamVO;
-import com.bizdata.vo.user.UserUpdateParamVO;
+import com.bizdata.controller.user.vo.in.InSaveVO;
+import com.bizdata.controller.user.vo.out.OutLoginVO;
+import com.bizdata.controller.user.vo.in.InSearchVO;
+import com.bizdata.controller.user.vo.in.InUpdateVO;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -38,7 +39,7 @@ import java.util.Date;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private Logger logger = org.slf4j.LoggerFactory.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserDao userDao;
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
                     userDao.save(user);
                     //如果正确,使用该user的userid申请token
                     String token = tokenServiceFeign.createToken("admin", user.getId());
-                    resultStateVO = ResultStateUtil.create(0, "登录成功", new UserLoginResultVO(token));
+                    resultStateVO = ResultStateUtil.create(0, "登录成功", new OutLoginVO(token));
                 } else {
                     //账户不可用
                     resultStateVO = ResultStateUtil.create(2, "登录失败,该账户被锁定,请联系管理员");
@@ -97,33 +98,27 @@ public class UserServiceImpl implements UserService {
     @CacheEvict(value = {"adminUserList"}, allEntries = true)
     @Override
     @Transactional
-    public ResultStateVO create(UserCreateParamVO userCreateParamVO, String userID) {
-        ResultStateVO resultStateVO;
-        //VO转PO
-        User userPO = new User();
-        BeanUtils.copyProperties(userCreateParamVO, userPO);
-        userPO.setCreateTime(new Date());
-        userPO.setLastLoginTime(new Date());
-        userPO.setLastUpdateTime(new Date());
-        userPO.setCreator(userID);
-        userPO.setAvailable(true);
+    public boolean save(InSaveVO inSaveVO, String userID) {
+        boolean state;
         try {
-            //首先判断该用户是否存在
-            if (checkUsernameNotExist(userPO.getUsername())) {
-                //如果不存在
-                //设置用户密码md5加密
-                String md5Pwd = DigestUtils.md5DigestAsHex(userPO.getPassword().getBytes());
-                userPO.setPassword(md5Pwd);
-                userDao.save(userPO);
-                resultStateVO = ResultStateUtil.create(0, "用户创建成功!");
-            } else {
-                resultStateVO = ResultStateUtil.create(1, "该用户名已经存在,请确保用户名未被占用!");
-            }
+            //VO转PO
+            User userPO = new User();
+            BeanUtils.copyProperties(inSaveVO, userPO);
+            userPO.setCreateTime(new Date());
+            userPO.setLastLoginTime(new Date());
+            userPO.setLastUpdateTime(new Date());
+            userPO.setCreator(userID);
+            userPO.setAvailable(true);
+            //设置用户密码md5加密
+            String md5Pwd = DigestUtils.md5DigestAsHex(userPO.getPassword().getBytes());
+            userPO.setPassword(md5Pwd);
+            userDao.save(userPO);
+            state = true;
         } catch (Exception ex) {
             logger.error("创建用户失败", ex);
-            resultStateVO = ResultStateUtil.create(2, "用户创建失败");
+            state = false;
         }
-        return resultStateVO;
+        return state;
     }
 
     @CacheEvict(value = "adminUserList", allEntries = true)
@@ -155,12 +150,12 @@ public class UserServiceImpl implements UserService {
 
     @CacheEvict(value = "adminUserList", allEntries = true)
     @Override
-    public ResultStateVO update(UserUpdateParamVO userUpdateParamVO) {
+    public ResultStateVO update(InUpdateVO inUpdateVO) {
         ResultStateVO resultStateVO;
         try {
             //查询出原用户
-            User userPO = userDao.findOne(userUpdateParamVO.getId());
-            BeanCopyUtil.copyProperties(userUpdateParamVO, userPO);
+            User userPO = userDao.findOne(inUpdateVO.getId());
+            BeanCopyUtil.copyProperties(inUpdateVO, userPO);
             userPO.setLastUpdateTime(new Date());
             userDao.save(userPO);
             resultStateVO = ResultStateUtil.create(0, "用户更新成功!");
@@ -173,17 +168,17 @@ public class UserServiceImpl implements UserService {
 
     @Cacheable(value = "adminUserList")
     @Override
-    public Page<User> findAll(JpaPageParamVO jpaPageParamVO, JpaSortParamVO jpaSortParamVO, UserReadSearchParamVO userReadSearchParamVO) {
+    public Page<User> list(JpaPageParamVO jpaPageParamVO, JpaSortParamVO jpaSortParamVO, InSearchVO inSearchVO) {
         Page<User> page = null;
         Specification specification = null;
         try {
-            if (!StringUtils.isEmpty(userReadSearchParamVO.getUsername())) {
+            if (!StringUtils.isEmpty(inSearchVO.getUsername())) {
                 //如果查询条件用户名不为空
                 specification = new Specification() {
                     @Override
                     public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
                         Path<String> username = root.get("username");
-                        query.where(cb.like(username, "%" + userReadSearchParamVO.getUsername() + "%"));
+                        query.where(cb.like(username, "%" + inSearchVO.getUsername() + "%"));
                         return null;
                     }
                 };
@@ -196,7 +191,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(String userID) {
+    public User getByID(String userID) {
         User user = userDao.findOne(userID);
         return user;
     }
