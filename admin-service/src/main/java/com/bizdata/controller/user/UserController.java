@@ -148,7 +148,7 @@ public class UserController {
      * @return ResultStateVO类型执行反馈
      */
     @RequestMapping(value = "/user/getByID", method = RequestMethod.POST)
-    public ResultStateVO getByID(@Validated(ValidGroupReadByUserID.class) InGetByIdVO inGetByIdVO) {
+    public ResultStateVO getByID(@Validated(ValidGroupGetByID.class) InGetByIdVO inGetByIdVO) {
         ResultStateVO resultStateVO;
         try {
             User userPO = userService.getByID(inGetByIdVO.getId());
