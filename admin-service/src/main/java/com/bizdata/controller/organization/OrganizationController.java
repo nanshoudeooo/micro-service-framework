@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 组织机构Controller
  * <p>
@@ -96,6 +98,24 @@ public class OrganizationController {
             resultStateVO = ResultStateUtil.create(0, "组织机构删除成功!");
         } else {
             resultStateVO = ResultStateUtil.create(1, "组织机构删除失败!");
+        }
+        return resultStateVO;
+    }
+
+    /**
+     * 查询组织机构列表
+     *
+     * @return ResultStateVO
+     * @see OutOrganizationVO
+     */
+    @RequestMapping(value = "/organization/list", method = RequestMethod.POST)
+    public ResultStateVO list() {
+        ResultStateVO resultStateVO;
+        List<OutOrganizationVO> outOrganizationVOs = organizationService.list();
+        if (null != outOrganizationVOs) {
+            resultStateVO = ResultStateUtil.create(0, "查询组织机构列表成功!", outOrganizationVOs);
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "查询组织机构列表失败!");
         }
         return resultStateVO;
     }
