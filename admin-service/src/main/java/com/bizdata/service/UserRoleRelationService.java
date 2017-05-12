@@ -14,7 +14,7 @@ public interface UserRoleRelationService {
      * @param userIDs 用户ID列表
      * @return boolean
      */
-    boolean build(String roleID, String[] userIDs);
+//    boolean build(String roleID, String[] userIDs);
 
     /**
      * 根据用户ID删除用户角色关系
@@ -23,5 +23,23 @@ public interface UserRoleRelationService {
      * @return boolean
      */
     boolean deleteByUserID(String userID);
+
+    /**
+     * 新增用户角色关系
+     *
+     * @param roleID  角色ID
+     * @param userIDs 用户ID列表
+     * @return boolean
+     */
+    boolean save(String roleID, String[] userIDs);
+
+    /**
+     * 删除用户角色关系
+     *
+     * @param roleID  角色ID
+     * @param userIDs 用户ID列表
+     * @return boolean
+     */
+    boolean delete(String roleID, String[] userIDs);
 
 }
