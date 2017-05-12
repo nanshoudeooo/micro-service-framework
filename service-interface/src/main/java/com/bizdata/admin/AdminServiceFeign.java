@@ -15,9 +15,9 @@ import java.util.List;
 @FeignClient(value = "admin-service")
 public interface AdminServiceFeign {
 
-    @RequestMapping(value = "/getAuthResourceUrl", method = RequestMethod.POST)
-    List<String> getAuthResourceUrl(@RequestParam("userID") String userID);
+    @RequestMapping(value = "/listAuthUrl", method = RequestMethod.POST)
+    List<String> listAuthUrl(@RequestParam("userID") String userID);
 
-    @RequestMapping(value = "/getAllResourceUrl", method = RequestMethod.POST)
-    List<String> getAllResourceUrl();
+    @RequestMapping(value = "/listResourceUrl", method = RequestMethod.POST)
+    List<String> listResourceUrl();
 }
