@@ -1,19 +1,16 @@
-package com.bizdata.controller;
+package com.bizdata.controller.user;
 
-import com.bizdata.po.User;
+import com.bizdata.controller.user.vo.in.*;
+import com.bizdata.controller.user.vo.in.valid.group.*;
+import com.bizdata.controller.user.vo.out.OutUserVO;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaPageResultVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
+import com.bizdata.po.User;
 import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.UserService;
-import com.bizdata.vo.user.*;
-import com.bizdata.vo.user.valid.create.ValidGroupUserCreate;
-import com.bizdata.vo.user.valid.delete.ValidGroupUserDelete;
-import com.bizdata.vo.user.valid.login.ValidGroupUserLogin;
-import com.bizdata.vo.user.valid.read.ValidGroupReadByUserID;
-import com.bizdata.vo.user.valid.update.ValidGroupUserUpdate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -37,13 +34,12 @@ public class UserController {
     /**
      * 执行登录操作
      *
-     * @param userLoginParamVO 用户登录入参VO
+     * @param inLoginVO 用户登录入参VO
      * @return ResultStateVO类型执行反馈
      */
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    public ResultStateVO login(@Validated({ValidGroupUserLogin.class}) UserLoginParamVO userLoginParamVO) {
-        //TODO 设置权限
-        return userService.login(userLoginParamVO.getUsername(), userLoginParamVO.getPassword());
+    public ResultStateVO login(@Validated({ValidGroupLogin.class}) InLoginVO inLoginVO) {
+        return userService.login(inLoginVO.getUsername(), inLoginVO.getPassword());
     }
 
     /**
@@ -60,38 +56,45 @@ public class UserController {
     /**
      * 用户新增
      *
-     * @param userCreateParamVO 用户创建入参VO
-     * @param request           用于获取header携带token
+     * @param inSaveVO 用户创建入参VO
+     * @param request  用于获取header携带token
      * @return ResultStateVO类型执行反馈
      */
-    @RequestMapping(value = "/user/create", method = RequestMethod.POST)
-    public ResultStateVO create(@Validated(ValidGroupUserCreate.class) UserCreateParamVO userCreateParamVO, HttpServletRequest request) {
+    @RequestMapping(value = "/user/save", method = RequestMethod.POST)
+    public ResultStateVO save(@Validated(ValidGroupSave.class) InSaveVO inSaveVO, HttpServletRequest request) {
+        ResultStateVO resultStateVO;
         String userID = IdentityUtil.getUserID(request);
-        return userService.create(userCreateParamVO, userID);
+        boolean state = userService.save(inSaveVO, userID);
+        if (state) {
+            resultStateVO = ResultStateUtil.create(0, "用户创建成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "用户创建失败!");
+        }
+        return resultStateVO;
     }
 
     /**
      * 根据用户id删除用户
      *
-     * @param userDeleteParamVO 用户删除入参VO
-     * @param request           用于获取header携带token
+     * @param inDeleteVO 用户删除入参VO
+     * @param request    用于获取header携带token
      * @return ResultStateVO类型执行反馈
      */
     @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
-    public ResultStateVO delete(@Validated({ValidGroupUserDelete.class}) UserDeleteParamVO userDeleteParamVO, HttpServletRequest request) {
+    public ResultStateVO delete(@Validated({ValidGroupDelete.class}) InDeleteVO inDeleteVO, HttpServletRequest request) {
         String currentUserID = IdentityUtil.getUserID(request);
-        return userService.delete(currentUserID, userDeleteParamVO.getId());
+        return userService.delete(currentUserID, inDeleteVO.getId());
     }
 
     /**
      * 更新user
      *
-     * @param userUpdateParamVO 用户更新入参VO
+     * @param inUpdateVO 用户更新入参VO
      * @return ResultStateVO类型执行反馈
      */
     @RequestMapping(value = "/user/update", method = RequestMethod.POST)
-    public ResultStateVO update(@Validated(ValidGroupUserUpdate.class) UserUpdateParamVO userUpdateParamVO) {
-        return userService.update(userUpdateParamVO);
+    public ResultStateVO update(@Validated(ValidGroupUpdate.class) InUpdateVO inUpdateVO) {
+        return userService.update(inUpdateVO);
     }
 
     /**
@@ -101,12 +104,12 @@ public class UserController {
      * @param jpaSortParamVO 排序入参VO
      * @return ResultStateVO类型执行反馈
      */
-    @RequestMapping(value = "/user/read", method = RequestMethod.POST)
-    public ResultStateVO read(@Validated JpaPageParamVO jpaPageParamVO, @Validated JpaSortParamVO jpaSortParamVO, UserReadSearchParamVO userReadSearchParamVO) {
+    @RequestMapping(value = "/user/list", method = RequestMethod.POST)
+    public ResultStateVO list(@Validated JpaPageParamVO jpaPageParamVO, @Validated JpaSortParamVO jpaSortParamVO, InSearchVO inSearchVO) {
         ResultStateVO resultStateVO;
-        Page<User> page = userService.findAll(jpaPageParamVO, jpaSortParamVO, userReadSearchParamVO);
+        Page<User> page = userService.list(jpaPageParamVO, jpaSortParamVO, inSearchVO);
         if (null != page) {
-            resultStateVO = ResultStateUtil.create(0, "查询用户成功!", new JpaPageResultVO(page, UserReadResultVO.class));
+            resultStateVO = ResultStateUtil.create(0, "查询用户成功!", new JpaPageResultVO(page, OutUserVO.class));
         } else {
             resultStateVO = ResultStateUtil.create(1, "查询用户失败!");
         }
@@ -122,12 +125,12 @@ public class UserController {
     public ResultStateVO readSelf(HttpServletRequest request) {
         ResultStateVO resultStateVO;
         try {
-            User userPO = userService.findOne(IdentityUtil.getUserID(request));
+            User userPO = userService.getByID(IdentityUtil.getUserID(request));
             if (null == userPO) {
                 //如果不存在该用户
                 resultStateVO = ResultStateUtil.create(1, "查询不到该用户");
             } else {
-                UserReadResultVO userReadResultVO = new UserReadResultVO();
+                OutUserVO userReadResultVO = new OutUserVO();
                 BeanUtils.copyProperties(userPO, userReadResultVO);
                 resultStateVO = ResultStateUtil.create(0, "读取登录用户信息成功!", userReadResultVO);
             }
@@ -141,19 +144,19 @@ public class UserController {
     /**
      * 根据ID获取用户信息
      *
-     * @param userReadByUserIDVO 入参VO
+     * @param inGetByIdVO 入参VO
      * @return ResultStateVO类型执行反馈
      */
-    @RequestMapping(value = "/user/readByUserID", method = RequestMethod.POST)
-    public ResultStateVO readByUserID(@Validated(ValidGroupReadByUserID.class) UserReadByUserIDVO userReadByUserIDVO) {
+    @RequestMapping(value = "/user/getByID", method = RequestMethod.POST)
+    public ResultStateVO getByID(@Validated(ValidGroupReadByUserID.class) InGetByIdVO inGetByIdVO) {
         ResultStateVO resultStateVO;
         try {
-            User userPO = userService.findOne(userReadByUserIDVO.getId());
+            User userPO = userService.getByID(inGetByIdVO.getId());
             if (null == userPO) {
                 //如果不存在该用户
                 resultStateVO = ResultStateUtil.create(1, "根据ID查询用户信息失败,不存在该用户!");
             } else {
-                UserReadResultVO userReadResultVO = new UserReadResultVO();
+                OutUserVO userReadResultVO = new OutUserVO();
                 BeanUtils.copyProperties(userPO, userReadResultVO);
                 resultStateVO = ResultStateUtil.create(0, "根据ID查询用户信息成功!", userReadResultVO);
             }
