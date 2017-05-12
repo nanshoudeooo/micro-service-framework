@@ -1,4 +1,4 @@
-package com.bizdata.feign;
+package com.bizdata.provider;
 
 import com.bizdata.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
  * Created by sdevil507 on 2017/5/12.
  */
 @RestController
-public class ResourceFeign {
+public class ResourceProvider {
 
     @Autowired
     private ResourceService resourceService;
