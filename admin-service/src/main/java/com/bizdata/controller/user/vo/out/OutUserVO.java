@@ -1,14 +1,14 @@
-package com.bizdata.vo.user;
+package com.bizdata.controller.user.vo.out;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * 用户列表操作结果VO
+ * 用户结果详情VO
  * <p>
  * Created by sdevil507 on 2017/4/13.
  */
-public class UserReadResultVO {
+public class OutUserVO {
 
     /**
      * id
@@ -19,6 +19,11 @@ public class UserReadResultVO {
      * 用户名
      */
     private String username;
+
+    /**
+     * 真实姓名
+     */
+    private String realName;
 
     /**
      * 密码
@@ -125,5 +130,13 @@ public class UserReadResultVO {
 
     public void setBuiltIn(boolean builtIn) {
         this.builtIn = builtIn;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

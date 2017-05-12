@@ -1,6 +1,6 @@
-package com.bizdata.vo.user;
+package com.bizdata.controller.user.vo.in;
 
-import com.bizdata.vo.user.valid.ValidFieldID;
+import com.bizdata.controller.user.vo.in.valid.field.ValidFieldID;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * <p>
  * Created by sdevil507 on 2017/4/20.
  */
-public class UserReadByUserIDVO {
+public class InGetByIdVO {
 
     /**
      * 用户ID

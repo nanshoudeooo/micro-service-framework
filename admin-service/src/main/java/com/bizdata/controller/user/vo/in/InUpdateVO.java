@@ -1,18 +1,15 @@
-package com.bizdata.vo.user;
+package com.bizdata.controller.user.vo.in;
 
-import com.bizdata.vo.user.valid.*;
+import com.bizdata.controller.user.vo.in.valid.field.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * 用户更新操作入参VO
  * <p>
  * Created by sdevil507 on 2017/4/13.
  */
-public class UserUpdateParamVO {
+public class InUpdateVO {
 
     /**
      * id
@@ -25,6 +22,12 @@ public class UserUpdateParamVO {
      */
     @NotBlank(message = "用户名不可以为空", groups = {ValidFieldUsername.class})
     private String username;
+
+    /**
+     * 真实姓名
+     */
+    @NotBlank(message = "真实姓名不可为空!", groups = {ValidFieldRealName.class})
+    private String realName;
 
     /**
      * 密码
@@ -81,5 +84,13 @@ public class UserUpdateParamVO {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

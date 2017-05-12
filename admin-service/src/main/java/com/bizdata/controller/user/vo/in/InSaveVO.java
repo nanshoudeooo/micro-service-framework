@@ -1,22 +1,20 @@
-package com.bizdata.vo.user;
+package com.bizdata.controller.user.vo.in;
 
-import com.bizdata.vo.user.valid.ValidFieldEmail;
-import com.bizdata.vo.user.valid.ValidFieldPassword;
-import com.bizdata.vo.user.valid.ValidFieldRoleIds;
-import com.bizdata.vo.user.valid.ValidFieldUsername;
+import com.bizdata.controller.user.vo.in.valid.field.ValidFieldEmail;
+import com.bizdata.controller.user.vo.in.valid.field.ValidFieldPassword;
+import com.bizdata.controller.user.vo.in.valid.field.ValidFieldRealName;
+import com.bizdata.controller.user.vo.in.valid.field.ValidFieldUsername;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.List;
 
 /**
- * 创建用户入参VO
+ * 用户创建入参VO
  * <p>
  * Created by sdevil507 on 2017/4/13.
  */
-public class UserCreateParamVO {
+public class InSaveVO {
 
     /**
      * 用户名
@@ -24,6 +22,9 @@ public class UserCreateParamVO {
     @NotBlank(message = "必须英文字母开头,包含英文或数字,至少4位最多20位!", groups = {ValidFieldUsername.class})
     @Pattern(regexp = "[a-zA-Z][a-zA-Z0-9]{3,19}", message = "必须英文字母开头,包含英文或数字,至少4位最多20位!", groups = {ValidFieldUsername.class})
     private String username;
+
+    @NotBlank(message = "真实姓名不可为空!", groups = {ValidFieldRealName.class})
+    private String realName;
 
     /**
      * 密码
@@ -60,5 +61,13 @@ public class UserCreateParamVO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

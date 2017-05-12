@@ -1,11 +1,11 @@
-package com.bizdata.vo.user;
+package com.bizdata.controller.user.vo.in;
 
 /**
  * 用户查询VO
  * <p>
  * Created by sdevil507 on 2017/4/21.
  */
-public class UserReadSearchParamVO {
+public class InSearchVO {
     /**
      * 用户名
      */
@@ -21,7 +21,7 @@ public class UserReadSearchParamVO {
 
     @Override
     public String toString() {
-        return "UserReadSearchParamVO{" +
+        return "InSearchVO{" +
                 "username='" + username + '\'' +
                 '}';
     }
