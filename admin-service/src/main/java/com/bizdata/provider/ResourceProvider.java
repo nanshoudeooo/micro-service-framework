@@ -35,7 +35,7 @@ public class ResourceProvider {
      * @return List<String>
      */
     @RequestMapping(value = "/listResourceUrl", method = RequestMethod.POST)
-    List<String> listResourceUrl() {
+    public List<String> listResourceUrl() {
         return resourceService.listResourceUrl();
     }
 }
