@@ -30,6 +30,12 @@ public class User extends JpaBaseEntity {
     private String password;
 
     /**
+     * 真实姓名
+     */
+    @Column(nullable = false)
+    private String realName;
+
+    /**
      * 邮箱
      */
     @Column
@@ -141,5 +147,13 @@ public class User extends JpaBaseEntity {
 
     public void setBuiltIn(boolean builtIn) {
         this.builtIn = builtIn;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }
