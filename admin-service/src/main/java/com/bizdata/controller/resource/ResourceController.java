@@ -173,4 +173,15 @@ public class ResourceController {
         }
         return resultStateVO;
     }
+
+    /**
+     * 获取所有资源并标记被授权的资源
+     *
+     * @param roleID 角色ID
+     * @return ResultStateVO
+     */
+    @RequestMapping(value = "/resource/listCheckedResourceByRoleID", method = RequestMethod.POST)
+    public ResultStateVO listCheckedResourceByRoleID(String roleID) {
+        return resourceService.listCheckedResourceByRoleID(roleID);
+    }
 }

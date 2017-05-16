@@ -96,4 +96,12 @@ public interface ResourceService {
      * @return ResultStateVO
      */
     ResultStateVO delete(String resourceID);
+
+    /**
+     * 根据roleID获取该角色已经选中的资源
+     *
+     * @param roleID 角色ID
+     * @return ResultStateVO
+     */
+    ResultStateVO listCheckedResourceByRoleID(String roleID);
 }

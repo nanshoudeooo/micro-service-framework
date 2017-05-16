@@ -44,4 +44,5 @@ public interface ResourceDao extends JpaBaseRepository<Resource, String> {
      * @return List<Resource>
      */
     List<Resource> findByParentOrderBySortNumAsc(String parent);
+
 }

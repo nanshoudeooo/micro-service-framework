@@ -1,6 +1,7 @@
 package com.bizdata.service.impl;
 
 import com.bizdata.common.ResourceType;
+import com.bizdata.controller.resource.vo.out.OutResourceIncludeCheckedVO;
 import com.bizdata.dao.ResourceDao;
 import com.bizdata.dao.RoleResourceRelationDao;
 import com.bizdata.dao.UserRoleRelationDao;
@@ -19,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -71,7 +73,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<Resource> listByResourceTypeAndDir(ResourceType resourceType, boolean dir) {
-        if (false == dir) {
+        if (!dir) {
             return resourceDao.findByResourceType(resourceType);
         }
         return resourceDao.findByResourceTypeAndDir(resourceType, dir);
@@ -240,6 +242,37 @@ public class ResourceServiceImpl implements ResourceService {
         } catch (Exception e) {
             logger.error("删除资源失败", e);
             resultStateVO = ResultStateUtil.create(3, "删除资源失败");
+        }
+        return resultStateVO;
+    }
+
+    @Override
+    @Transactional
+    public ResultStateVO listCheckedResourceByRoleID(String roleID) {
+        ResultStateVO resultStateVO;
+        try {
+            //获取所有资源
+            List<Resource> resources = resourceDao.findAll();
+            //根据角色资源关系获取选中的资源
+            List<RoleResourceRelation> roleResourceRelations = roleResourceRelationDao.findAllByRoleID(roleID);
+            //封装返回数据
+            List<OutResourceIncludeCheckedVO> outResourceIncludeCheckedVOs = new ArrayList<>();
+            for (Resource resource : resources) {
+                boolean checked = false;
+                for (RoleResourceRelation roleResourceRelation : roleResourceRelations) {
+                    if (resource.getId().equals(roleResourceRelation.getResourceID())) {
+                        checked = true;
+                    }
+                }
+                OutResourceIncludeCheckedVO outResourceIncludeCheckedVO = new OutResourceIncludeCheckedVO();
+                BeanUtils.copyProperties(resource, outResourceIncludeCheckedVO);
+                outResourceIncludeCheckedVO.setChecked(checked);
+                outResourceIncludeCheckedVOs.add(outResourceIncludeCheckedVO);
+            }
+            resultStateVO = ResultStateUtil.create(0, "根据RoleID获取资源信息成功!", outResourceIncludeCheckedVOs);
+        } catch (Exception e) {
+            logger.error("根据RoleID获取资源失败!", e);
+            resultStateVO = ResultStateUtil.create(1, "根据RoleID获取资源失败!");
         }
         return resultStateVO;
     }
