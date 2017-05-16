@@ -23,18 +23,18 @@ public class TokenController {
      * 传入用户id,创建token
      *
      * @param userID 用户ID
-     * @return
+     * @return String类型token值
      */
     @RequestMapping(value = "/createToken", method = RequestMethod.POST)
-    public String createToken(@RequestParam("prefix") String prefix,@RequestParam("userID") String userID) {
-        return tokenService.createToken(prefix,userID);
+    public String createToken(@RequestParam("prefix") String prefix, @RequestParam("userID") String userID) {
+        return tokenService.createToken(prefix, userID);
     }
 
     /**
      * 移除token
      *
      * @param token token
-     * @return
+     * @return boolean执行反馈
      */
     @RequestMapping(value = "/removeToken", method = RequestMethod.POST)
     public boolean removeToken(@RequestParam("token") String token) {
@@ -45,7 +45,7 @@ public class TokenController {
      * token自动续租
      *
      * @param token token
-     * @return
+     * @return boolean执行反馈
      */
     @RequestMapping(value = "/autopay", method = RequestMethod.POST)
     public boolean tokenAutoPay(@RequestParam("token") String token) {
@@ -56,24 +56,22 @@ public class TokenController {
      * 根据token获取userID
      *
      * @param token token
-     * @return
+     * @return String类型UserID
      */
     @RequestMapping(value = "/getUserId", method = RequestMethod.POST)
     public String getUserIdByToken(@RequestParam("token") String token) {
-        String userID = tokenService.getUserID(token);
-        return userID;
+        return tokenService.getUserID(token);
     }
 
     /**
      * 判断token是否存在
      *
      * @param token token
-     * @return
+     * @return boolean执行反馈
      */
     @RequestMapping(value = "/exist", method = RequestMethod.POST)
     public boolean checkTokenExist(@RequestParam("token") String token) {
-        boolean state = tokenService.checkTokenExist(token);
-        return state;
+        return tokenService.checkTokenExist(token);
     }
 
 }

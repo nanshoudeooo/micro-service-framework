@@ -20,7 +20,7 @@ public interface TokenService {
      * 注销token
      *
      * @param tokenID tokenID
-     * @return
+     * @return boolean执行反馈
      */
     boolean removeToken(String tokenID);
 
@@ -28,7 +28,7 @@ public interface TokenService {
      * token时间续租
      *
      * @param token token
-     * @return
+     * @return boolean执行反馈
      */
     boolean tokenAutoPay(String token);
 
@@ -36,7 +36,7 @@ public interface TokenService {
      * 根据token获取userID
      *
      * @param token token
-     * @return
+     * @return String类型UserID
      */
     String getUserID(String token);
 
@@ -44,7 +44,7 @@ public interface TokenService {
      * 判断token是否存在
      *
      * @param token token
-     * @return
+     * @return boolean执行反馈
      */
     boolean checkTokenExist(String token);
 
