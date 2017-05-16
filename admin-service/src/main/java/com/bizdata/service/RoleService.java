@@ -73,16 +73,18 @@ public interface RoleService {
      *
      * @param roleID         角色ID
      * @param organizationID 组织机构ID
+     * @param words          模糊匹配单词
      * @return List<OutUserVO>
      */
-    List<OutUserVO> listAuthorizedUsersByRoleIDAndOrganizationID(String roleID, String organizationID);
+    List<OutUserVO> listAuthorizedUsersByRoleIDAndOrganizationID(String roleID, String organizationID, String words);
 
     /**
      * 根据角色ID和组织机构ID条件进行用户筛选(未授权)
      *
      * @param roleID         角色ID
      * @param organizationID 组织机构ID
+     * @param words          模糊匹配单词
      * @return List<OutUserVO>
      */
-    List<OutUserVO> listUnauthorizedUsersByRoleIDAndOrganizationID(String roleID, String organizationID);
+    List<OutUserVO> listUnauthorizedUsersByRoleIDAndOrganizationID(String roleID, String organizationID, String words);
 }

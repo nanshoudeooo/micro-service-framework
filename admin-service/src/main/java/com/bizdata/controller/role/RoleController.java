@@ -137,12 +137,13 @@ public class RoleController {
      *
      * @param roleID         角色ID
      * @param organizationID 组织机构ID
+     * @param words          模糊匹配单词
      * @return ResultStateVO
      */
     @RequestMapping(value = "/role/listAuthorizedUsers", method = RequestMethod.POST)
-    public ResultStateVO listAuthorizedUsers(String roleID, String organizationID) {
+    public ResultStateVO listAuthorizedUsers(String roleID, String organizationID, String words) {
         ResultStateVO resultStateVO;
-        List<OutUserVO> outUserVOs = roleService.listAuthorizedUsersByRoleIDAndOrganizationID(roleID, organizationID);
+        List<OutUserVO> outUserVOs = roleService.listAuthorizedUsersByRoleIDAndOrganizationID(roleID, organizationID, words);
         if (null != outUserVOs) {
             resultStateVO = ResultStateUtil.create(0, "获取已授权用户列表成功!", outUserVOs);
         } else {
@@ -156,12 +157,13 @@ public class RoleController {
      *
      * @param roleID         角色ID
      * @param organizationID 组织机构ID
+     * @param words          模糊匹配单词
      * @return ResultStateVO
      */
     @RequestMapping(value = "/role/listUnauthorizedUsers", method = RequestMethod.POST)
-    public ResultStateVO listUnauthorizedUsers(String roleID, String organizationID) {
+    public ResultStateVO listUnauthorizedUsers(String roleID, String organizationID, String words) {
         ResultStateVO resultStateVO;
-        List<OutUserVO> outUserVOs = roleService.listUnauthorizedUsersByRoleIDAndOrganizationID(roleID, organizationID);
+        List<OutUserVO> outUserVOs = roleService.listUnauthorizedUsersByRoleIDAndOrganizationID(roleID, organizationID, words);
         if (null != outUserVOs) {
             resultStateVO = ResultStateUtil.create(0, "获取已授权用户列表成功!", outUserVOs);
         } else {

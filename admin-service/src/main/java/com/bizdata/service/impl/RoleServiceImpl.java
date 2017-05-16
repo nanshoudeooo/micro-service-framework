@@ -137,7 +137,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<OutUserVO> listAuthorizedUsersByRoleIDAndOrganizationID(String roleID, String organizationID) {
+    public List<OutUserVO> listAuthorizedUsersByRoleIDAndOrganizationID(String roleID, String organizationID, String words) {
         List<OutUserVO> outUserVOs;
         try {
             //根据角色ID获取该角色下用户列表
@@ -148,7 +148,7 @@ public class RoleServiceImpl implements RoleService {
             }
             if (StringUtils.isEmpty(organizationID)) {
                 //如果未传递组织机构ID条件,直接返回该角色下用户
-                List<User> users = userDao.findByIdIn(userRoleIds);
+                List<User> users = usernameOrRealNameLike(userDao.findByIdIn(userRoleIds), words);
                 outUserVOs = JpaListPO2VO.convert(users, OutUserVO.class);
             } else {
                 //如果包含组织机构ID条件
@@ -163,7 +163,7 @@ public class RoleServiceImpl implements RoleService {
                     }
                 }
                 //根据交集ID列表返回用户列表
-                List<User> users = userDao.findByIdIn(intersectionIds);
+                List<User> users = usernameOrRealNameLike(userDao.findByIdIn(intersectionIds), words);
                 outUserVOs = JpaListPO2VO.convert(users, OutUserVO.class);
             }
         } catch (Exception e) {
@@ -173,8 +173,28 @@ public class RoleServiceImpl implements RoleService {
         return outUserVOs;
     }
 
+    /**
+     * 模糊匹配筛选出符合要求的用户
+     *
+     * @param val 模糊查询条件
+     * @return List<User>
+     */
+    private List<User> usernameOrRealNameLike(List<User> list, String val) {
+        List<User> users = new ArrayList<>();
+        if (StringUtils.isEmpty(val)) {
+            users = list;
+        } else {
+            for (User user : list) {
+                if (user.getUsername().contains(val) || user.getRealName().contains(val)) {
+                    users.add(user);
+                }
+            }
+        }
+        return users;
+    }
+
     @Override
-    public List<OutUserVO> listUnauthorizedUsersByRoleIDAndOrganizationID(String roleID, String organizationID) {
+    public List<OutUserVO> listUnauthorizedUsersByRoleIDAndOrganizationID(String roleID, String organizationID, String words) {
         List<OutUserVO> outUserVOs;
         try {
             //根据角色ID获取该角色下用户列表
@@ -194,9 +214,9 @@ public class RoleServiceImpl implements RoleService {
                 //如果未传递组织机构ID条件,直接返回该角色下未授权用户
                 List<User> users = new ArrayList<>();
                 if (state) {
-                    users = userDao.findByIdNotIn(userRoleIds);
+                    users = usernameOrRealNameLike(userDao.findByIdNotIn(userRoleIds), words);
                 } else {
-                    users = userDao.findAll();
+                    users = usernameOrRealNameLike(userDao.findAll(), words);
                 }
                 outUserVOs = JpaListPO2VO.convert(users, OutUserVO.class);
             } else {
@@ -214,7 +234,7 @@ public class RoleServiceImpl implements RoleService {
                 }
 
                 //根据交集ID列表返回未授权用户列表
-                List<User> users = userDao.findByIdIn(intersectionIds);
+                List<User> users = usernameOrRealNameLike(userDao.findByIdIn(intersectionIds), words);
                 outUserVOs = JpaListPO2VO.convert(users, OutUserVO.class);
             }
         } catch (Exception e) {
