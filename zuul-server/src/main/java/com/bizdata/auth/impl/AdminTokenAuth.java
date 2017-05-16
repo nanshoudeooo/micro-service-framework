@@ -54,7 +54,7 @@ public class AdminTokenAuth extends TokenAuth {
      * @return boolean类型执行结果
      */
     private boolean checkUrlInResourceSetting(String url) {
-        List<String> urls = adminServiceFeign.getAllResourceUrl();
+        List<String> urls = adminServiceFeign.listResourceUrl();
         return false;
     }
 
@@ -66,7 +66,7 @@ public class AdminTokenAuth extends TokenAuth {
      * @return boolean类型执行反馈
      */
     private boolean authUrl(String url, String userID) {
-        List<String> urls = adminServiceFeign.getAuthResourceUrl(userID);
+        List<String> urls = adminServiceFeign.listAuthUrl(userID);
         if (UrlUtil.urlAntPathMatchForPatterns(url, urls)) {
             //如果已授权
             return true;
