@@ -9,6 +9,6 @@ import javax.validation.GroupSequence;
  * <p>
  * Created by sdevil507 on 2017/4/10.
  */
-@GroupSequence({ValidFieldID.class, ValidFieldUsername.class, ValidFieldRealName.class, ValidFieldPassword.class, ValidFieldEmail.class})
+@GroupSequence({ValidFieldID.class, ValidFieldUsername.class, ValidFieldRealName.class, ValidFieldPassword.class, ValidFieldEmail.class,ValidFieldOrganizationID.class})
 public interface ValidGroupUpdate {
 }

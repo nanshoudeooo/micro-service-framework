@@ -1,12 +1,10 @@
 package com.bizdata.controller.user.vo.in;
 
-import com.bizdata.controller.user.vo.in.valid.field.ValidFieldEmail;
-import com.bizdata.controller.user.vo.in.valid.field.ValidFieldPassword;
-import com.bizdata.controller.user.vo.in.valid.field.ValidFieldRealName;
-import com.bizdata.controller.user.vo.in.valid.field.ValidFieldUsername;
+import com.bizdata.controller.user.vo.in.valid.field.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -39,6 +37,12 @@ public class InSaveVO {
     @Email(message = "email格式不合法", groups = {ValidFieldEmail.class})
     private String email;
 
+    /**
+     * 组织机构ID列表
+     */
+    @NotNull(message = "组织机构ID不可为空", groups = {ValidFieldOrganizationID.class})
+    private String[] organizationIDs;
+
     public String getUsername() {
         return username;
     }
@@ -69,5 +73,13 @@ public class InSaveVO {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String[] getOrganizationIDs() {
+        return organizationIDs;
+    }
+
+    public void setOrganizationIDs(String[] organizationIDs) {
+        this.organizationIDs = organizationIDs;
     }
 }

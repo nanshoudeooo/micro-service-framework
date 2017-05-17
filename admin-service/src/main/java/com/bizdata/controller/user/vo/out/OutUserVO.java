@@ -60,6 +60,11 @@ public class OutUserVO {
      */
     private boolean builtIn;
 
+    /**
+     * 所属组织机构列表
+     */
+    private List<OutIncludedOrganizationVO> outIncludedOrganizationVOs;
+
     public String getId() {
         return id;
     }
@@ -138,5 +143,13 @@ public class OutUserVO {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public List<OutIncludedOrganizationVO> getOutIncludedOrganizationVOs() {
+        return outIncludedOrganizationVOs;
+    }
+
+    public void setOutIncludedOrganizationVOs(List<OutIncludedOrganizationVO> outIncludedOrganizationVOs) {
+        this.outIncludedOrganizationVOs = outIncludedOrganizationVOs;
     }
 }

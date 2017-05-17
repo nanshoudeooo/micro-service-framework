@@ -2,10 +2,12 @@ package com.bizdata.service.impl;
 
 import com.bizdata.controller.user.vo.in.InSearchVO;
 import com.bizdata.dao.UserDao;
+import com.bizdata.dao.UserOrganizationDao;
 import com.bizdata.po.User;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
+import com.bizdata.po.UserOrganizationRelation;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.UserRoleRelationService;
@@ -46,6 +48,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRoleRelationService userRoleRelationService;
+
+    @Autowired
+    private UserOrganizationDao userOrganizationDao;
 
     @Autowired
     private TokenServiceFeign tokenServiceFeign;
@@ -112,13 +117,31 @@ public class UserServiceImpl implements UserService {
             //设置用户密码md5加密
             String md5Pwd = DigestUtils.md5DigestAsHex(userPO.getPassword().getBytes());
             userPO.setPassword(md5Pwd);
-            userDao.save(userPO);
+            User resultUser = userDao.save(userPO);
+            //设置用户组织机构关系
+            String[] organizationIDs = inSaveVO.getOrganizationIDs();
+            saveRelationByOrganizationIDs(organizationIDs, resultUser.getId());
             state = true;
         } catch (Exception ex) {
             logger.error("创建用户失败", ex);
             state = false;
         }
         return state;
+    }
+
+    /**
+     * 根据组织机构ID列表循环插入关系
+     *
+     * @param organizationIDs 组织机构ID列表
+     * @param id              用户ID
+     */
+    private void saveRelationByOrganizationIDs(String[] organizationIDs, String id) {
+        for (String organizationID : organizationIDs) {
+            UserOrganizationRelation userOrganizationRelation = new UserOrganizationRelation();
+            userOrganizationRelation.setUserID(id);
+            userOrganizationRelation.setOrganizationID(organizationID);
+            userOrganizationDao.save(userOrganizationRelation);
+        }
     }
 
     @CacheEvict(value = "adminUserList", allEntries = true)
@@ -150,6 +173,7 @@ public class UserServiceImpl implements UserService {
 
     @CacheEvict(value = "adminUserList", allEntries = true)
     @Override
+    @Transactional
     public ResultStateVO update(InUpdateVO inUpdateVO) {
         ResultStateVO resultStateVO;
         try {
@@ -158,6 +182,10 @@ public class UserServiceImpl implements UserService {
             BeanCopyUtil.copyProperties(inUpdateVO, userPO);
             userPO.setLastUpdateTime(new Date());
             userDao.save(userPO);
+            //根据用户ID与组织机构ID更新
+            userOrganizationDao.deleteByUserID(inUpdateVO.getId());
+            String[] organizationIDs = inUpdateVO.getOrganizationIDs();
+            saveRelationByOrganizationIDs(organizationIDs, inUpdateVO.getId());
             resultStateVO = ResultStateUtil.create(0, "用户更新成功!");
         } catch (Exception e) {
             logger.error("更新用户失败", e);

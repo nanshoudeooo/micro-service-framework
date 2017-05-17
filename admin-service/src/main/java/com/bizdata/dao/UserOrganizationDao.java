@@ -3,6 +3,9 @@ package com.bizdata.dao;
 import com.bizdata.po.Organization;
 import com.bizdata.po.UserOrganizationRelation;
 import com.bizdata.jpa.base.JpaBaseRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,4 +31,22 @@ public interface UserOrganizationDao extends JpaBaseRepository<UserOrganizationR
      * @return List<Organization>
      */
     List<UserOrganizationRelation> findByOrganizationIDIn(List<String> OrganizationIDs);
+
+    /**
+     * 根据UserID获取用户组织机构关系列表
+     *
+     * @param userID 用户ID
+     * @return List<UserOrganizationRelation>
+     */
+    List<UserOrganizationRelation> findByUserID(String userID);
+
+    /**
+     * 根据用户ID删除关系
+     *
+     * @param userID 角色ID
+     */
+    @Modifying
+    @Transactional
+    @Query("delete from UserOrganizationRelation u where u.userID=?1")
+    void deleteByUserID(String userID);
 }

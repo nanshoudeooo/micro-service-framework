@@ -4,6 +4,8 @@ import com.bizdata.controller.user.vo.in.valid.field.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 用户更新操作入参VO
  * <p>
@@ -45,6 +47,12 @@ public class InUpdateVO {
      * 是否可用
      */
     private boolean available;
+
+    /**
+     * 组织机构ID列表
+     */
+    @NotNull(message = "组织机构ID不可为空", groups = {ValidFieldOrganizationID.class})
+    private String[] organizationIDs;
 
     public String getId() {
         return id;
@@ -92,5 +100,13 @@ public class InUpdateVO {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String[] getOrganizationIDs() {
+        return organizationIDs;
+    }
+
+    public void setOrganizationIDs(String[] organizationIDs) {
+        this.organizationIDs = organizationIDs;
     }
 }
