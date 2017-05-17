@@ -5,5 +5,5 @@ package com.bizdata.controller.user.vo.in.valid.field;
  * <p>
  * Created by sdevil507 on 2017/5/11.
  */
-public class ValidFieldRealName {
+public interface ValidFieldRealName {
 }
