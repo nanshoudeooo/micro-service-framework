@@ -17,30 +17,30 @@ public class InSaveVO {
     /**
      * 用户名
      */
-    @NotBlank(message = "必须英文字母开头,包含英文或数字,至少4位最多20位!", groups = {ValidFieldUsername.class})
-    @Pattern(regexp = "[a-zA-Z][a-zA-Z0-9]{3,19}", message = "必须英文字母开头,包含英文或数字,至少4位最多20位!", groups = {ValidFieldUsername.class})
+    @NotBlank(message = "{user.username.not_null}", groups = {ValidFieldUsername.class})
+    @Pattern(regexp = "[a-zA-Z][a-zA-Z0-9]{3,19}", message = "{user.username.rule}", groups = {ValidFieldUsername.class})
     private String username;
 
-    @NotBlank(message = "真实姓名不可为空!", groups = {ValidFieldRealName.class})
+    @NotBlank(message = "{user.realName.not_null}", groups = {ValidFieldRealName.class})
     private String realName;
 
     /**
      * 密码
      */
-    @NotBlank(message = "密码包含至少一个大写字母、一个小写字母、一个阿拉伯数字，至少8位、最多16位", groups = {ValidFieldPassword.class})
-    @Pattern(regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]{7,15}", message = "密码包含至少一个大写字母、一个小写字母、一个阿拉伯数字，至少8位、最多16位", groups = {ValidFieldPassword.class})
+    @NotBlank(message = "{user.password.not_null}", groups = {ValidFieldPassword.class})
+    @Pattern(regexp = "(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]{7,15}", message = "{user.password.rule}", groups = {ValidFieldPassword.class})
     private String password;
 
     /**
      * 邮箱
      */
-    @Email(message = "email格式不合法", groups = {ValidFieldEmail.class})
+    @Email(message = "{user.email.not_legal}", groups = {ValidFieldEmail.class})
     private String email;
 
     /**
      * 组织机构ID列表
      */
-    @NotNull(message = "组织机构ID不可为空", groups = {ValidFieldOrganizationID.class})
+    @NotNull(message = "{user.organizationIDs.required}", groups = {ValidFieldOrganizationID.class})
     private String[] organizationIDs;
 
     public String getUsername() {

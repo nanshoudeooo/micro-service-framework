@@ -12,7 +12,7 @@ public class InDeleteVO {
     /**
      * id
      */
-    @NotBlank(message = "用户ID不可以为空!", groups = {ValidFieldID.class})
+    @NotBlank(message = "{user.id.not_null}", groups = {ValidFieldID.class})
     private String id;
 
     public String getId() {

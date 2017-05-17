@@ -16,31 +16,31 @@ public class InUpdateVO {
     /**
      * id
      */
-    @NotBlank(message = "用户ID不可以为空!", groups = {ValidFieldID.class})
+    @NotBlank(message = "{user.id.not_null}", groups = {ValidFieldID.class})
     private String id;
 
     /**
      * 用户名
      */
-    @NotBlank(message = "用户名不可以为空", groups = {ValidFieldUsername.class})
+    @NotBlank(message = "{user.username.not_null}", groups = {ValidFieldUsername.class})
     private String username;
 
     /**
      * 真实姓名
      */
-    @NotBlank(message = "真实姓名不可为空!", groups = {ValidFieldRealName.class})
+    @NotBlank(message = "{user.realName.not_null}", groups = {ValidFieldRealName.class})
     private String realName;
 
     /**
      * 密码
      */
-    @NotBlank(message = "密码不可以为空", groups = {ValidFieldPassword.class})
+    @NotBlank(message = "{user.password.not_null}", groups = {ValidFieldPassword.class})
     private String password;
 
     /**
      * 邮箱
      */
-    @Email(message = "email格式不合法", groups = {ValidFieldEmail.class})
+    @Email(message = "{user.email.not_legal}", groups = {ValidFieldEmail.class})
     private String email;
 
     /**
@@ -51,7 +51,7 @@ public class InUpdateVO {
     /**
      * 组织机构ID列表
      */
-    @NotNull(message = "组织机构ID不可为空", groups = {ValidFieldOrganizationID.class})
+    @NotNull(message = "{user.organizationIDs.required}", groups = {ValidFieldOrganizationID.class})
     private String[] organizationIDs;
 
     public String getId() {

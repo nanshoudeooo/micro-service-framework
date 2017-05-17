@@ -13,7 +13,7 @@ public class InGetByIdVO {
     /**
      * 用户ID
      */
-    @NotBlank(message = "用户id必须提供!", groups = ValidFieldID.class)
+    @NotBlank(message = "{user.id.not_null}", groups = ValidFieldID.class)
     private String id;
 
     public String getId() {
