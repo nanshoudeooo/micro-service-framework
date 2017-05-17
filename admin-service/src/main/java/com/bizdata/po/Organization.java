@@ -24,7 +24,7 @@ public class Organization extends JpaBaseEntity {
     /**
      * 父id
      */
-    @Column(updatable = false)
+    @Column(nullable = false)
     private String parent = "";
 
     private Date createTime = new Date();
