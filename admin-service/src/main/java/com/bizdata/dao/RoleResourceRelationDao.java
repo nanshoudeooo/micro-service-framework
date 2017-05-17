@@ -2,6 +2,9 @@ package com.bizdata.dao;
 
 import com.bizdata.po.RoleResourceRelation;
 import com.bizdata.jpa.base.JpaBaseRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,5 +30,15 @@ public interface RoleResourceRelationDao extends JpaBaseRepository<RoleResourceR
      * @return List<RoleResourceRelation>
      */
     List<RoleResourceRelation> findAllByResourceID(String resourceID);
+
+    /**
+     * 根据roleID删除关系
+     *
+     * @param roleID 角色ID
+     */
+    @Modifying
+    @Transactional
+    @Query("delete from RoleResourceRelation r where r.roleID=?1")
+    void deleteByRoleID(String roleID);
 
 }

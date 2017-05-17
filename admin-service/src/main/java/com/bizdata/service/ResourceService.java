@@ -100,8 +100,10 @@ public interface ResourceService {
     /**
      * 根据roleID获取该角色已经选中的资源
      *
-     * @param roleID 角色ID
+     * @param roleID     角色ID
+     * @param resourceID 资源ID
      * @return ResultStateVO
      */
-    ResultStateVO listCheckedResourceByRoleID(String roleID);
+    ResultStateVO listCheckedResourceByRoleIDAndResourceID(String roleID, String resourceID);
+
 }

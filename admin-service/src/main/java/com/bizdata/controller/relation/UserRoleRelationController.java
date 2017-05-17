@@ -1,4 +1,4 @@
-package com.bizdata.controller;
+package com.bizdata.controller.relation;
 
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;

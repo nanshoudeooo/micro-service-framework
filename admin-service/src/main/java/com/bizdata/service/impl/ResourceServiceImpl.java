@@ -5,6 +5,7 @@ import com.bizdata.controller.resource.vo.out.OutResourceIncludeCheckedVO;
 import com.bizdata.dao.ResourceDao;
 import com.bizdata.dao.RoleResourceRelationDao;
 import com.bizdata.dao.UserRoleRelationDao;
+import com.bizdata.po.Organization;
 import com.bizdata.po.Resource;
 import com.bizdata.po.RoleResourceRelation;
 import com.bizdata.po.UserRoleRelation;
@@ -248,8 +249,9 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     @Transactional
-    public ResultStateVO listCheckedResourceByRoleID(String roleID) {
+    public ResultStateVO listCheckedResourceByRoleIDAndResourceID(String roleID, String resourceID) {
         ResultStateVO resultStateVO;
+        List<OutResourceIncludeCheckedVO> out;
         try {
             //获取所有资源
             List<Resource> resources = resourceDao.findAll();
@@ -269,12 +271,88 @@ public class ResourceServiceImpl implements ResourceService {
                 outResourceIncludeCheckedVO.setChecked(checked);
                 outResourceIncludeCheckedVOs.add(outResourceIncludeCheckedVO);
             }
-            resultStateVO = ResultStateUtil.create(0, "根据RoleID获取资源信息成功!", outResourceIncludeCheckedVOs);
+            if (StringUtils.isEmpty(resourceID)) {
+                out = outResourceIncludeCheckedVOs;
+            } else {
+                List<OutResourceIncludeCheckedVO> conditionResourceVOs = new ArrayList<>();
+                //如果存在resourceID条件
+                List<String> ids = listConditionResource(resourceID);
+                for (OutResourceIncludeCheckedVO outResourceIncludeCheckedVO : outResourceIncludeCheckedVOs) {
+                    for (String id : ids) {
+                        if (outResourceIncludeCheckedVO.getId().equals(id)) {
+                            conditionResourceVOs.add(outResourceIncludeCheckedVO);
+                        }
+                    }
+                }
+                out = conditionResourceVOs;
+            }
+            resultStateVO = ResultStateUtil.create(0, "根据RoleID获取资源信息成功!", out);
         } catch (Exception e) {
             logger.error("根据RoleID获取资源失败!", e);
             resultStateVO = ResultStateUtil.create(1, "根据RoleID获取资源失败!");
         }
         return resultStateVO;
+    }
+
+    /**
+     * 根据复杂条件获取resourceID列表
+     *
+     * @param resourceID 资源ID
+     * @return List<String>
+     */
+    private List<String> listConditionResource(String resourceID) {
+        List<Resource> resources = new ArrayList<>();
+        Resource resource = resourceDao.findOne(resourceID);
+        if (resource.isDir()) {
+            //如果是目录,则返回该id下所有子资源列表
+            resources.add(resource);
+            resources.addAll(getNextLevel(resources));
+            resources.remove(resource);
+        } else {
+            //如果不是目录,向上获取父级,向下获取子资源列表
+            resources.add(resource);
+            resources.addAll(getNextLevel(resources));
+            resources.addAll(getPreviousLevel(resource));
+            resources.remove(resource);
+        }
+        List<String> ids = new ArrayList<>();
+        for (Resource tempResource : resources) {
+            ids.add(tempResource.getId());
+        }
+        return ids;
+    }
+
+    /**
+     * 递归获取父节点资源列表
+     *
+     * @param resource 资源
+     * @return 资源列表
+     */
+    private List<Resource> getPreviousLevel(Resource resource) {
+        List<Resource> tempList = new ArrayList<>();
+        Resource temp_resource = resourceDao.findOne(resource.getParent());
+        tempList.add(temp_resource);
+        if ("0".equals(temp_resource.getParent())) {
+            return tempList;
+        } else {
+            tempList.addAll(getPreviousLevel(temp_resource));
+        }
+        return tempList;
+    }
+
+    /**
+     * 递归获取子节点资源列表
+     *
+     * @param list 资源列表
+     * @return 资源列表
+     */
+    private List<Resource> getNextLevel(List<Resource> list) {
+        List<Resource> tempList = new ArrayList<>();
+        for (Resource resource : list) {
+            tempList.add(resource);
+            tempList.addAll(getNextLevel(resourceDao.findByParentOrderBySortNumAsc(resource.getId())));
+        }
+        return tempList;
     }
 
     /**

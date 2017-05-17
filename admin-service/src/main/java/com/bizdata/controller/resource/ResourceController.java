@@ -180,8 +180,8 @@ public class ResourceController {
      * @param roleID 角色ID
      * @return ResultStateVO
      */
-    @RequestMapping(value = "/resource/listCheckedResourceByRoleID", method = RequestMethod.POST)
-    public ResultStateVO listCheckedResourceByRoleID(String roleID) {
-        return resourceService.listCheckedResourceByRoleID(roleID);
+    @RequestMapping(value = "/resource/listCheckedResourceByRoleIDAndResourceID", method = RequestMethod.POST)
+    public ResultStateVO listCheckedResourceByRoleIDAndResourceID(String roleID, String resourceID) {
+        return resourceService.listCheckedResourceByRoleIDAndResourceID(roleID, resourceID);
     }
 }
