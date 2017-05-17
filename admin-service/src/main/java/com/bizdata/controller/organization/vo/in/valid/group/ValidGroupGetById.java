@@ -10,5 +10,5 @@ import javax.validation.GroupSequence;
  * Created by sdevil507 on 2017/5/9.
  */
 @GroupSequence({ValidFieldID.class})
-public class ValidGroupGetById {
+public interface ValidGroupGetById {
 }
