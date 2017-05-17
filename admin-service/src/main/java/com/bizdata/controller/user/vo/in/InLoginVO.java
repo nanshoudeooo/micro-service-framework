@@ -14,13 +14,13 @@ public class InLoginVO {
     /**
      * 用户名
      */
-    @NotBlank(message = "用户名不可以为空", groups = {ValidFieldUsername.class})
+    @NotBlank(message = "{user.username.not_null}", groups = {ValidFieldUsername.class})
     private String username;
 
     /**
      * 密码
      */
-    @NotBlank(message = "密码不可以为空", groups = {ValidFieldPassword.class})
+    @NotBlank(message = "{user.password.not_null}", groups = {ValidFieldPassword.class})
     private String password;
 
     public String getUsername() {
