@@ -6,7 +6,6 @@ import com.bizdata.controller.user.vo.out.OutIncludedOrganizationVO;
 import com.bizdata.controller.user.vo.out.OutUserVO;
 import com.bizdata.dao.OrganizationDao;
 import com.bizdata.dao.UserOrganizationDao;
-import com.bizdata.dto.user.LoginDTO;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaPageResultVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
@@ -54,8 +53,7 @@ public class UserController {
      */
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public ResultStateVO login(@Validated({ValidGroupLogin.class}) InLoginVO inLoginVO) {
-        LoginDTO loginDTO = userService.login(inLoginVO.getUsername(), inLoginVO.getPassword());
-        return ResultStateUtil.create(loginDTO.getCode(), loginDTO.getMsg(), loginDTO.getOutLoginVO());
+        return userService.login(inLoginVO.getUsername(), inLoginVO.getPassword());
     }
 
     /**

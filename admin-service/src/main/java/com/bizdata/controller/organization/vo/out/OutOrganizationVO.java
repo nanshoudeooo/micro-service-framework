@@ -25,6 +25,11 @@ public class OutOrganizationVO {
     private String parent;
 
     /**
+     * 组织机构父节点名称
+     */
+    private String parentName;
+
+    /**
      * 组织机构创建时间
      */
     private Date createTime;
@@ -59,5 +64,13 @@ public class OutOrganizationVO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 }
