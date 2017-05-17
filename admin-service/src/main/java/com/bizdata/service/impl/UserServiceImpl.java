@@ -3,6 +3,7 @@ package com.bizdata.service.impl;
 import com.bizdata.controller.user.vo.in.InSearchVO;
 import com.bizdata.dao.UserDao;
 import com.bizdata.dao.UserOrganizationDao;
+import com.bizdata.dto.user.LoginDTO;
 import com.bizdata.po.User;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.jpa.vo.JpaPageParamVO;
@@ -57,8 +58,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResultStateVO login(String username, String password) {
-        ResultStateVO resultStateVO;
+    public LoginDTO login(String username, String password) {
+        LoginDTO loginDTO;
         try {
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
             User user = userDao.findByUsernameAndPassword(username, md5Password);
@@ -71,19 +72,19 @@ public class UserServiceImpl implements UserService {
                     userDao.save(user);
                     //如果正确,使用该user的userid申请token
                     String token = tokenServiceFeign.createToken("admin", user.getId());
-                    resultStateVO = ResultStateUtil.create(0, "登录成功", new OutLoginVO(token));
+                    loginDTO = new LoginDTO(0, "登录成功", new OutLoginVO(token));
                 } else {
                     //账户不可用
-                    resultStateVO = ResultStateUtil.create(2, "登录失败,该账户被锁定,请联系管理员");
+                    loginDTO = new LoginDTO(2, "登录失败,该账户被锁定,请联系管理员!");
                 }
             } else {
-                resultStateVO = ResultStateUtil.create(1, "登录失败,请确认用户名密码正确!");
+                loginDTO = new LoginDTO(1, "登录失败,请确认用户名密码正确!");
             }
         } catch (Exception ex) {
             logger.error(username + "登录失败", ex);
-            resultStateVO = ResultStateUtil.create(3, "登录失败");
+            loginDTO = new LoginDTO(3, "登录失败");
         }
-        return resultStateVO;
+        return loginDTO;
     }
 
 

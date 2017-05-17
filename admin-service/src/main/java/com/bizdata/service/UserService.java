@@ -1,6 +1,7 @@
 package com.bizdata.service;
 
 import com.bizdata.controller.user.vo.in.InSearchVO;
+import com.bizdata.dto.user.LoginDTO;
 import com.bizdata.po.User;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
@@ -21,9 +22,10 @@ public interface UserService {
      *
      * @param username 用户名
      * @param password 密码
-     * @return String类型token值
+     * @return LoginDTO
+     * @see LoginDTO
      */
-    ResultStateVO login(String username, String password);
+    LoginDTO login(String username, String password);
 
     /**
      * 执行注销
@@ -62,9 +64,9 @@ public interface UserService {
     /**
      * 执行分页查询用户
      *
-     * @param jpaPageInputVO        分页参数VO
-     * @param jpaSortParamVO        排序入参VO
-     * @param inSearchVO 查询条件VO
+     * @param jpaPageInputVO 分页参数VO
+     * @param jpaSortParamVO 排序入参VO
+     * @param inSearchVO     查询条件VO
      * @return Page类型用户数据
      */
     Page<User> list(JpaPageParamVO jpaPageInputVO, JpaSortParamVO jpaSortParamVO, InSearchVO inSearchVO);

@@ -6,6 +6,7 @@ import com.bizdata.controller.user.vo.out.OutIncludedOrganizationVO;
 import com.bizdata.controller.user.vo.out.OutUserVO;
 import com.bizdata.dao.OrganizationDao;
 import com.bizdata.dao.UserOrganizationDao;
+import com.bizdata.dto.user.LoginDTO;
 import com.bizdata.jpa.vo.JpaPageParamVO;
 import com.bizdata.jpa.vo.JpaPageResultVO;
 import com.bizdata.jpa.vo.JpaSortParamVO;
@@ -15,6 +16,7 @@ import com.bizdata.po.UserOrganizationRelation;
 import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
+import com.bizdata.service.UserOrganizationService;
 import com.bizdata.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +54,8 @@ public class UserController {
      */
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public ResultStateVO login(@Validated({ValidGroupLogin.class}) InLoginVO inLoginVO) {
-        return userService.login(inLoginVO.getUsername(), inLoginVO.getPassword());
+        LoginDTO loginDTO = userService.login(inLoginVO.getUsername(), inLoginVO.getPassword());
+        return ResultStateUtil.create(loginDTO.getCode(), loginDTO.getMsg(), loginDTO.getOutLoginVO());
     }
 
     /**
@@ -121,8 +124,14 @@ public class UserController {
     public ResultStateVO list(@Validated JpaPageParamVO jpaPageParamVO, @Validated JpaSortParamVO jpaSortParamVO, InSearchVO inSearchVO) {
         ResultStateVO resultStateVO;
         Page<User> page = userService.list(jpaPageParamVO, jpaSortParamVO, inSearchVO);
+        JpaPageResultVO jpaPageResultVO = new JpaPageResultVO(page, OutUserVO.class);
+        List<OutUserVO> outUserVOs = jpaPageResultVO.getRows();
+        for (OutUserVO outUserVO : outUserVOs) {
+            //根据ID查询出组织机构
+            outUserVO.setOutIncludedOrganizationVOs(getOutIncludedOrganizationVOs(outUserVO.getId()));
+        }
         if (null != page) {
-            resultStateVO = ResultStateUtil.create(0, "查询用户成功!", new JpaPageResultVO(page, OutUserVO.class));
+            resultStateVO = ResultStateUtil.create(0, "查询用户成功!", jpaPageResultVO);
         } else {
             resultStateVO = ResultStateUtil.create(1, "查询用户失败!");
         }
@@ -146,7 +155,7 @@ public class UserController {
                 OutUserVO userReadResultVO = new OutUserVO();
                 BeanUtils.copyProperties(userPO, userReadResultVO);
                 //查询出该用户所属的组织机构
-                List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = getOutIncludedOrganizationVOs(userPO);
+                List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = getOutIncludedOrganizationVOs(userPO.getId());
                 userReadResultVO.setOutIncludedOrganizationVOs(outIncludedOrganizationVOs);
                 resultStateVO = ResultStateUtil.create(0, "读取登录用户信息成功!", userReadResultVO);
             }
@@ -160,11 +169,11 @@ public class UserController {
     /**
      * 根据用户ID获取该用户组织机构列表
      *
-     * @param userPO 用户
+     * @param id 用户
      * @return List<OutIncludedOrganizationVO>
      */
-    private List<OutIncludedOrganizationVO> getOutIncludedOrganizationVOs(User userPO) {
-        List<UserOrganizationRelation> userOrganizationRelations = userOrganizationDao.findByUserID(userPO.getId());
+    private List<OutIncludedOrganizationVO> getOutIncludedOrganizationVOs(String id) {
+        List<UserOrganizationRelation> userOrganizationRelations = userOrganizationDao.findByUserID(id);
         List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = new ArrayList<>();
         for (UserOrganizationRelation userOrganizationRelation : userOrganizationRelations) {
             OutIncludedOrganizationVO outIncludedOrganizationVO = new OutIncludedOrganizationVO();
@@ -194,7 +203,7 @@ public class UserController {
                 OutUserVO userReadResultVO = new OutUserVO();
                 BeanUtils.copyProperties(userPO, userReadResultVO);
                 //查询出该用户所属的组织机构
-                List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = getOutIncludedOrganizationVOs(userPO);
+                List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = getOutIncludedOrganizationVOs(userPO.getId());
                 userReadResultVO.setOutIncludedOrganizationVOs(outIncludedOrganizationVOs);
                 resultStateVO = ResultStateUtil.create(0, "根据ID查询用户信息成功!", userReadResultVO);
             }
