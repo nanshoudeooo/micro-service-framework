@@ -72,6 +72,13 @@
             <groupId>com.bizdata</groupId>
             <artifactId>common-utils</artifactId>
         </dependency>
+
+        <!--用于支持初始化sql数据-->
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.9.7</version>
+        </dependency>
     </dependencies>
 
     <build>
