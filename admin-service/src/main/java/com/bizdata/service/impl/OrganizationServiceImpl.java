@@ -54,7 +54,9 @@ public class OrganizationServiceImpl implements OrganizationService {
             outOrganizationVO = new OutOrganizationVO();
             Organization organization = organizationDao.findOne(inGetByIdVO.getId());
             BeanUtils.copyProperties(organization, outOrganizationVO);
-            outOrganizationVO.setParentName(organizationDao.findOne(organization.getParent()).getName());
+            if(!"0".equals(organization.getParent())) {
+                outOrganizationVO.setParentName(organizationDao.findOne(organization.getParent()).getName());
+            }
         } catch (Exception e) {
             outOrganizationVO = null;
             logger.error("根据ID查询组织机构失败!", e);
