@@ -34,6 +34,11 @@ public class OutOrganizationVO {
      */
     private Date createTime;
 
+    /**
+     * 是否系统内置
+     */
+    private boolean builtIn = false;
+
     public String getId() {
         return id;
     }
@@ -72,5 +77,13 @@ public class OutOrganizationVO {
 
     public void setParentName(String parentName) {
         this.parentName = parentName;
+    }
+
+    public boolean isBuiltIn() {
+        return builtIn;
+    }
+
+    public void setBuiltIn(boolean builtIn) {
+        this.builtIn = builtIn;
     }
 }

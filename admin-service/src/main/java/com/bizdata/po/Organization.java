@@ -18,7 +18,7 @@ public class Organization extends JpaBaseEntity {
     /**
      * 组织机构名称
      */
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
     /**
@@ -28,6 +28,12 @@ public class Organization extends JpaBaseEntity {
     private String parent = "";
 
     private Date createTime = new Date();
+
+    /**
+     * 是否系统内置
+     */
+    @Column(nullable = false)
+    private boolean builtIn = false;
 
     public String getName() {
         return name;
@@ -51,5 +57,13 @@ public class Organization extends JpaBaseEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean isBuiltIn() {
+        return builtIn;
+    }
+
+    public void setBuiltIn(boolean builtIn) {
+        this.builtIn = builtIn;
     }
 }
