@@ -1,0 +1,126 @@
+.layer-dialog-wrapper {
+  z-index: 1989;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+   -moz-user-select:none;
+   -webkit-user-select:none;
+   user-select:none;   
+}
+.layer-dialog-shadow{
+   position: absolute;
+   background-color: #000;
+   opacity: 0.3;
+   filter: alpha(opacity=30);
+   width: 100%;
+   height: 100%;
+}
+
+.layer-dialog {
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, .1);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, .2);
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  position: absolute;
+  left:50%;
+  top:50%;
+  min-width: 300px;
+  min-height: 150px;
+  transform:translate(-50%,-50%);
+  position:absolute;
+  display: flex;
+  flex-direction:column;
+}
+
+.layer-dialog-title {
+  padding: 0 80px 0 20px;
+  height: 42px;
+  line-height: 42px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  background-color: #F8F8F8;
+  border-radius: 2px 2px 0 0;
+  cursor: move;
+}
+
+.layer-dialog-setwin {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 0;
+  line-height: initial;
+}
+
+.layer-dialog-setwin a {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+  font-size: 12px;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.layer-dialog-ico {
+  background: url(icon.png) no-repeat;
+}
+
+.layer-max {
+  background-position: -32px -40px;
+}
+.layer-max:hover{
+    background-position: -16px -40px;
+} 
+.layer-normal{
+    background-position: -64px -40px;
+}
+.layer-normal:hover{
+    background-position: -48px -40px;
+}
+.layer-close {
+  background-position: 1px -40px;
+}
+.layer-close:hover{
+    opacity: .7
+}
+.layer-dialog-btnBar{
+    padding: 10px;
+    text-align: right;
+}
+.layer-dialog-btnBar a{
+     display: inline-block;
+     vertical-align: top;
+     height: 28px;
+     line-height: 28px;
+     margin: 6px 6px 0;
+     padding: 0 15px;
+     border-radius: 2px;
+     font-weight: 400;
+     cursor: pointer;
+     text-decoration: none;
+}
+.btnPrimary{
+  border-color: #4898d5;
+  background-color: #2e8ded;
+  color: #fff;
+}
+.btnDefault{
+    border: 1px solid #dedede;
+     background-color: #f1f1f1;
+     color: #333;
+}
+.layer-dialog-content{
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}

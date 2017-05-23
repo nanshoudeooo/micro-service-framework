@@ -1,0 +1,10 @@
+// 刷新缓存的一些信息
+export const REFRESH_USER_MENUS = 'REFRESH_USER_MENUS';//刷新用户菜单信息
+export const REFRESH_MENU_OPERATIONS = 'REFRESH_MENU_OPERATIONS';//刷新用户菜单操作
+export const REFRESH_MENU_COLUMNS = 'REFRESH_MENU_COLUMNS';//刷新菜单功能列级权限
+export const CLEAR_USER_MENUS = 'CLEAR_USER_MENUS';
+export const CLEAR_MENU_OPERATIONS = 'CLEAR_MENU_OPERATIONS';
+export const CLEAR_MENU_COLUMNS = 'CLEAR_MENU_COLUMNS';
+
+
+
