@@ -1,1 +1,0 @@
-export {assertAddressablePath} from './permission';
