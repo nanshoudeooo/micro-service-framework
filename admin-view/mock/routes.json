@@ -1,0 +1,5 @@
+{
+    "/admin/user/login":"/login",
+    "/admin/user/readSelf":"/user?name=admin",
+    "/admin/role/readSelf":"/role"
+}
