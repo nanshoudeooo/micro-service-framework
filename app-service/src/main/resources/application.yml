@@ -9,6 +9,9 @@ spring:
     dateFormat: yyyy-MM-dd HH:mm:ss
 
 eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
   client:
     serviceUrl:
-      defaultZone: http://localhost:20000/eureka/
+      defaultZone: http://127.0.0.1:20000/eureka/

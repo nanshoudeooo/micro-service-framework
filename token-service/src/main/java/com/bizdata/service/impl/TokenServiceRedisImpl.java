@@ -34,6 +34,7 @@ public class TokenServiceRedisImpl implements TokenService {
             stringRedisTemplate.opsForValue().set(token, userID, tokenProperties.getExpire(), TimeUnit.MINUTES);
         } catch (Exception e) {
             logger.error("token create error:", e);
+            token="";
         }
         return token;
     }

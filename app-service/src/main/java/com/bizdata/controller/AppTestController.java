@@ -18,6 +18,7 @@ public class AppTestController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public void appLogin() {
+        System.out.println(111111);
         tokenServiceFeign.createToken("app", "123456");
     }
 
