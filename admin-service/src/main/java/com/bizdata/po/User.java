@@ -69,7 +69,7 @@ public class User extends JpaUUIDBaseEntity {
      * 是否可用
      */
     @Column
-    private boolean available = true;
+    private boolean available=true;
 
     /**
      * 是否系统内置账户

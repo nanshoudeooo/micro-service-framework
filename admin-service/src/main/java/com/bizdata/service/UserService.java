@@ -17,13 +17,29 @@ import org.springframework.data.domain.Page;
 public interface UserService {
 
     /**
-     * 执行登录操作
+     * 判断用户名与密码是否正确
      *
      * @param username 用户名
      * @param password 密码
-     * @return String类型token值
+     * @return User
      */
-    ResultStateVO login(String username, String password);
+    User getByUsernameAndPassword(String username,String password);
+
+    /**
+     * 判断用户是否可用
+     *
+     * @param user 用户
+     * @return boolean[true:可用,false:不可用]
+     */
+    boolean checkUserAvailable(User user);
+
+    /**
+     * 登录成功相关操作并返回token
+     *
+     * @param user 用户ID
+     * @return String token值
+     */
+    String loginSuccess(User user);
 
     /**
      * 执行注销

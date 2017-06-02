@@ -3,6 +3,7 @@ package com.bizdata.controller.user;
 import com.bizdata.controller.user.vo.in.*;
 import com.bizdata.controller.user.vo.in.valid.group.*;
 import com.bizdata.controller.user.vo.out.OutIncludedOrganizationVO;
+import com.bizdata.controller.user.vo.out.OutLoginVO;
 import com.bizdata.controller.user.vo.out.OutUserVO;
 import com.bizdata.dao.OrganizationDao;
 import com.bizdata.dao.UserOrganizationDao;
@@ -48,11 +49,24 @@ public class UserController {
      * 执行登录操作
      *
      * @param inLoginVO 用户登录入参VO
-     * @return ResultStateVO类型执行反馈
+     * @return 登录信息反馈
+     * @see OutLoginVO
      */
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public ResultStateVO login(@Validated({ValidGroupLogin.class}) InLoginVO inLoginVO) {
-        return userService.login(inLoginVO.getUsername(), inLoginVO.getPassword());
+        ResultStateVO resultStateVO;
+        User user = userService.getByUsernameAndPassword(inLoginVO.getUsername(), inLoginVO.getPassword());
+        if (null == user) {
+            resultStateVO = ResultStateUtil.create(1, "登录失败,请确认用户名密码正确!");
+        } else {
+            if (!userService.checkUserAvailable(user)) {
+                resultStateVO = ResultStateUtil.create(2, "登录失败,该账户被锁定,请联系管理员");
+            } else {
+                String token = userService.loginSuccess(user);
+                resultStateVO = ResultStateUtil.create(0, "登录成功", new OutLoginVO(token));
+            }
+        }
+        return resultStateVO;
     }
 
     /**

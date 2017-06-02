@@ -1,19 +1,18 @@
 package com.bizdata.service.impl;
 
+import com.bizdata.controller.user.vo.in.InSaveVO;
 import com.bizdata.controller.user.vo.in.InSearchVO;
+import com.bizdata.controller.user.vo.in.InUpdateVO;
 import com.bizdata.dao.UserDao;
 import com.bizdata.dao.UserOrganizationDao;
-import com.bizdata.po.User;
 import com.bizdata.extend.BeanCopyUtil;
+import com.bizdata.po.User;
 import com.bizdata.po.UserOrganizationRelation;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.UserRoleRelationService;
 import com.bizdata.service.UserService;
 import com.bizdata.token.TokenServiceFeign;
-import com.bizdata.controller.user.vo.in.InSaveVO;
-import com.bizdata.controller.user.vo.out.OutLoginVO;
-import com.bizdata.controller.user.vo.in.InUpdateVO;
 import me.sdevil507.vo.JpaPageParamVO;
 import me.sdevil507.vo.JpaSortParamVO;
 import org.slf4j.Logger;
@@ -56,34 +55,37 @@ public class UserServiceImpl implements UserService {
     private TokenServiceFeign tokenServiceFeign;
 
     @Override
-    @Transactional
-    public ResultStateVO login(String username, String password) {
-        ResultStateVO resultStateVO;
+    public User getByUsernameAndPassword(String username, String password) {
+        User user = null;
         try {
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
-            User user = userDao.findByUsernameAndPassword(username, md5Password);
-            if (null != user) {
-                //账户验证成功
-                if (user.isAvailable()) {
-                    //账户可用
-                    //更新最后登录时间
-                    user.setLastLoginTime(new Date());
-                    userDao.save(user);
-                    //如果正确,使用该user的userid申请token
-                    String token = tokenServiceFeign.createToken("admin", user.getId());
-                    resultStateVO = ResultStateUtil.create(0, "登录成功", new OutLoginVO(token));
-                } else {
-                    //账户不可用
-                    resultStateVO = ResultStateUtil.create(2, "登录失败,该账户被锁定,请联系管理员");
-                }
-            } else {
-                resultStateVO = ResultStateUtil.create(1, "登录失败,请确认用户名密码正确!");
-            }
-        } catch (Exception ex) {
-            logger.error(username + "登录失败", ex);
-            resultStateVO = ResultStateUtil.create(3, "登录失败");
+            user = userDao.findByUsernameAndPassword(username, md5Password);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return resultStateVO;
+        return user;
+    }
+
+    @Override
+    public boolean checkUserAvailable(User user) {
+        System.out.println(user.isAvailable());
+        return user.isAvailable();
+    }
+
+    @Override
+    public String loginSuccess(User user) {
+        String token = "";
+        try {
+            //更新最后登录时间
+            user.setLastLoginTime(new Date());
+            userDao.save(user);
+            //如果正确,使用该user的userid申请token
+            token = tokenServiceFeign.createToken("admin", user.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(user.getUsername() + "登录失败", e);
+        }
+        return token;
     }
 
 
