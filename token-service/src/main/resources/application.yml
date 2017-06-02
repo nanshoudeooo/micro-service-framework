@@ -25,7 +25,15 @@ spring:
       max-idle: 8 
       # 连接池中的最小空闲连接
       min-idle: 0 
-      
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
 eureka:
   instance:
     prefer-ip-address: true
