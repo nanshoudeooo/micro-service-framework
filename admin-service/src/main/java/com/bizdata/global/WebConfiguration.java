@@ -2,8 +2,8 @@ package com.bizdata.global;
 
 import com.bizdata.common.String2MenuTypeConverter;
 import com.bizdata.common.String2ResourceTypeConverter;
-import com.bizdata.jpa.convert.JpaPageConditionConverter;
-import com.bizdata.jpa.convert.JpaSortConditionConverter;
+import me.sdevil507.convert.JpaPageConditionConverter;
+import me.sdevil507.convert.JpaSortConditionConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;

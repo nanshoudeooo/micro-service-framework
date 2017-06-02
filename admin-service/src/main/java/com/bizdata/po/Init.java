@@ -1,6 +1,6 @@
 package com.bizdata.po;
 
-import com.bizdata.jpa.base.JpaBaseEntity;
+import me.sdevil507.base.JpaUUIDBaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "admin_init")
-public class Init extends JpaBaseEntity {
+public class Init extends JpaUUIDBaseEntity {
     /**
      * 是否已经初始化
      */

@@ -2,7 +2,7 @@ package com.bizdata.po;
 
 import com.bizdata.common.MenuType;
 import com.bizdata.common.ResourceType;
-import com.bizdata.jpa.base.JpaBaseEntity;
+import me.sdevil507.base.JpaUUIDBaseEntity;
 
 import javax.persistence.*;
 
@@ -13,7 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "admin_resource")
-public class Resource extends JpaBaseEntity implements Comparable<Resource> {
+public class Resource extends JpaUUIDBaseEntity implements Comparable<Resource> {
 
     /**
      * 资源名称

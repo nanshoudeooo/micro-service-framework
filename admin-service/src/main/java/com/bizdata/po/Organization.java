@@ -1,6 +1,6 @@
 package com.bizdata.po;
 
-import com.bizdata.jpa.base.JpaBaseEntity;
+import me.sdevil507.base.JpaUUIDBaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "admin_organization")
-public class Organization extends JpaBaseEntity {
+public class Organization extends JpaUUIDBaseEntity {
     /**
      * 组织机构名称
      */

@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 @EnableZuulProxy
 @EnableFeignClients
 @SpringCloudApplication
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class})
 public class ZuulApplication {
     public static void main(String[] args) {
         SpringApplication.run(ZuulApplication.class, args);

@@ -1,7 +1,7 @@
 package com.bizdata.dao;
 
 import com.bizdata.po.RoleResourceRelation;
-import com.bizdata.jpa.base.JpaBaseRepository;
+import me.sdevil507.base.JpaBaseRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;

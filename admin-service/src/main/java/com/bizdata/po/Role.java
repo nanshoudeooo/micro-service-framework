@@ -1,6 +1,6 @@
 package com.bizdata.po;
 
-import com.bizdata.jpa.base.JpaBaseEntity;
+import me.sdevil507.base.JpaUUIDBaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "admin_role")
-public class Role extends JpaBaseEntity {
+public class Role extends JpaUUIDBaseEntity {
 
     /**
      * 角色名称

@@ -1,6 +1,6 @@
 package com.bizdata.po;
 
-import com.bizdata.jpa.base.JpaBaseEntity;
+import me.sdevil507.base.JpaUUIDBaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "admin_user")
-public class User extends JpaBaseEntity {
+public class User extends JpaUUIDBaseEntity {
 
     /**
      * 用户名

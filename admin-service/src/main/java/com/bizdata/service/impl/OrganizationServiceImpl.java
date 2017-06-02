@@ -7,13 +7,12 @@ import com.bizdata.controller.organization.vo.in.InUpdateVO;
 import com.bizdata.controller.organization.vo.out.OutOrganizationVO;
 import com.bizdata.dao.OrganizationDao;
 import com.bizdata.extend.BeanCopyUtil;
-import com.bizdata.jpa.vo.JpaListPO2VO;
 import com.bizdata.po.Organization;
 import com.bizdata.service.OrganizationService;
+import me.sdevil507.vo.JpaListPO2VO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

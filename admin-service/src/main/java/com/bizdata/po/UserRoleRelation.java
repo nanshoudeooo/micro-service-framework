@@ -1,6 +1,6 @@
 package com.bizdata.po;
 
-import com.bizdata.jpa.base.JpaBaseEntity;
+import me.sdevil507.base.JpaUUIDBaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "admin_user_role")
-public class UserRoleRelation extends JpaBaseEntity {
+public class UserRoleRelation extends JpaUUIDBaseEntity {
 
     /**
      * 用户id

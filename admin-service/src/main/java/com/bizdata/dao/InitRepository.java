@@ -2,7 +2,7 @@ package com.bizdata.dao;
 
 
 import com.bizdata.po.Init;
-import com.bizdata.jpa.base.JpaBaseRepository;
+import me.sdevil507.base.JpaBaseRepository;
 
 public interface InitRepository extends JpaBaseRepository<Init, String> {
 

@@ -1,7 +1,7 @@
 package com.bizdata.dao;
 
 import com.bizdata.po.Test;
-import com.bizdata.jpa.base.JpaBaseRepository;
+import me.sdevil507.base.JpaBaseRepository;
 
 /**
  * 测试Dao

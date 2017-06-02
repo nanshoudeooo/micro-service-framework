@@ -1,7 +1,7 @@
 package com.bizdata.dao;
 
 import com.bizdata.po.User;
-import com.bizdata.jpa.base.JpaBaseRepository;
+import me.sdevil507.base.JpaBaseRepository;
 
 import java.util.List;
 
