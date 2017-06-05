@@ -277,10 +277,18 @@ public class UserController {
         return resultStateVO;
     }
 
+    /**
+     * 重置用户密码
+     *
+     * @param userID 用户ID
+     * @param newPwd 新密码
+     * @return ResultStateVO执行反馈
+     */
+    //TODO 方法入参增加校验
     @RequestMapping(value = "/user/resetPassword", method = RequestMethod.POST)
-    public ResultStateVO resetPassword(String userID, String password) {
+    public ResultStateVO resetPassword(String userID, String newPwd) {
         ResultStateVO resultStateVO;
-        if (userService.resetPassword(userID, password)) {
+        if (userService.resetPassword(userID, newPwd)) {
             resultStateVO = ResultStateUtil.create(0, "重置密码成功!");
         } else {
             resultStateVO = ResultStateUtil.create(1, "重置密码失败");
