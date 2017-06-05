@@ -36,20 +36,24 @@ public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final UserOrganizationDao userOrganizationDao;
+
+    private final OrganizationDao organizationDao;
 
     @Autowired
-    private UserOrganizationDao userOrganizationDao;
-
-    @Autowired
-    private OrganizationDao organizationDao;
+    public UserController(UserService userService, UserOrganizationDao userOrganizationDao, OrganizationDao organizationDao) {
+        this.userService = userService;
+        this.userOrganizationDao = userOrganizationDao;
+        this.organizationDao = organizationDao;
+    }
 
     /**
      * 执行登录操作
      *
      * @param inLoginVO 用户登录入参VO
-     * @return 登录信息反馈
+     * @return 登录信息
      * @see OutLoginVO
      */
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
@@ -72,7 +76,7 @@ public class UserController {
     /**
      * 执行退出操作
      *
-     * @return ResultStateVO类型执行反馈
+     * @return 执行反馈
      */
     @RequestMapping(value = "/user/logout", method = RequestMethod.POST)
     public ResultStateVO logout(HttpServletRequest request) {
@@ -115,8 +119,22 @@ public class UserController {
      */
     @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
     public ResultStateVO delete(@Validated({ValidGroupDelete.class}) InDeleteVO inDeleteVO, HttpServletRequest request) {
+        ResultStateVO resultStateVO;
         String currentUserID = IdentityUtil.getUserID(request);
-        return userService.delete(currentUserID, inDeleteVO.getId());
+        if (userService.checkUserIdSelf(currentUserID, inDeleteVO.getId())) {
+            resultStateVO = ResultStateUtil.create(1, "当前操作用户无法删除自己!");
+        } else {
+            if (userService.checkBuiltInUser(inDeleteVO.getId())) {
+                resultStateVO = ResultStateUtil.create(2, "无法删除系统内置用户!");
+            } else {
+                if (userService.delete(inDeleteVO.getId())) {
+                    resultStateVO = ResultStateUtil.create(0, "用户删除成功!");
+                } else {
+                    resultStateVO = ResultStateUtil.create(3, "用户删除失败!");
+                }
+            }
+        }
+        return resultStateVO;
     }
 
     /**
@@ -141,7 +159,7 @@ public class UserController {
     public ResultStateVO list(@Validated JpaPageParamVO jpaPageParamVO, @Validated JpaSortParamVO jpaSortParamVO, InSearchVO inSearchVO) {
         ResultStateVO resultStateVO;
         Page<User> page = userService.list(jpaPageParamVO, jpaSortParamVO, inSearchVO);
-        JpaPageResultVO jpaPageResultVO = new JpaPageResultVO(page, OutUserVO.class);
+        JpaPageResultVO<User, OutUserVO> jpaPageResultVO = new JpaPageResultVO<>(page, OutUserVO.class);
         List<OutUserVO> outUserVOs = jpaPageResultVO.getRows();
         for (OutUserVO outUserVO : outUserVOs) {
             //根据ID查询出组织机构

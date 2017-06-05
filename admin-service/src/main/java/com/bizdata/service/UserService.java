@@ -59,13 +59,21 @@ public interface UserService {
     boolean save(InSaveVO inSaveVO, String userID);
 
     /**
+     * 校验传入ID是否为当前登录用户ID
+     *
+     * @param currentUserID 当前登录用户ID
+     * @param targetUserID 目标用户ID
+     * @return boolean
+     */
+    boolean checkUserIdSelf(String currentUserID, String targetUserID);
+
+    /**
      * 执行用户删除操作
      *
-     * @param currentUserID 当前用户ID
      * @param userID        用户ID
      * @return boolean执行反馈
      */
-    ResultStateVO delete(String currentUserID, String userID);
+    boolean delete(String userID);
 
     /**
      * 执行用户更新操作
@@ -110,4 +118,11 @@ public interface UserService {
      */
     boolean resetPassword(String userID, String password);
 
+    /**
+     * 判断用户是否为系统内置
+     *
+     * @param userID 用户ID
+     * @return boolean
+     */
+    boolean checkBuiltInUser(String userID);
 }

@@ -131,6 +131,11 @@ public class UserServiceImpl implements UserService {
         return state;
     }
 
+    @Override
+    public boolean checkUserIdSelf(String currentUserID, String targetUserID) {
+        return currentUserID.equals(targetUserID);
+    }
+
     /**
      * 根据组织机构ID列表循环插入关系
      *
@@ -149,28 +154,18 @@ public class UserServiceImpl implements UserService {
     @CacheEvict(value = "adminUserList", allEntries = true)
     @Override
     @Transactional
-    public ResultStateVO delete(String currentUserID, String userID) {
-        ResultStateVO resultStateVO;
+    public boolean delete(String userID) {
+        boolean state;
         try {
-            if (currentUserID.equals(userID)) {
-                //如果待删除用户为当前操作用户
-                resultStateVO = ResultStateUtil.create(1, "当前操作用户无法删除自身!");
-            } else {
-                if (checkBuiltInUser(userID)) {
-                    //如果删除的是系统内置用户,提示无法删除
-                    resultStateVO = ResultStateUtil.create(2, "无法删除系统内置用户!");
-                } else {
-                    userDao.delete(userID);
-                    //同时删除用户角色关系
-                    userRoleRelationService.deleteByUserID(userID);
-                    resultStateVO = ResultStateUtil.create(0, "删除用户成功!");
-                }
-            }
-        } catch (Exception ex) {
-            logger.error("用户删除失败", ex);
-            resultStateVO = ResultStateUtil.create(3, "删除用户失败");
+            userDao.delete(userID);
+            //同时删除用户角色关系
+            userRoleRelationService.deleteByUserID(userID);
+            state = true;
+        } catch (Exception e) {
+            logger.error("用户删除失败", e);
+            state = false;
         }
-        return resultStateVO;
+        return state;
     }
 
     @CacheEvict(value = "adminUserList", allEntries = true)
@@ -250,6 +245,15 @@ public class UserServiceImpl implements UserService {
         return state;
     }
 
+    public boolean checkBuiltInUser(String userID) {
+        User user = userDao.findOne(userID);
+        if (user.isBuiltIn()) {
+            //如果为系统内置用户
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 判断用户是否存在
      *
@@ -259,21 +263,6 @@ public class UserServiceImpl implements UserService {
     private boolean checkUsernameNotExist(String username) {
         User user = userDao.findByUsername(username);
         if (null == user) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 根据userID判断用户是否为系统内置用户
-     *
-     * @param userID 用户ID
-     * @return boolean
-     */
-    private boolean checkBuiltInUser(String userID) {
-        User user = userDao.findOne(userID);
-        if (user.isBuiltIn()) {
-            //如果为系统内置用户
             return true;
         }
         return false;
