@@ -76,8 +76,14 @@ public class UserController {
      */
     @RequestMapping(value = "/user/logout", method = RequestMethod.POST)
     public ResultStateVO logout(HttpServletRequest request) {
+        ResultStateVO resultStateVO;
         String token = request.getHeader("token");
-        return userService.logout(token);
+        if (userService.logout(token)) {
+            resultStateVO = ResultStateUtil.create(0, "用户注销成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "用户注销失败!");
+        }
+        return resultStateVO;
     }
 
     /**

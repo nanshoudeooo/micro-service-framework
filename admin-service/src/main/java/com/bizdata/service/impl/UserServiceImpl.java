@@ -90,16 +90,16 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public ResultStateVO logout(String token) {
-        ResultStateVO resultStateVO;
+    public boolean logout(String token) {
+        boolean state;
         try {
             tokenServiceFeign.removeToken(token);
-            resultStateVO = ResultStateUtil.create(0, "用户注销成功!");
+            state = true;
         } catch (Exception ex) {
-            resultStateVO = ResultStateUtil.create(1, "用户注销失败!");
+            state = false;
             logger.error("删除token:" + token + "失败", ex);
         }
-        return resultStateVO;
+        return state;
     }
 
     @CacheEvict(value = {"adminUserList"}, allEntries = true)

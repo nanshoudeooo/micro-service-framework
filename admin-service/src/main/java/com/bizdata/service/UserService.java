@@ -47,7 +47,7 @@ public interface UserService {
      * @param token token值
      * @return boolean执行反馈
      */
-    ResultStateVO logout(String token);
+    boolean logout(String token);
 
     /**
      * 用户新增
