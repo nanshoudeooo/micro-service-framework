@@ -145,7 +145,13 @@ public class UserController {
      */
     @RequestMapping(value = "/user/update", method = RequestMethod.POST)
     public ResultStateVO update(@Validated(ValidGroupUpdate.class) InUpdateVO inUpdateVO) {
-        return userService.update(inUpdateVO);
+        ResultStateVO resultStateVO;
+        if (userService.update(inUpdateVO)) {
+            resultStateVO = ResultStateUtil.create(0, "用户更新成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "用户更新失败!");
+        }
+        return resultStateVO;
     }
 
     /**

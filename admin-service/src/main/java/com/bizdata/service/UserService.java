@@ -81,7 +81,7 @@ public interface UserService {
      * @param inUpdateVO User类型对象
      * @return boolean执行反馈
      */
-    ResultStateVO update(InUpdateVO inUpdateVO);
+    boolean update(InUpdateVO inUpdateVO);
 
     /**
      * 执行分页查询用户

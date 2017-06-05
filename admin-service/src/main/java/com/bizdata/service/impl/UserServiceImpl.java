@@ -171,8 +171,8 @@ public class UserServiceImpl implements UserService {
     @CacheEvict(value = "adminUserList", allEntries = true)
     @Override
     @Transactional
-    public ResultStateVO update(InUpdateVO inUpdateVO) {
-        ResultStateVO resultStateVO;
+    public boolean update(InUpdateVO inUpdateVO) {
+        boolean state;
         try {
             //查询出原用户
             User userPO = userDao.findOne(inUpdateVO.getId());
@@ -183,12 +183,12 @@ public class UserServiceImpl implements UserService {
             userOrganizationDao.deleteByUserID(inUpdateVO.getId());
             String[] organizationIDs = inUpdateVO.getOrganizationIDs();
             saveRelationByOrganizationIDs(organizationIDs, inUpdateVO.getId());
-            resultStateVO = ResultStateUtil.create(0, "用户更新成功!");
+            state=true;
         } catch (Exception e) {
             logger.error("更新用户失败", e);
-            resultStateVO = ResultStateUtil.create(2, "用户更新失败!");
+            state=false;
         }
-        return resultStateVO;
+        return state;
     }
 
     @Cacheable(value = "adminUserList")
