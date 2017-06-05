@@ -8,8 +8,6 @@ import com.bizdata.dao.UserOrganizationDao;
 import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.po.User;
 import com.bizdata.po.UserOrganizationRelation;
-import com.bizdata.result.ResultStateUtil;
-import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.UserRoleRelationService;
 import com.bizdata.service.UserService;
 import com.bizdata.token.TokenServiceFeign;
@@ -42,17 +40,21 @@ public class UserServiceImpl implements UserService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
+
+    private final UserRoleRelationService userRoleRelationService;
+
+    private final UserOrganizationDao userOrganizationDao;
+
+    private final TokenServiceFeign tokenServiceFeign;
 
     @Autowired
-    private UserRoleRelationService userRoleRelationService;
-
-    @Autowired
-    private UserOrganizationDao userOrganizationDao;
-
-    @Autowired
-    private TokenServiceFeign tokenServiceFeign;
+    public UserServiceImpl(UserDao userDao, UserRoleRelationService userRoleRelationService, UserOrganizationDao userOrganizationDao, TokenServiceFeign tokenServiceFeign) {
+        this.userDao = userDao;
+        this.userRoleRelationService = userRoleRelationService;
+        this.userOrganizationDao = userOrganizationDao;
+        this.tokenServiceFeign = tokenServiceFeign;
+    }
 
     @Override
     public User getByUsernameAndPassword(String username, String password) {
@@ -183,10 +185,10 @@ public class UserServiceImpl implements UserService {
             userOrganizationDao.deleteByUserID(inUpdateVO.getId());
             String[] organizationIDs = inUpdateVO.getOrganizationIDs();
             saveRelationByOrganizationIDs(organizationIDs, inUpdateVO.getId());
-            state=true;
+            state = true;
         } catch (Exception e) {
             logger.error("更新用户失败", e);
-            state=false;
+            state = false;
         }
         return state;
     }
@@ -217,16 +219,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByID(String userID) {
-        User user = userDao.findOne(userID);
-        return user;
+        return userDao.findOne(userID);
     }
 
     @Override
     public boolean validDuplicateUsername(String username) {
-        if (checkUsernameNotExist(username)) {
-            return false;
-        }
-        return true;
+        return !checkUsernameNotExist(username);
     }
 
     @Override
@@ -247,11 +245,7 @@ public class UserServiceImpl implements UserService {
 
     public boolean checkBuiltInUser(String userID) {
         User user = userDao.findOne(userID);
-        if (user.isBuiltIn()) {
-            //如果为系统内置用户
-            return true;
-        }
-        return false;
+        return user.isBuiltIn();
     }
 
     /**
@@ -262,9 +256,6 @@ public class UserServiceImpl implements UserService {
      */
     private boolean checkUsernameNotExist(String username) {
         User user = userDao.findByUsername(username);
-        if (null == user) {
-            return true;
-        }
-        return false;
+        return null == user;
     }
 }
