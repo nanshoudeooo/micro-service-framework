@@ -13,5 +13,5 @@ public enum ResourceType {
     /**
      * 动作类型
      */
-    ACTION;
+    ACTION
 }
