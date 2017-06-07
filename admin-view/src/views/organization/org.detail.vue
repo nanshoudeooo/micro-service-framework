@@ -36,7 +36,7 @@
                 .then(function(content){
                     self.$$Func.fillValue(content,self.org);
                 },function(resp){
-                    self.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});	
+                    self.$alert(resp.message, '提示', {confirmButtonText: '确定'});	
                 });
                }
             }

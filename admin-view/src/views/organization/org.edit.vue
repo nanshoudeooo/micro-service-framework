@@ -55,7 +55,7 @@
                             }
                         },function(resp){
                             if(!resp.treated)
-                                _.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});
+                                _.$alert(resp.message, '提示', {confirmButtonText: '确定'});
                         });
                 }
             })
@@ -108,7 +108,7 @@
                         self.$parent.reload();
                      },function(resp){//响应失败
                          self.formSubmiting = false;
-                         self.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});	
+                         self.$alert(resp.message, '提示', {confirmButtonText: '确定'});	
                      }); 
                 }
               });

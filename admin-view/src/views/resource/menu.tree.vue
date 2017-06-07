@@ -30,7 +30,7 @@
                   }
              });
           },function(resp){
-               self.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});	
+               self.$alert(resp.message, '提示', {confirmButtonText: '确定'});	
           });
       },
       methods:{

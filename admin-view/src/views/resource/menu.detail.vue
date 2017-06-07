@@ -113,7 +113,7 @@
                         self.$refs.dataGrid.loadData();
                     }
                 },function(resp){
-                    self.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});	
+                    self.$alert(resp.message, '提示', {confirmButtonText: '确定'});	
                 });
                }
             }
@@ -131,7 +131,7 @@
                         _.$refs.dataGrid.loadData();
                    },function(resp){
                         if(!resp.treated)
-                           _.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});
+                           _.$alert(resp.message, '提示', {confirmButtonText: '确定'});
                    });
                 }).catch(function(){});
             },
@@ -149,7 +149,7 @@
                            close();
                        },function(resp){
                           if(!resp.treated)
-                           _.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});
+                           _.$alert(resp.message, '提示', {confirmButtonText: '确定'});
                        });
                        return false;
                      }
@@ -169,7 +169,7 @@
                            close();
                        },function(resp){
                           if(!resp.treated)
-                           _.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});
+                           _.$alert(resp.message, '提示', {confirmButtonText: '确定'});
                        });
                        return false;
                      }

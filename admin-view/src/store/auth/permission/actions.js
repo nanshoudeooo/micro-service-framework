@@ -52,7 +52,7 @@ export default {
     context.dispatch('assignMessageText','正在加载用户权限数据,菜单数据准备中');
    
     return new Promise(function(resolve){
-        $$Http.post('admin/resource/listResourceByUserIDAndResourceType',{resourceType:'MENU'}).then(function(content){
+        $$Http.post('/admin/resource/listResourceByUserIDAndResourceType',{resourceType:'MENU'}).then(function(content){
               context.commit(types.REFRESH_USER_MENUS,content);
               $$SessionStore.set('menus',content);
               context.dispatch('assignMessageText','正在加载用户权限数据,菜单数据加载结束');

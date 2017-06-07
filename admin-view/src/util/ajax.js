@@ -90,7 +90,7 @@ var ajax = function(type, url, data,tokenFlag = true) {
 		}
 		return config;
 	});
-    url = '/'+settings.gbs.host+url;
+    url = settings.gbs.host+url;
 	return  Vue.axios[type](url, datas).then(function(res){
 		 return new Promise(function(resolve,reject){
 			   if(res.data.code===0){//状态码为0的时候为成功，成功后只返回响应内容体

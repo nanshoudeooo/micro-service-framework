@@ -102,7 +102,7 @@
                     }
                 },function(resp){
                     if(!resp.treated)
-                      self.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});	
+                      self.$alert(resp.message, '提示', {confirmButtonText: '确定'});	
                 });
           },
            onClickNode:function(data,node){
@@ -149,7 +149,7 @@
                              _.$refs.panel.reload();
                     },function(resp){
                             if(!resp.treated)
-                            _.$$MessageBox.alert(resp.message, '提示', {confirmButtonText: '确定'});
+                            _.$alert(resp.message, '提示', {confirmButtonText: '确定'});
                     });
                     }).catch(function(){});
                 }

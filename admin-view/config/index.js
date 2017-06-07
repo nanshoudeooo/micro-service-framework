@@ -30,8 +30,8 @@ module.exports = {
     /**当使用该代理时，控制台出现ENOTFound尝试把浏览器地址不用localhost，用ip代替*/
     proxyTable: {
            '/appApi': {
-                target: 'http://192.168.88.186:10000',
-                //target: 'http://106.14.43.38:10000',
+               // target: 'http://192.168.88.186:10000',
+                target: 'http://106.14.43.38:10000',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/appApi': ''

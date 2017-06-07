@@ -59,7 +59,7 @@
                            self.$$Func.fillValue(content,self.action);
                            self.oldAction = content;
                     }).catch(function(e){
-                            self.$$MessageBox.alert("获取资源信息失败", '提示', {confirmButtonText: '确定'});
+                            self.$alert("获取资源信息失败", '提示', {confirmButtonText: '确定'});
                  });
             }else{//新增
                this.action.parent = this.param.parent;
