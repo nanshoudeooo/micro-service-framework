@@ -1,5 +1,7 @@
 package com.bizdata.service;
 
+import com.bizdata.controller.user.vo.out.OutIncludedOrganizationVO;
+
 import java.util.List;
 
 /**
@@ -16,4 +18,13 @@ public interface UserOrganizationService {
      * @return List<String>
      */
     List<String> findAllUserIDsRecursion(String organizationID);
+
+    /**
+     * 根据获取组织机构列表信息
+     *
+     * @param userID 用户ID
+     * @return 组织机构列表
+     * @see OutIncludedOrganizationVO
+     */
+    List<OutIncludedOrganizationVO> getOutIncludedOrganizationVOs(String userID);
 }

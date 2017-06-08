@@ -5,14 +5,11 @@ import com.bizdata.controller.user.vo.in.valid.group.*;
 import com.bizdata.controller.user.vo.out.OutIncludedOrganizationVO;
 import com.bizdata.controller.user.vo.out.OutLoginVO;
 import com.bizdata.controller.user.vo.out.OutUserVO;
-import com.bizdata.dao.OrganizationDao;
-import com.bizdata.dao.UserOrganizationDao;
-import com.bizdata.po.Organization;
 import com.bizdata.po.User;
-import com.bizdata.po.UserOrganizationRelation;
 import com.bizdata.req.IdentityUtil;
 import com.bizdata.result.ResultStateUtil;
 import com.bizdata.result.ResultStateVO;
+import com.bizdata.service.UserOrganizationService;
 import com.bizdata.service.UserService;
 import me.sdevil507.vo.JpaPageParamVO;
 import me.sdevil507.vo.JpaPageResultVO;
@@ -28,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,15 +34,12 @@ public class UserController {
 
     private final UserService userService;
 
-    private final UserOrganizationDao userOrganizationDao;
-
-    private final OrganizationDao organizationDao;
+    private final UserOrganizationService userOrganizationService;
 
     @Autowired
-    public UserController(UserService userService, UserOrganizationDao userOrganizationDao, OrganizationDao organizationDao) {
+    public UserController(UserService userService, UserOrganizationService userOrganizationService) {
         this.userService = userService;
-        this.userOrganizationDao = userOrganizationDao;
-        this.organizationDao = organizationDao;
+        this.userOrganizationService = userOrganizationService;
     }
 
     /**
@@ -169,7 +162,7 @@ public class UserController {
         List<OutUserVO> outUserVOs = jpaPageResultVO.getRows();
         for (OutUserVO outUserVO : outUserVOs) {
             //根据ID查询出组织机构
-            outUserVO.setOutIncludedOrganizationVOs(getOutIncludedOrganizationVOs(outUserVO.getId()));
+            outUserVO.setOutIncludedOrganizationVOs(userOrganizationService.getOutIncludedOrganizationVOs(outUserVO.getId()));
         }
         if (null != page) {
             resultStateVO = ResultStateUtil.create(0, "查询用户成功!", jpaPageResultVO);
@@ -196,7 +189,7 @@ public class UserController {
                 OutUserVO userReadResultVO = new OutUserVO();
                 BeanUtils.copyProperties(userPO, userReadResultVO);
                 //查询出该用户所属的组织机构
-                List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = getOutIncludedOrganizationVOs(userPO.getId());
+                List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = userOrganizationService.getOutIncludedOrganizationVOs(userPO.getId());
                 userReadResultVO.setOutIncludedOrganizationVOs(outIncludedOrganizationVOs);
                 resultStateVO = ResultStateUtil.create(0, "读取登录用户信息成功!", userReadResultVO);
             }
@@ -205,25 +198,6 @@ public class UserController {
             resultStateVO = ResultStateUtil.create(2, "读取登录用户信息失败!");
         }
         return resultStateVO;
-    }
-
-    /**
-     * 根据用户ID获取该用户组织机构列表
-     *
-     * @param id 用户
-     * @return List<OutIncludedOrganizationVO>
-     */
-    private List<OutIncludedOrganizationVO> getOutIncludedOrganizationVOs(String id) {
-        List<UserOrganizationRelation> userOrganizationRelations = userOrganizationDao.findByUserID(id);
-        List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = new ArrayList<>();
-        for (UserOrganizationRelation userOrganizationRelation : userOrganizationRelations) {
-            OutIncludedOrganizationVO outIncludedOrganizationVO = new OutIncludedOrganizationVO();
-            Organization organization = organizationDao.findOne(userOrganizationRelation.getOrganizationID());
-            outIncludedOrganizationVO.setId(organization.getId());
-            outIncludedOrganizationVO.setName(organization.getName());
-            outIncludedOrganizationVOs.add(outIncludedOrganizationVO);
-        }
-        return outIncludedOrganizationVOs;
     }
 
     /**
@@ -244,7 +218,7 @@ public class UserController {
                 OutUserVO userReadResultVO = new OutUserVO();
                 BeanUtils.copyProperties(userPO, userReadResultVO);
                 //查询出该用户所属的组织机构
-                List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = getOutIncludedOrganizationVOs(userPO.getId());
+                List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = userOrganizationService.getOutIncludedOrganizationVOs(userPO.getId());
                 userReadResultVO.setOutIncludedOrganizationVOs(outIncludedOrganizationVOs);
                 resultStateVO = ResultStateUtil.create(0, "根据ID查询用户信息成功!", userReadResultVO);
             }

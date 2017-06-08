@@ -1,10 +1,13 @@
 package com.bizdata.service.impl;
 
+import com.bizdata.controller.user.vo.out.OutIncludedOrganizationVO;
 import com.bizdata.dao.OrganizationDao;
 import com.bizdata.dao.UserOrganizationDao;
 import com.bizdata.po.Organization;
 import com.bizdata.po.UserOrganizationRelation;
 import com.bizdata.service.UserOrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,8 @@ import java.util.List;
  */
 @Service
 public class UserOrganizationServiceImpl implements UserOrganizationService {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private OrganizationDao organizationDao;
@@ -42,6 +47,25 @@ public class UserOrganizationServiceImpl implements UserOrganizationService {
             userIDs.add(userOrganizationRelation.getUserID());
         }
         return userIDs;
+    }
+
+    @Override
+    public List<OutIncludedOrganizationVO> getOutIncludedOrganizationVOs(String userID) {
+        List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = new ArrayList<>();
+        try {
+            List<UserOrganizationRelation> userOrganizationRelations = userOrganizationDao.findByUserID(userID);
+            for (UserOrganizationRelation userOrganizationRelation : userOrganizationRelations) {
+                OutIncludedOrganizationVO outIncludedOrganizationVO = new OutIncludedOrganizationVO();
+                Organization organization = organizationDao.findOne(userOrganizationRelation.getOrganizationID());
+                outIncludedOrganizationVO.setId(organization.getId());
+                outIncludedOrganizationVO.setName(organization.getName());
+                outIncludedOrganizationVOs.add(outIncludedOrganizationVO);
+            }
+        } catch (Exception e) {
+            logger.error("根据用户ID获取组织机构失败!", e);
+            outIncludedOrganizationVOs = null;
+        }
+        return outIncludedOrganizationVOs;
     }
 
     /**
