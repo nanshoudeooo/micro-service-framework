@@ -21,6 +21,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
             //更新最后登录时间
             user.setLastLoginTime(new Date());
             userDao.save(user);
-            //如果正确,使用该user的userid申请token
+            //如果正确,使用该user的userID申请token
             token = tokenServiceFeign.createToken("admin", user.getId());
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,24 +198,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> list(JpaPageParamVO jpaPageParamVO, JpaSortParamVO jpaSortParamVO, InSearchVO inSearchVO) {
         Page<User> page = null;
-        Specification specification = null;
         try {
-            if (!StringUtils.isEmpty(inSearchVO.getUsername())) {
-                //如果查询条件用户名不为空
-                specification = new Specification() {
-                    @Override
-                    public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
-                        Path<String> username = root.get("username");
-                        query.where(cb.like(username, "%" + inSearchVO.getUsername() + "%"));
-                        return null;
-                    }
-                };
-            }
-            page = userDao.findAll(specification, jpaPageParamVO.getPageable(jpaSortParamVO.getSort()));
+            page = userDao.findAll(Specifications.where(listWhereClause(inSearchVO.getUsername())), jpaPageParamVO.getPageable(jpaSortParamVO.getSort()));
         } catch (Exception e) {
             logger.error("分页查询用户失败", e);
         }
         return page;
+    }
+
+    /**
+     * 封装列表查询多条件
+     *
+     * @param userName 用户名
+     * @return 查询条件
+     */
+    private Specification<User> listWhereClause(String userName) {
+        return new Specification<User>() {
+            @Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.conjunction();
+                if (!StringUtils.isEmpty(userName)) {
+                    predicate.getExpressions().add(
+                            criteriaBuilder.like(root.get("username"), "%" + userName + "%")
+                    );
+                }
+                return predicate;
+            }
+        };
     }
 
     @Override
