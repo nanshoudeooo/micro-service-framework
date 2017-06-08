@@ -4,7 +4,7 @@ const settings ={
 
 	//全局设置
 	gbs: {
-		host:(env.NODE_ENV === 'development' ? 'appApi' : 'http://106.14.43.38:10000'),
+		host:(env.NODE_ENV === 'development' ? '/appApi' : 'http://106.14.43.38:10000'),
 		db_prefix: 'biz_' //本地存储的key
 	},
 

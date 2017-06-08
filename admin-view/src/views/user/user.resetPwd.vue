@@ -22,7 +22,7 @@
             let self = this;
             return {
                  user:{
-                     userID:'',
+                     id:'',
                      username:'',
                      password:''
                  },
@@ -40,7 +40,7 @@
             this.$nextTick(function(){
                  let rowdatas = this.$options["rowdatas"];
                  if(rowdatas && rowdatas.length > 0){
-                     this.user.userID = rowdatas[0].id;
+                     this.user.id = rowdatas[0].id;
                      this.user.username = rowdatas[0].username;
                      
                      this.oldUser = rowdatas[0];
@@ -82,7 +82,7 @@
             resetForm:function(formName) {
               this.$refs[formName].resetFields();
               
-              this.user.userID = this.oldUser.id;
+              this.user.id = this.oldUser.id;
               this.user.username = this.oldUser.username;
               this.user.password = "";
             }

@@ -13,7 +13,7 @@
           </div>
           <data-grid ref='dataGridUnAuthed'  url="/admin/role/listUnauthorizedUsers" delayLoad
             respKeyMap="none" checkbox 
-            :params="{roleID:param.role.id,organizationID:param.orgId,words:param.inputFilter.unAuthGridFilterText}"
+            :params="{id:param.role.id,organizationID:param.orgId,words:param.inputFilter.unAuthGridFilterText}"
               style="flex:1;width:96%;margin:5px auto">
                <grid-column prop="username" label="用户名"></grid-column>
                <grid-column prop="realName" label="真实姓名"></grid-column>
@@ -32,7 +32,7 @@
           </div>
            <data-grid ref='dataGridAuthed'  url="/admin/role/listAuthorizedUsers" delayLoad
             respKeyMap="none" checkbox  :selectable="selectable"
-             :params="{roleID:param.role.id,organizationID:param.orgId,words:param.inputFilter.authedGridFilterText}"
+             :params="{id:param.role.id,organizationID:param.orgId,words:param.inputFilter.authedGridFilterText}"
               style="flex:1;width:96%;margin:5px auto">
                <grid-column prop="username" label="用户名"></grid-column>
                <grid-column prop="realName" label="真实姓名"></grid-column>
@@ -202,7 +202,7 @@
                                     userIds+=','+row.id;
                               }
                               userIds = userIds.substring(1);
-                              _.$$Http.post.call(_,'/admin/userRoleRelation/save',{roleID:_.param.role.id,userIDs:userIds})
+                              _.$$Http.post.call(_,'/admin/userRoleRelation/save',{id:_.param.role.id,userIDs:userIds})
                                  .then(function(content){
                                         _.$message({showClose: true,message: '操作成功', type: 'info'});
                                         _.$refs.dataGridUnAuthed.loadData();
@@ -232,7 +232,7 @@
                                     userIds+=','+row.id;
                               }
                               userIds = userIds.substring(1);
-                              _.$$Http.post.call(_,'/admin/userRoleRelation/delete',{roleID:_.param.role.id,userIDs:userIds})
+                              _.$$Http.post.call(_,'/admin/userRoleRelation/delete',{id:_.param.role.id,userIDs:userIds})
                                  .then(function(content){
                                         _.$message({showClose: true,message: '操作成功', type: 'info'});
                                         _.$refs.dataGridUnAuthed.loadData();

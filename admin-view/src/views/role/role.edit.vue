@@ -43,7 +43,7 @@
             this.$nextTick(function(){
                  let rowdatas = this.$options["rowdatas"],self = this;
                  if(rowdatas && rowdatas.length > 0){
-                    self.$$Http.post.call(self,'/admin/role/getByID',{roleID:rowdatas[0].id})
+                    self.$$Http.post.call(self,'/admin/role/getByID',{id:rowdatas[0].id})
                     .then(function(content){
                             self.$$Func.fillValue(content,self.role);
                            self.oldRole = content;
