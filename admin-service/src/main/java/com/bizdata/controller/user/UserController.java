@@ -152,7 +152,8 @@ public class UserController {
      *
      * @param jpaPageParamVO 分页入参VO
      * @param jpaSortParamVO 排序入参VO
-     * @return ResultStateVO类型执行反馈
+     * @return 分页后用户信息列表
+     * @see JpaPageResultVO<User, OutUserVO>
      */
     @RequestMapping(value = "/user/list", method = RequestMethod.POST)
     public ResultStateVO list(@Validated JpaPageParamVO jpaPageParamVO, @Validated JpaSortParamVO jpaSortParamVO, InSearchVO inSearchVO) {
@@ -175,7 +176,8 @@ public class UserController {
     /**
      * 获取登录用户信息
      *
-     * @return ResultStateVO类型执行反馈
+     * @return 用户信息
+     * @see OutUserVO
      */
     @RequestMapping(value = "/user/readSelf", method = RequestMethod.POST)
     public ResultStateVO readSelf(HttpServletRequest request) {
@@ -186,12 +188,12 @@ public class UserController {
                 //如果不存在该用户
                 resultStateVO = ResultStateUtil.create(1, "查询不到该用户");
             } else {
-                OutUserVO userReadResultVO = new OutUserVO();
-                BeanUtils.copyProperties(userPO, userReadResultVO);
+                OutUserVO outUserVO = new OutUserVO();
+                BeanUtils.copyProperties(userPO, outUserVO);
                 //查询出该用户所属的组织机构
                 List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = userOrganizationService.getOutIncludedOrganizationVOs(userPO.getId());
-                userReadResultVO.setOutIncludedOrganizationVOs(outIncludedOrganizationVOs);
-                resultStateVO = ResultStateUtil.create(0, "读取登录用户信息成功!", userReadResultVO);
+                outUserVO.setOutIncludedOrganizationVOs(outIncludedOrganizationVOs);
+                resultStateVO = ResultStateUtil.create(0, "读取登录用户信息成功!", outUserVO);
             }
         } catch (Exception e) {
             logger.error("读取登录用户信息失败!", e);
@@ -204,7 +206,8 @@ public class UserController {
      * 根据ID获取用户信息
      *
      * @param inGetByIdVO 入参VO
-     * @return ResultStateVO类型执行反馈
+     * @return 用户信息
+     * @see OutUserVO
      */
     @RequestMapping(value = "/user/getByID", method = RequestMethod.POST)
     public ResultStateVO getByID(@Validated(ValidGroupGetByID.class) InGetByIdVO inGetByIdVO) {
@@ -215,12 +218,12 @@ public class UserController {
                 //如果不存在该用户
                 resultStateVO = ResultStateUtil.create(1, "根据ID查询用户信息失败,不存在该用户!");
             } else {
-                OutUserVO userReadResultVO = new OutUserVO();
-                BeanUtils.copyProperties(userPO, userReadResultVO);
+                OutUserVO outUserVO = new OutUserVO();
+                BeanUtils.copyProperties(userPO, outUserVO);
                 //查询出该用户所属的组织机构
                 List<OutIncludedOrganizationVO> outIncludedOrganizationVOs = userOrganizationService.getOutIncludedOrganizationVOs(userPO.getId());
-                userReadResultVO.setOutIncludedOrganizationVOs(outIncludedOrganizationVOs);
-                resultStateVO = ResultStateUtil.create(0, "根据ID查询用户信息成功!", userReadResultVO);
+                outUserVO.setOutIncludedOrganizationVOs(outIncludedOrganizationVOs);
+                resultStateVO = ResultStateUtil.create(0, "根据ID查询用户信息成功!", outUserVO);
             }
         } catch (Exception e) {
             logger.error("根据ID获取用户信息失败!", e);
@@ -233,7 +236,7 @@ public class UserController {
      * 检测用户名是否重复
      *
      * @param username 用户名
-     * @return ResultStateVO类型执行反馈
+     * @return boolean[true:重复,false:不重复]
      */
     @RequestMapping(value = "/user/validDuplicateUsername", method = RequestMethod.POST)
     public ResultStateVO validDuplicateUsername(String username) {
@@ -254,15 +257,13 @@ public class UserController {
     /**
      * 重置用户密码
      *
-     * @param userID 用户ID
-     * @param newPwd 新密码
+     * @param inResetPasswordVO 重置密码入参
      * @return ResultStateVO执行反馈
      */
-    //TODO 方法入参增加校验
     @RequestMapping(value = "/user/resetPassword", method = RequestMethod.POST)
-    public ResultStateVO resetPassword(String userID, String newPwd) {
+    public ResultStateVO resetPassword(@Validated(ValidGroupResetPassword.class) InResetPasswordVO inResetPasswordVO) {
         ResultStateVO resultStateVO;
-        if (userService.resetPassword(userID, newPwd)) {
+        if (userService.resetPassword(inResetPasswordVO.getId(), inResetPasswordVO.getPassword())) {
             resultStateVO = ResultStateUtil.create(0, "重置密码成功!");
         } else {
             resultStateVO = ResultStateUtil.create(1, "重置密码失败");
