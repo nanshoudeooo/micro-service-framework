@@ -22,6 +22,7 @@ import me.sdevil507.vo.JpaSortParamVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -56,57 +57,58 @@ public class RoleServiceImpl implements RoleService {
     private UserOrganizationService userOrganizationService;
 
     @Override
-    public ResultStateVO save(InSaveVO inSaveVO) {
-        ResultStateVO resultStateVO;
-        try {
-            //判断角色名称是否存在
-            Role tempRole = roleDao.findByRolename(inSaveVO.getRolename());
-            if (!checkRolenameNotExist(inSaveVO.getRolename())) {
-                resultStateVO = ResultStateUtil.create(1, "角色创建失败,请确认角色名称不重复!");
-            } else {
-                Role rolePO = new Role();
-                BeanUtils.copyProperties(inSaveVO, rolePO);
-                roleDao.save(rolePO);
-                resultStateVO = ResultStateUtil.create(0, "角色创建成功!");
-            }
-        } catch (Exception e) {
-            logger.error("角色创建失败", e);
-            resultStateVO = ResultStateUtil.create(2, "角色创建失败!");
-        }
-        return resultStateVO;
+    public boolean checkRoleNameExist(String roleName) {
+        Role tempRole = roleDao.findByRolename(roleName);
+        return null != tempRole;
     }
 
     @Override
-    public ResultStateVO update(InUpdateVO inUpdateVO) {
-        ResultStateVO resultStateVO;
+    public boolean checkBuiltInRole(String roleID) {
+        Role role = roleDao.findOne(roleID);
+        return role.isBuiltIn();
+    }
+
+    @Override
+    public boolean save(InSaveVO inSaveVO) {
+        boolean state;
+        try {
+            Role role = new Role();
+            BeanUtils.copyProperties(inSaveVO, role);
+            roleDao.save(role);
+            state = true;
+        } catch (BeansException e) {
+            logger.error("角色创建失败", e);
+            state = false;
+        }
+        return state;
+    }
+
+    @Override
+    public boolean update(InUpdateVO inUpdateVO) {
+        boolean state;
         try {
             Role rolePO = new Role();
             BeanCopyUtil.copyProperties(inUpdateVO, rolePO);
             roleDao.save(rolePO);
-            resultStateVO = ResultStateUtil.create(0, "角色更新成功!");
+            state = true;
         } catch (Exception e) {
             logger.error("角色更新失败", e);
-            resultStateVO = ResultStateUtil.create(2, "角色更新失败");
+            state = false;
         }
-        return resultStateVO;
+        return state;
     }
 
     @Override
-    public ResultStateVO delete(InDeleteVO inDeleteVO) {
-        ResultStateVO resultStateVO;
+    public boolean delete(InDeleteVO inDeleteVO) {
+        boolean state;
         try {
-            if (checkBuiltInRole(inDeleteVO.getId())) {
-                //如果是系统内置角色
-                resultStateVO = ResultStateUtil.create(2, "无法删除系统内置角色!");
-            } else {
-                roleDao.delete(inDeleteVO.getId());
-                resultStateVO = ResultStateUtil.create(0, "角色删除成功!");
-            }
+            roleDao.delete(inDeleteVO.getId());
+            state = true;
         } catch (Exception e) {
             logger.error("角色删除失败", e);
-            resultStateVO = ResultStateUtil.create(3, "角色删除失败");
+            state = false;
         }
-        return resultStateVO;
+        return state;
     }
 
     @Override
@@ -242,34 +244,5 @@ public class RoleServiceImpl implements RoleService {
             logger.error("获取未授权用户列表失败!", e);
         }
         return outUserVOs;
-    }
-
-    /**
-     * 判断角色名不存在
-     *
-     * @param rolename 角色名称
-     * @return boolean
-     */
-    private boolean checkRolenameNotExist(String rolename) {
-        Role tempRole = roleDao.findByRolename(rolename);
-        if (null == tempRole) {
-            //如果不存在
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 根据角色ID判断是否为系统内置角色
-     *
-     * @param roleID 角色ID
-     * @return boolean
-     */
-    private boolean checkBuiltInRole(String roleID) {
-        Role role = roleDao.findOne(roleID);
-        if (role.isBuiltIn()) {
-            return true;
-        }
-        return false;
     }
 }

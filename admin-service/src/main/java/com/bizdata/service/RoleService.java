@@ -20,28 +20,44 @@ import java.util.List;
 public interface RoleService {
 
     /**
+     * 校验角色名称存在
+     *
+     * @param roleName 角色名称
+     * @return boolean[true:存在,false:不存在]
+     */
+    boolean checkRoleNameExist(String roleName);
+
+    /**
+     * 判断该角色ID是否为系统内置
+     *
+     * @param roleID 角色ID
+     * @return boolean[true:是,false:否]
+     */
+    boolean checkBuiltInRole(String roleID);
+
+    /**
      * 角色创建
      *
      * @param inSaveVO 角色入参VO
-     * @return CodeState类型执行反馈
+     * @return boolean[true:创建成功,false:创建失败]
      */
-    ResultStateVO save(InSaveVO inSaveVO);
+    boolean save(InSaveVO inSaveVO);
 
     /**
      * 角色更新
      *
      * @param inUpdateVO 入参VO
-     * @return CodeState类型执行反馈
+     * @return boolean[true:更新成功,false:更新失败]
      */
-    ResultStateVO update(InUpdateVO inUpdateVO);
+    boolean update(InUpdateVO inUpdateVO);
 
     /**
      * 角色删除
      *
      * @param inDeleteVO 入参VO
-     * @return boolean执行反馈
+     * @return boolean[true:删除成功,false:删除失败]
      */
-    ResultStateVO delete(InDeleteVO inDeleteVO);
+    boolean delete(InDeleteVO inDeleteVO);
 
     /**
      * 分页查询所有

@@ -1,5 +1,7 @@
 package com.bizdata.controller.role;
 
+import com.bizdata.controller.role.vo.in.InGetByIDVO;
+import com.bizdata.controller.role.vo.in.valid.group.ValidGroupGetByID;
 import com.bizdata.controller.user.vo.out.OutUserVO;
 import com.bizdata.po.Role;
 import com.bizdata.req.IdentityUtil;
@@ -38,8 +40,12 @@ public class RoleController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final RoleService roleService;
+
     @Autowired
-    private RoleService roleService;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     /**
      * 角色新增
@@ -49,7 +55,22 @@ public class RoleController {
      */
     @RequestMapping(value = "/role/save", method = RequestMethod.POST)
     public ResultStateVO save(@Validated({ValidGroupSave.class}) InSaveVO inSaveVO) {
-        return roleService.save(inSaveVO);
+        ResultStateVO resultStateVO;
+        try {
+            if (roleService.checkRoleNameExist(inSaveVO.getRolename())) {
+                resultStateVO = ResultStateUtil.create(1, "该角色名重复,不可创建!");
+            } else {
+                if (roleService.save(inSaveVO)) {
+                    resultStateVO = ResultStateUtil.create(0, "角色创建成功!");
+                } else {
+                    resultStateVO = ResultStateUtil.create(2, "角色创建失败");
+                }
+            }
+        } catch (Exception e) {
+            logger.error("角色创建失败!", e);
+            resultStateVO = ResultStateUtil.create(2, "角色创建失败");
+        }
+        return resultStateVO;
     }
 
     /**
@@ -60,7 +81,13 @@ public class RoleController {
      */
     @RequestMapping(value = "/role/update", method = RequestMethod.POST)
     public ResultStateVO update(@Validated({ValidGroupUpdate.class}) InUpdateVO inUpdateVO) {
-        return roleService.update(inUpdateVO);
+        ResultStateVO resultStateVO;
+        if (roleService.update(inUpdateVO)) {
+            resultStateVO = ResultStateUtil.create(0, "角色更新成功!");
+        } else {
+            resultStateVO = ResultStateUtil.create(1, "角色更新失败!");
+        }
+        return resultStateVO;
     }
 
     /**
@@ -71,7 +98,22 @@ public class RoleController {
      */
     @RequestMapping(value = "/role/delete", method = RequestMethod.POST)
     public ResultStateVO delete(@Validated({ValidGroupDelete.class}) InDeleteVO inDeleteVO) {
-        return roleService.delete(inDeleteVO);
+        ResultStateVO resultStateVO;
+        try {
+            if (roleService.checkBuiltInRole(inDeleteVO.getId())) {
+                resultStateVO = ResultStateUtil.create(1, "该角色为系统内置,无法删除!");
+            } else {
+                if (roleService.delete(inDeleteVO)) {
+                    resultStateVO = ResultStateUtil.create(0, "角色删除成功!");
+                } else {
+                    resultStateVO = ResultStateUtil.create(2, "角色删除失败!");
+                }
+            }
+        } catch (Exception e) {
+            logger.error("角色删除失败!", e);
+            resultStateVO = ResultStateUtil.create(2, "角色删除失败!");
+        }
+        return resultStateVO;
     }
 
     /**
@@ -80,13 +122,14 @@ public class RoleController {
      * @param jpaPageParamVO 分页入参VO
      * @param jpaSortParamVO 排序入参VO
      * @return ResultStateVO类型执行反馈
+     * @see JpaPageResultVO<Role,OutRoleVO>
      */
     @RequestMapping(value = "/role/list", method = RequestMethod.POST)
-    public ResultStateVO list(JpaPageParamVO jpaPageParamVO, JpaSortParamVO jpaSortParamVO) {
+    public ResultStateVO list(@Validated JpaPageParamVO jpaPageParamVO, @Validated JpaSortParamVO jpaSortParamVO) {
         ResultStateVO resultStateVO;
         Page<Role> page = roleService.list(jpaPageParamVO, jpaSortParamVO);
         if (null != page) {
-            resultStateVO = ResultStateUtil.create(0, "查询角色列表成功!", new JpaPageResultVO(page, OutRoleVO.class));
+            resultStateVO = ResultStateUtil.create(0, "查询角色列表成功!", new JpaPageResultVO<>(page, OutRoleVO.class));
         } else {
             resultStateVO = ResultStateUtil.create(1, "查询角色列表失败!");
         }
@@ -97,7 +140,8 @@ public class RoleController {
      * 获取当前登录用户角色信息
      *
      * @param request 请求
-     * @return ResultStateVO
+     * @return 角色信息列表
+     * @see List<Role>
      */
     @RequestMapping(value = "/role/readSelf", method = RequestMethod.POST)
     public ResultStateVO readSelf(HttpServletRequest request) {
@@ -116,14 +160,15 @@ public class RoleController {
     /**
      * 根据角色id获取角色信息
      *
-     * @param roleID 角色ID
-     * @return ResultStateVO
+     * @param inGetByIDVO 入参
+     * @return ResultStateVO执行反馈
+     * @see Role
      */
     @RequestMapping(value = "/role/getByID", method = RequestMethod.POST)
-    public ResultStateVO getByID(String roleID) {
+    public ResultStateVO getByID(@Validated(ValidGroupGetByID.class) InGetByIDVO inGetByIDVO) {
         ResultStateVO resultStateVO;
         try {
-            Role role = roleService.getByID(roleID);
+            Role role = roleService.getByID(inGetByIDVO.getId());
             resultStateVO = ResultStateUtil.create(0, "获取角色信息成功!", role);
         } catch (Exception e) {
             logger.error("获取当前登录用户角色信息失败!", e);

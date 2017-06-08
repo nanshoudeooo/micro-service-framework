@@ -33,7 +33,7 @@ public class UserRoleRelationServiceImpl implements UserRoleRelationService {
 //            for (String userID : userIDs) {
 //                UserRoleRelation userRoleRelation = new UserRoleRelation();
 //                userRoleRelation.setUserID(userID);
-//                userRoleRelation.setRoleID(roleID);
+//                userRoleRelation.setId(roleID);
 //                userRoleRelationDao.save(userRoleRelation);
 //            }
 //            state = true;
