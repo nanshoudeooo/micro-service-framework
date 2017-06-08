@@ -1,21 +1,18 @@
 package com.bizdata.service.impl;
 
+import com.bizdata.controller.role.vo.in.InDeleteVO;
+import com.bizdata.controller.role.vo.in.InSaveVO;
+import com.bizdata.controller.role.vo.in.InUpdateVO;
 import com.bizdata.controller.user.vo.out.OutUserVO;
 import com.bizdata.dao.RoleDao;
 import com.bizdata.dao.UserDao;
-import com.bizdata.dao.UserOrganizationDao;
 import com.bizdata.dao.UserRoleRelationDao;
+import com.bizdata.extend.BeanCopyUtil;
 import com.bizdata.po.Role;
 import com.bizdata.po.User;
 import com.bizdata.po.UserRoleRelation;
-import com.bizdata.extend.BeanCopyUtil;
-import com.bizdata.result.ResultStateUtil;
-import com.bizdata.result.ResultStateVO;
 import com.bizdata.service.RoleService;
 import com.bizdata.service.UserOrganizationService;
-import com.bizdata.controller.role.vo.in.InSaveVO;
-import com.bizdata.controller.role.vo.in.InDeleteVO;
-import com.bizdata.controller.role.vo.in.InUpdateVO;
 import me.sdevil507.vo.JpaListPO2VO;
 import me.sdevil507.vo.JpaPageParamVO;
 import me.sdevil507.vo.JpaSortParamVO;
@@ -41,20 +38,21 @@ public class RoleServiceImpl implements RoleService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
+
+    private final UserDao userDao;
+
+    private final UserRoleRelationDao userRoleRelationDao;
+
+    private final UserOrganizationService userOrganizationService;
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private UserRoleRelationDao userRoleRelationDao;
-
-    @Autowired
-    private UserOrganizationDao userOrganizationDao;
-
-    @Autowired
-    private UserOrganizationService userOrganizationService;
+    public RoleServiceImpl(RoleDao roleDao, UserDao userDao, UserRoleRelationDao userRoleRelationDao, UserOrganizationService userOrganizationService) {
+        this.roleDao = roleDao;
+        this.userDao = userDao;
+        this.userRoleRelationDao = userRoleRelationDao;
+        this.userOrganizationService = userOrganizationService;
+    }
 
     @Override
     public boolean checkRoleNameExist(String roleName) {
@@ -214,7 +212,7 @@ public class RoleServiceImpl implements RoleService {
 
             if (StringUtils.isEmpty(organizationID)) {
                 //如果未传递组织机构ID条件,直接返回该角色下未授权用户
-                List<User> users = new ArrayList<>();
+                List<User> users;
                 if (state) {
                     users = usernameOrRealNameLike(userDao.findByIdNotIn(userRoleIds), words);
                 } else {
