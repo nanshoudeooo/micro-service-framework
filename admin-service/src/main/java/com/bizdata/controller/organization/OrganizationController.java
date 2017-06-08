@@ -28,8 +28,12 @@ import java.util.List;
 @RestController
 public class OrganizationController {
 
+    private final OrganizationService organizationService;
+
     @Autowired
-    private OrganizationService organizationService;
+    public OrganizationController(OrganizationService organizationService) {
+        this.organizationService = organizationService;
+    }
 
     /**
      * 新增组织机构

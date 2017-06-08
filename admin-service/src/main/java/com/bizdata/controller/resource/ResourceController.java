@@ -32,8 +32,12 @@ public class ResourceController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final ResourceService resourceService;
+
     @Autowired
-    private ResourceService resourceService;
+    public ResourceController(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
 
     /**
      * 新增资源

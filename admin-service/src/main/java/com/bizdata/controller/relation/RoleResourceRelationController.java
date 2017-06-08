@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RoleResourceRelationController {
 
+    private final RoleResourceRelationService roleResourceRelationService;
+
     @Autowired
-    private RoleResourceRelationService roleResourceRelationService;
+    public RoleResourceRelationController(RoleResourceRelationService roleResourceRelationService) {
+        this.roleResourceRelationService = roleResourceRelationService;
+    }
 
     /**
      * 角色资源关系绑定
