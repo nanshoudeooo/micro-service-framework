@@ -52,11 +52,12 @@ public class Organization extends JpaUUIDBaseEntity {
     }
 
     public Date getCreateTime() {
-        return createTime;
+        return (Date) createTime.clone();
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        if(null!=createTime)
+        this.createTime = (Date) createTime.clone();
     }
 
     public boolean isBuiltIn() {

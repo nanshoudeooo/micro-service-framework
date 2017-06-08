@@ -98,11 +98,12 @@ public class OutUserVO {
     }
 
     public Date getCreateTime() {
-        return createTime;
+        return (Date) createTime.clone();
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        if (null != createTime)
+            this.createTime = (Date) createTime.clone();
     }
 
     public String getCreator() {
@@ -114,11 +115,12 @@ public class OutUserVO {
     }
 
     public Date getLastLoginTime() {
-        return lastLoginTime;
+        return (Date) lastLoginTime.clone();
     }
 
     public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
+        if (null != lastLoginTime)
+            this.lastLoginTime = (Date) lastLoginTime.clone();
     }
 
     public boolean isAvailable() {

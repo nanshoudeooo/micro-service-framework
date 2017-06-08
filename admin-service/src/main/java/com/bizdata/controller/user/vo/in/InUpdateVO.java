@@ -103,10 +103,11 @@ public class InUpdateVO {
     }
 
     public String[] getOrganizationIDs() {
-        return organizationIDs;
+        return organizationIDs.clone();
     }
 
     public void setOrganizationIDs(String[] organizationIDs) {
-        this.organizationIDs = organizationIDs;
+        if (null != organizationIDs)
+            this.organizationIDs = organizationIDs.clone();
     }
 }

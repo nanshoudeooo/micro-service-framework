@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public User getByUsernameAndPassword(String username, String password) {
         User user = null;
         try {
-            String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
+            String md5Password = DigestUtils.md5DigestAsHex(password.getBytes("UTF-8"));
             user = userDao.findByUsernameAndPassword(username, md5Password);
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
             userPO.setCreator(userID);
             userPO.setAvailable(true);
             //设置用户密码md5加密
-            String md5Pwd = DigestUtils.md5DigestAsHex(userPO.getPassword().getBytes());
+            String md5Pwd = DigestUtils.md5DigestAsHex(userPO.getPassword().getBytes("UTF-8"));
             userPO.setPassword(md5Pwd);
             User resultUser = userDao.save(userPO);
             //设置用户组织机构关系
@@ -242,7 +242,7 @@ public class UserServiceImpl implements UserService {
         boolean state;
         try {
             User user = userDao.findOne(userID);
-            password = DigestUtils.md5DigestAsHex(password.getBytes());
+            password = DigestUtils.md5DigestAsHex(password.getBytes("UTF-8"));
             user.setPassword(password);
             userDao.save(user);
             state = true;

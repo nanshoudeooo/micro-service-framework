@@ -156,4 +156,38 @@ public class Resource extends JpaUUIDBaseEntity implements Comparable<Resource> 
     public int compareTo(Resource o) {
         return this.getSortNum().compareTo(o.getSortNum());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Resource resource = (Resource) o;
+
+        if (builtIn != resource.builtIn) return false;
+        if (dir != resource.dir) return false;
+        if (name != null ? !name.equals(resource.name) : resource.name != null) return false;
+        if (url != null ? !url.equals(resource.url) : resource.url != null) return false;
+        if (permission != null ? !permission.equals(resource.permission) : resource.permission != null) return false;
+        if (icon != null ? !icon.equals(resource.icon) : resource.icon != null) return false;
+        if (sortNum != null ? !sortNum.equals(resource.sortNum) : resource.sortNum != null) return false;
+        if (parent != null ? !parent.equals(resource.parent) : resource.parent != null) return false;
+        if (menuType != resource.menuType) return false;
+        return resourceType == resource.resourceType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (permission != null ? permission.hashCode() : 0);
+        result = 31 * result + (icon != null ? icon.hashCode() : 0);
+        result = 31 * result + (builtIn ? 1 : 0);
+        result = 31 * result + (sortNum != null ? sortNum.hashCode() : 0);
+        result = 31 * result + (parent != null ? parent.hashCode() : 0);
+        result = 31 * result + (menuType != null ? menuType.hashCode() : 0);
+        result = 31 * result + (resourceType != null ? resourceType.hashCode() : 0);
+        result = 31 * result + (dir ? 1 : 0);
+        return result;
+    }
 }
