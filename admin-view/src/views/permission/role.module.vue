@@ -204,7 +204,7 @@
           },
             loadRoleModuleData:function(){
                   let self = this;
-                self.$$Http.post.call(self,'/admin/resource/listCheckedResourceByRoleIDAndResourceID',{id:self.param.role.id,resourceID:self.param.menuId})
+                self.$$Http.post.call(self,'/admin/resource/listCheckedResourceByRoleIDAndResourceID',{roleID:self.param.role.id,resourceID:self.param.menuId})
                 .then(function(content){
                     let datas = roleModuleResolve(content);
                     self.dataSet = datas.resources;
@@ -310,7 +310,7 @@
                                     }
                                 }
                              
-                              _.$$Http.post.call(_,'/admin/roleResourceRelation/build',{id:_.param.role.id,resourceIDs:strCheckedResIds})
+                              _.$$Http.post.call(_,'/admin/roleResourceRelation/build',{roleID:_.param.role.id,resourceIDs:strCheckedResIds})
                                   .then(function(content){
                                       _.$message({showClose: true,message: '操作成功', type: 'info'});
                                   },function(resp){

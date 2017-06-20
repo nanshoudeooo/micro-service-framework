@@ -13,7 +13,7 @@
           </div>
           <data-grid ref='dataGridUnAuthed'  url="/admin/role/listUnauthorizedUsers" delayLoad
             respKeyMap="none" checkbox 
-            :params="{id:param.role.id,organizationID:param.orgId,words:param.inputFilter.unAuthGridFilterText}"
+            :params="{roleID:param.role.id,organizationID:param.orgId,words:param.inputFilter.unAuthGridFilterText}"
               style="flex:1;width:96%;margin:5px auto">
                <grid-column prop="username" label="用户名"></grid-column>
                <grid-column prop="realName" label="真实姓名"></grid-column>
@@ -32,7 +32,7 @@
           </div>
            <data-grid ref='dataGridAuthed'  url="/admin/role/listAuthorizedUsers" delayLoad
             respKeyMap="none" checkbox  :selectable="selectable"
-             :params="{id:param.role.id,organizationID:param.orgId,words:param.inputFilter.authedGridFilterText}"
+             :params="{roleID:param.role.id,organizationID:param.orgId,words:param.inputFilter.authedGridFilterText}"
               style="flex:1;width:96%;margin:5px auto">
                <grid-column prop="username" label="用户名"></grid-column>
                <grid-column prop="realName" label="真实姓名"></grid-column>
