@@ -14,7 +14,7 @@ public abstract class TokenAuth {
     /**
      * 校验器拦截的url(用于判断请求是否属于该校验器)
      */
-    protected String urlPattern = "";
+    protected String[] urlPatterns;
 
     /**
      * token前缀,用于区分对应鉴权实现
@@ -26,9 +26,9 @@ public abstract class TokenAuth {
      */
     protected TokenServiceFeign tokenServiceFeign;
 
-    public TokenAuth(String prefix, String urlPattern, TokenServiceFeign tokenServiceFeign) {
+    public TokenAuth(String prefix, String[] urlPatterns, TokenServiceFeign tokenServiceFeign) {
         this.prefix = prefix;
-        this.urlPattern = urlPattern;
+        this.urlPatterns = urlPatterns;
         this.tokenServiceFeign = tokenServiceFeign;
     }
 
@@ -44,7 +44,7 @@ public abstract class TokenAuth {
             //如果存在该token,执行细化的具体验证,由各子类实现
             // 获取当前访问路径
             String currentUrl = requestContext.getRequest().getRequestURI().toString();
-            if (UrlUtil.urlAntPathMatch(currentUrl, urlPattern)) {
+            if (UrlUtil.urlAntPathMatchForPatterns(currentUrl, urlPatterns)) {
                 //如果当前请求符合校验器url规则
                 tokenAvailable(requestContext, token);
             } else {

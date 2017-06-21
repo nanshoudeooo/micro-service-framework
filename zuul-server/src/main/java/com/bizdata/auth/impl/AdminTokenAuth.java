@@ -18,8 +18,8 @@ public class AdminTokenAuth extends TokenAuth {
 
     private AdminServiceFeign adminServiceFeign;
 
-    public AdminTokenAuth(String prefix, String urlPattern, TokenServiceFeign tokenServiceFeign, AdminServiceFeign adminServiceFeign) {
-        super(prefix, urlPattern, tokenServiceFeign);
+    public AdminTokenAuth(String prefix, String[] urlPatterns, TokenServiceFeign tokenServiceFeign, AdminServiceFeign adminServiceFeign) {
+        super(prefix, urlPatterns, tokenServiceFeign);
         this.adminServiceFeign = adminServiceFeign;
     }
 

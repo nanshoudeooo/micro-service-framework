@@ -30,8 +30,8 @@ public class AccessFilter extends ZuulFilter {
     public Object run() {
         AuthManager authManager = new AuthManager(RequestContext.getCurrentContext(), tokenProperties.getIgnoreUrls());
         authManager
-                .addAuthImpl(new AdminTokenAuth("admin", "/admin/**", tokenServiceFeign, adminServiceFeign))
-                .addAuthImpl(new AppTokenAuth("app", "/app/**", tokenServiceFeign))
+                .addAuthImpl(new AdminTokenAuth("admin", new String[]{"/admin/**"}, tokenServiceFeign, adminServiceFeign))
+                .addAuthImpl(new AppTokenAuth("app", new String[]{"/app/**"}, tokenServiceFeign))
                 .doAuth();
         return null;
     }
