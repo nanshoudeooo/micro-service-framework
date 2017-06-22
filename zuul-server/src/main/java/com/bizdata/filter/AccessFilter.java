@@ -17,14 +17,18 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AccessFilter extends ZuulFilter {
 
-    @Autowired
-    private TokenProperties tokenProperties;
+    private final TokenProperties tokenProperties;
+
+    private final TokenServiceFeign tokenServiceFeign;
+
+    private final AdminServiceFeign adminServiceFeign;
 
     @Autowired
-    private TokenServiceFeign tokenServiceFeign;
-
-    @Autowired
-    private AdminServiceFeign adminServiceFeign;
+    public AccessFilter(TokenProperties tokenProperties, TokenServiceFeign tokenServiceFeign, AdminServiceFeign adminServiceFeign) {
+        this.tokenProperties = tokenProperties;
+        this.tokenServiceFeign = tokenServiceFeign;
+        this.adminServiceFeign = adminServiceFeign;
+    }
 
     @Override
     public Object run() {
