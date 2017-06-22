@@ -25,7 +25,7 @@ public class AdminTokenAuth extends TokenAuth {
 
     @Override
     protected void tokenAvailable(RequestContext requestContext, String token) {
-        String requestUrl = requestContext.getRequest().getRequestURI().toString();
+        String requestUrl = requestContext.getRequest().getRequestURI();
         String userID = tokenServiceFeign.getUserIdByToken(token);
         if (checkUrlInResourceSetting(requestUrl)) {
             //如果是需要鉴权的url
@@ -55,7 +55,14 @@ public class AdminTokenAuth extends TokenAuth {
      */
     private boolean checkUrlInResourceSetting(String url) {
         List<String> urls = adminServiceFeign.listResourceUrl();
-        return false;
+        boolean state = false;
+        for (String temp_urls : urls) {
+            if (url.equals(temp_urls)) {
+                state = true;
+                break;
+            }
+        }
+        return state;
     }
 
     /**
@@ -67,10 +74,6 @@ public class AdminTokenAuth extends TokenAuth {
      */
     private boolean authUrl(String url, String userID) {
         List<String> urls = adminServiceFeign.listAuthUrl(userID);
-        if (UrlUtil.urlAntPathMatchForPatterns(url, urls)) {
-            //如果已授权
-            return true;
-        }
-        return false;
+        return UrlUtil.urlAntPathMatchForPatterns(url, urls);
     }
 }
