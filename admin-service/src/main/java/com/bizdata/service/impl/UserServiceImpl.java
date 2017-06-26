@@ -71,7 +71,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUserAvailable(User user) {
-        System.out.println(user.isAvailable());
         return user.isAvailable();
     }
 
